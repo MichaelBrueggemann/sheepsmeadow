@@ -1,4 +1,5 @@
-import Agents.*;
+package Model;
+import Model.Agents.*;
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
 

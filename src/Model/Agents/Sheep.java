@@ -1,4 +1,4 @@
-package Agents;
+package Model.Agents;
 public class Sheep {
     
 }

@@ -1,4 +1,6 @@
+package Controller;
 import sim.engine.*;
+import Model.Model;
 import sim.display.*;
 
 

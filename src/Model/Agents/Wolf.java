@@ -1,4 +1,4 @@
-package Agents;
+package Model.Agents;
 
 public class Wolf {
     
@@ -9,7 +9,7 @@ public class Wolf {
         this.id = id;
     }
 
-    
+
     public int getId()
     {
         return this.id;
