@@ -1,6 +1,10 @@
 package Controller;
 import sim.engine.*;
-import sim.portrayal.Inspector;
+import sim.portrayal.*;
+import sim.portrayal.grid.ObjectGridPortrayal2D;
+import sim.portrayal.simple.OvalPortrayal2D;
+import java.awt.Color;
+import javax.swing.*;
 import Model.Model;
 import sim.display.*;
 
@@ -12,6 +16,80 @@ import sim.display.*;
  */
 public class ModelWithUI extends GUIState {
     
+    public Display2D display;
+    public JFrame displayFrame;
+    public ObjectGridPortrayal2D meadowPortrayal = new ObjectGridPortrayal2D();
+
+    public void setupPortrayals()
+    {
+        // used to acces the Model instance
+        Model model = (Model) state;
+
+        // show grid borders
+        meadowPortrayal.setGridLines(true);
+        meadowPortrayal.setGridColor(Color.black);
+        meadowPortrayal.setBorder(true);
+        meadowPortrayal.setBorderColor(Color.black);
+
+        // tell the portrayals what to portray and how to portray them
+        meadowPortrayal.setField(model.getMeadow());
+        meadowPortrayal.setPortrayalForAll(new OvalPortrayal2D());
+
+        // reschedule the displayer
+        display.reset();
+        display.setBackdrop(Color.white);
+
+        // redraw the display after each step of the model schedule
+        display.repaint();
+    }
+
+    /**
+     * Called on GUI creation
+     */
+    public void init(Controller c)
+    {
+
+        super.init(c);
+
+        // construct Display in the size of the grid used in "model"
+        display = new Display2D(100, 100, this);
+
+        displayFrame = display.createFrame();
+        displayFrame.setTitle("Sheepsmeadow Display");
+
+        c.registerFrame(displayFrame); // so the frame appears in the "Display" list
+        displayFrame.setVisible(true);
+        display.attach( meadowPortrayal, "Meadow" );
+    }
+
+    /**
+     * Called, when the "play" Button in the GUI is pressed.
+     */
+    public void start()
+    {
+        super.start();
+        setupPortrayals();
+    }
+
+    /**
+     * Called on destruction of the GUI
+     */
+    public void quit()
+    {
+        super.quit();
+
+        if (displayFrame!=null) displayFrame.dispose();
+
+        displayFrame = null;
+        display = null;
+    }
+    
+    public void load(SimState state)
+    {
+        super.load(state);
+        setupPortrayals();
+    }
+
     public static void main(String[] args)
     {
         // create simulation state
