@@ -105,6 +105,10 @@ public class Model extends SimState
         this.wolves = value;
     }
 
+    public ObjectGrid2D getMeadow() 
+    {
+        return this.meadow;
+    }
 
     // ===== MAIN =====
 
@@ -116,6 +120,8 @@ public class Model extends SimState
         // exit main process to ensure all threads have stopped
         System.exit(0); 
     }
+
+    
 
     
 }
