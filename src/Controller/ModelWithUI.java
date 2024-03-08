@@ -1,5 +1,6 @@
 package Controller;
 import sim.engine.*;
+import sim.portrayal.Inspector;
 import Model.Model;
 import sim.display.*;
 
@@ -19,6 +20,23 @@ public class ModelWithUI extends GUIState {
         // create GUI console
         Console console = new Console(simulation);
         console.setVisible(true);
+    }
+
+
+    public Object getSimulationInspectedObject() 
+    { 
+        return state;
+    }
+
+    @Override 
+    /**
+     * Adds an Inspector Panel "Model" to the GUI. Used to edit Model Attributes
+     */
+    public Inspector getInspector()
+    {
+        Inspector i = super.getInspector();
+        i.setVolatile(true);
+        return i;
     }
 
     public ModelWithUI() 
