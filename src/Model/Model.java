@@ -2,6 +2,7 @@ package Model;
 import Model.Agents.*;
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
+import java.awt.Color;
 
 public class Model extends SimState 
 {
@@ -21,7 +22,7 @@ public class Model extends SimState
 
     public Model(long seed)
     {
-    super(seed);
+        super(seed);
     }
 
     // ===== METHODS =====
@@ -43,7 +44,7 @@ public class Model extends SimState
         for (int i = 0; i < this.wolves; i++)
         {
             // randomly set agents on the meadow
-            Wolve wolve = new Wolve(i);
+            Wolve wolve = new Wolve(i, Color.gray);
 
             // find a random, empty cell in the grid
 
@@ -60,7 +61,7 @@ public class Model extends SimState
         for (int i = 0; i < this.sheeps; i++)
         {
             // randomly set agents on the meadow
-            Sheep sheep = new Sheep(i);
+            Sheep sheep = new Sheep(i, Color.white);
 
             // find a random, empty cell in the grid
             
