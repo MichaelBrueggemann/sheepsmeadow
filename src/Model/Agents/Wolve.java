@@ -1,17 +1,14 @@
 package Model.Agents;
+import java.awt.Color;
 
-public class Wolve {
+
+public class Wolve extends Agent{
+
+    public Wolve(int id, Color color)
+    {
+        super(id, color);
+
+    }
+
     
-    private int id;
-
-    public Wolve(int id)
-    {
-        this.id = id;
-    }
-
-
-    public int getId()
-    {
-        return this.id;
-    }
 }

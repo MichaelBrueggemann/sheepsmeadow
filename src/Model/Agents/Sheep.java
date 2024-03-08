@@ -1,17 +1,12 @@
 package Model.Agents;
+import java.awt.Color;
 
-public class Sheep {
+public class Sheep extends Agent{
     
-    private int id;
 
-    public Sheep(int id)
+    public Sheep(int id, Color color)
     {
-        this.id = id;
+        super(id, color);
     }
 
-
-    public int getId()
-    {
-        return this.id;
-    }
 }
