@@ -1,10 +1,10 @@
 package Model.Agents;
 
-public class Wolf {
+public class Wolve {
     
     private int id;
 
-    public Wolf(int id)
+    public Wolve(int id)
     {
         this.id = id;
     }
