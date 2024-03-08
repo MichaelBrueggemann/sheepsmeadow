@@ -47,8 +47,12 @@ public class Model extends SimState
 
             // find a random, empty cell in the grid
 
+            // draw random int from 0 till grid.getWidth()
+            int x = random.nextInt(meadow.getWidth());
+            int y = random.nextInt(meadow.getWidth());
 
-            meadow.set(i,i, wolve);
+
+            meadow.set(x,y, wolve);
 
         }
 
@@ -59,9 +63,12 @@ public class Model extends SimState
             Sheep sheep = new Sheep(i);
 
             // find a random, empty cell in the grid
+            
+            // draw random int from 0 till grid.getWidth()
+            int x = random.nextInt(meadow.getWidth());
+            int y = random.nextInt(meadow.getWidth());
 
-
-            meadow.set(i,1, sheep);
+            meadow.set(x,y, sheep);
 
         }
 
@@ -83,7 +90,7 @@ public class Model extends SimState
     public void setSheeps(int value) throws IllegalArgumentException{
 
         if (value < 0) throw new IllegalArgumentException("Value has to be greater than 0!");
-
+        
         this.sheeps = value;
     }
 
