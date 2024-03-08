@@ -20,4 +20,9 @@ public abstract class Agent {
     {
         return this.id;
     }
+
+    public Color getColor()
+    {
+        return this.color;
+    }
 }
