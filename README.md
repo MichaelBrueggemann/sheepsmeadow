@@ -1,18 +1,7 @@
-## Getting Started
+# How to run a simulation?
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+1. Change to this projects root directory `sheepsmeadow`.
+2. Compile the java source files with `javac -d bin -sourcepath src -cp ".:libs/*" src/Model.java`
+3. Run the simulation with `java -cp "bin:libs/*" Model <MASON flags>?`
+    - with `<MASON flags>` you can pass options for the simulation, see the [manual](manual.pdf).
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
