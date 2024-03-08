@@ -2,10 +2,14 @@ package Controller;
 import sim.engine.*;
 import sim.portrayal.*;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
-import sim.portrayal.simple.OvalPortrayal2D;
+import sim.portrayal.simple.RectanglePortrayal2D;
+
 import java.awt.Color;
+import java.awt.Graphics2D;
+
 import javax.swing.*;
 import Model.Model;
+import Model.Agents.Agent;
 import sim.display.*;
 
 
@@ -26,18 +30,46 @@ public class ModelWithUI extends GUIState {
         Model model = (Model) state;
 
         // show grid borders
-        meadowPortrayal.setGridLines(true);
-        meadowPortrayal.setGridColor(Color.black);
         meadowPortrayal.setBorder(true);
         meadowPortrayal.setBorderColor(Color.black);
 
+        // Set custom portrayal for each cell
+        meadowPortrayal.setPortrayalForAll(
+            new RectanglePortrayal2D() 
+            {
+                @Override
+                // Overrides draw method for custom agent colors
+                public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
+                {
+                    // paint cell, if agent is present
+                    if (object != null) 
+                    {
+                        Agent agent = (Agent) object;
+
+                        // Get color from the Agent class
+                        paint = agent.getColor(); 
+                    } 
+                    else 
+                    {
+                        // Default color for empty cells
+                        paint = Color.green; 
+                    }
+
+                    scale = 0.9; // Scale factor to reduce the size of the rectangle
+
+                    super.draw(object, graphics, info);
+                }
+            });
+
+
         // tell the portrayals what to portray and how to portray them
         meadowPortrayal.setField(model.getMeadow());
-        meadowPortrayal.setPortrayalForAll(new OvalPortrayal2D());
 
         // reschedule the displayer
         display.reset();
+
         display.setBackdrop(Color.white);
+        display.setClipping(true);
 
         // redraw the display after each step of the model schedule
         display.repaint();
@@ -48,11 +80,10 @@ public class ModelWithUI extends GUIState {
      */
     public void init(Controller c)
     {
-
         super.init(c);
 
         // construct Display in the size of the grid used in "model"
-        display = new Display2D(100, 100, this);
+        display = new Display2D(300, 300, this);
 
         displayFrame = display.createFrame();
         displayFrame.setTitle("Sheepsmeadow Display");
