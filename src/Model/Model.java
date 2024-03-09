@@ -139,6 +139,11 @@ public class Model extends SimState
         return this.meadow;
     }
 
+    public int getMAX_INDIVIDUALS()
+    {
+        return this.MAX_INDIVIDUALS;
+    }
+
     // ===== MAIN =====
 
     public static void main(String[] args)
