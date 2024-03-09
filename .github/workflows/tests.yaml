@@ -1,0 +1,65 @@
+name: Java Testing Pipeline
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '21'
+        distribution: 'adopt'
+
+    - name: Print Environment Information
+      run: |
+        echo "Java Version:"
+        java -version
+        echo "JDK Installation Path:"
+        echo $JAVA_HOME
+        echo "Classpath:"
+        echo $CLASSPATH
+
+    - name: Print Dependency Information
+      run: |
+        echo "Contents of libs directory:"
+        ls -l libs
+        echo "Classpath with dependencies:"
+        echo $CLASSPATH
+
+
+    - name: Compile Test Files with Debug Output
+      run: |
+        find tests -name '*.java' -print0 | xargs -0 javac -cp "src:bin:libs/*" -d bin 2>&1 | tee compile_output.txt
+
+
+    - name: Print Filesystem Information
+      run: |
+        echo "Current Directory:"
+        pwd
+        echo "Contents of bin directory:"
+        ls -l bin
+        echo "Contents of tests directory:"
+        ls -l tests
+
+
+    - name: Compile Test Files
+      # recursively compile all files in the "tests" directory and sub-directories
+      run: find tests -name '*.java' -print0 | xargs -0 javac -cp "src:bin:libs/*" -d bin
+
+    - name: Run Test Files
+      # recursively run all files in the "tests" directory and sub-directories
+      # this than strips the .class ending and converts all "/" from the directory URI into "."
+      run: java --enable-preview -cp bin:libs/* org.junit.runner.JUnitCore $(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$@\1@' | sed 's@/@.@g')
+
