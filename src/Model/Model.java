@@ -6,9 +6,7 @@ import java.awt.Color;
 
 public class Model extends SimState 
 {
-
     // ===== ATTRIBUTES =====
-
 
     // create spatial representation for the model (a "field"). This is where all agents "live"
     private ObjectGrid2D meadow = new ObjectGrid2D(10, 10);
@@ -19,18 +17,26 @@ public class Model extends SimState
     // sets number of wolves in this simulation
     private int wolves = 5;
 
+    // Boundary for maximum number of Agents
+    private int MAX_INDIVIDUALS;
+
 
     public Model(long seed)
-    {
+    {   
         super(seed);
+        this.MAX_INDIVIDUALS = this.meadow.getHeight() * this.meadow.getWidth();
+
     }
 
     // ===== METHODS =====
     
+
+    // ===== MASON CONTROL METHODS =====
+
     /**
      * This function is run once on model start up. Here you can:
-     * - populate the meadow with animals
-     * - dasd
+     * - populate the grid with Agents
+     * - 
      */ 
     public void start()
     {
@@ -40,46 +46,68 @@ public class Model extends SimState
         // clear spatial representation of the model
         meadow.clear();
 
-        // populate meadow with wolves
-        for (int i = 0; i < this.wolves; i++)
+        // populate meadow with agents
+        this.populateMeadow();
+    }
+
+    // ===== HELPER METHODS =====
+
+    /**
+     * Populates the grid with Agents. This checks if a cell is empty, before adding the agent to this cell.
+     */
+    public void populateMeadow()
+    {
+        int sheep_counter = 0;
+        int wolve_counter = 0;
+
+        int num_individuals = this.wolves + this.sheeps;
+
+        while (sheep_counter + wolve_counter != num_individuals)
         {
-            // randomly set agents on the meadow
-            Wolve wolve = new Wolve(i, Color.gray);
+            // Add sheeps
+            if (sheep_counter < this.sheeps)
+            {
+                Sheep sheep = new Sheep(sheep_counter, Color.white);
 
-            // find a random, empty cell in the grid
+                // find a random, empty cell in the grid
+                while (true) 
+                {
+                    // draw random int from 0 till grid.getWidth()
+                    int x = random.nextInt(meadow.getWidth());
+                    int y = random.nextInt(meadow.getWidth());
 
-            // draw random int from 0 till grid.getWidth()
-            int x = random.nextInt(meadow.getWidth());
-            int y = random.nextInt(meadow.getWidth());
+                    if (meadow.get(x,y) == null)
+                    {
+                        meadow.set(x,y, sheep);
+                        break;
+                    }
+                }
 
+                sheep_counter++;
+            }
 
-            meadow.set(x,y, wolve);
+            // Add wolves
+            if (wolve_counter < this.wolves)
+            {
+                Wolve wolve = new Wolve(wolve_counter, Color.gray);
 
+                // find a random, empty cell in the grid
+                while (true) 
+                {
+                    // draw random int from 0 till grid.getWidth()
+                    int x = random.nextInt(meadow.getWidth());
+                    int y = random.nextInt(meadow.getWidth());
+
+                    if (meadow.get(x,y) == null)
+                    {
+                        meadow.set(x,y, wolve);
+                        break;
+                    }
+                }
+
+                wolve_counter++;
+            }
         }
-
-        // populate meadow with sheeps
-        for (int i = 0; i < this.sheeps; i++)
-        {
-            // randomly set agents on the meadow
-            Sheep sheep = new Sheep(i, Color.white);
-
-            // find a random, empty cell in the grid
-            
-            // draw random int from 0 till grid.getWidth()
-            int x = random.nextInt(meadow.getWidth());
-            int y = random.nextInt(meadow.getWidth());
-
-            meadow.set(x,y, sheep);
-
-        }
-
-
-        for (int i = 0; i < meadow.elements().size(); i++)
-        {
-            System.out.println(meadow.elements().get(i));
-        }
-
-        
     }
 
 
