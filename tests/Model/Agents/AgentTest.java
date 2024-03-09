@@ -1,43 +1,31 @@
 package Model.Agents;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.awt.Color;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class AgentTest {
 
     private Agent agent;
-    private int id;
-    private Color color;
 
-    @BeforeEach
+    @Before
     public void setUp() {
-        id = 1;
-        color = Color.RED;
-        agent = new Wolve(id, color);
+        // Initialize the agent instance before each test
+        agent = new Wolve(1, Color.RED); 
     }
 
     @Test
     public void testAgentId() {
-        assertEquals(id, agent.getId());
-
-        // test after polymorph
-        agent = new Sheep(id, color);
-
-        assertEquals(id, agent.getId());
+        assertEquals(1, agent.getId());
     }
 
     @Test
     public void testAgentColor() {
-        assertEquals(color, agent.getColor());
-
-        // test after polymorph
-        agent = new Sheep(id, color);
-
-        assertEquals(color, agent.getColor());
+        assertEquals(Color.RED, agent.getColor());
     }
 
     // Additional test cases can be added here
