@@ -1,6 +1,7 @@
 package Model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,15 @@ public class ModelTest {
         int num_individuals = model.getSheeps() + model.getWolves();
 
         // Test that the grid contains exactly as much objects as are defined in the model
-        assertEquals(num_individuals, this.grid.elements().size());
+        assertEquals(
+            "Grid doesn't contains exactly as much objects as defined in the model!", 
+            num_individuals, 
+            this.grid.elements().size()
+        );
+
+        assertTrue(
+            "Number of Agents exceeds Individuals Limit!", 
+            this.grid.elements().size() <= model.getMAX_INDIVIDUALS()
+        );
     }
 }
