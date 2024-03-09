@@ -116,22 +116,36 @@ public class Model extends SimState
         return this.sheeps;
     }
 
-    public void setSheeps(int value) throws IllegalArgumentException{
+    public void setSheeps(int value) throws IllegalArgumentException, Exception{
 
         if (value < 0) throw new IllegalArgumentException("Value has to be greater than 0!");
+
+        if (this.wolves + value > this.MAX_INDIVIDUALS) throw new Exception("Too much agents");
         
         this.sheeps = value;
+    }
+
+    public Object domSheeps()
+    {
+        return new sim.util.Interval(0, MAX_INDIVIDUALS);
     }
 
     public int getWolves() {
         return this.wolves;
     }
 
-    public void setWolves(int value) throws IllegalArgumentException{
+    public void setWolves(int value) throws IllegalArgumentException, Exception{
 
         if (value < 0) throw new IllegalArgumentException("Value has to be greater than 0!");
 
+        if (this.sheeps + value > this.MAX_INDIVIDUALS) throw new Exception("Too much agents");
+
         this.wolves = value;
+    }
+
+    public Object domWolves()
+    {
+        return new sim.util.Interval(0, MAX_INDIVIDUALS);
     }
 
     public ObjectGrid2D getMeadow() 
