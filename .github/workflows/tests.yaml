@@ -28,5 +28,5 @@ jobs:
     - name: Run Test files
       # recursively run all files in the "tests" directory and sub-directories
       # this than strips the .class ending and converts all "/" from the directory URI into "."
-      run: java -cp bin:libs/* org.junit.runner.JUnitCore $(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$@\1@' | sed 's@/@.@g')
+      run: java --enable-preview -cp bin:libs/* org.junit.runner.JUnitCore $(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$@\1@' | sed 's@/@.@g')
 
