@@ -1,4 +1,5 @@
 package Model.Agents;
+
 import java.awt.Color;
 
 /**
