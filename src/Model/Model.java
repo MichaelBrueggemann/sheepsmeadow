@@ -91,6 +91,9 @@ public class Model extends SimState
                     }
                 }
 
+                // add Entity to the schedule
+                this.schedule.scheduleRepeating(sheep);
+
                 sheep_counter++;
             }
 
@@ -112,6 +115,9 @@ public class Model extends SimState
                         break;
                     }
                 }
+
+                // add Entity to the schedule
+                this.schedule.scheduleRepeating(wolve);
 
                 wolve_counter++;
             }
