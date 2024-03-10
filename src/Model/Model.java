@@ -5,7 +5,8 @@ import sim.field.grid.ObjectGrid2D;
 
 import java.awt.Color;
 
-import Model.Agents.*;
+import Model.Entities.Agents.*;
+import Model.Entities.Objects.Grass;
 
 public class Model extends SimState 
 {
@@ -18,10 +19,10 @@ public class Model extends SimState
     private ObjectGrid2D meadow = new ObjectGrid2D(20, 20);
 
     // sets number of sheeps in this simulation
-    private int sheeps = 5;
+    private int sheeps;
 
     // sets number of wolves in this simulation
-    private int wolves = 5;
+    private int wolves;
 
     // Boundary for maximum number of Agents
     private int MAX_INDIVIDUALS;
@@ -83,7 +84,7 @@ public class Model extends SimState
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getWidth());
 
-                    if (meadow.get(x,y) == null)
+                    if (!(meadow.get(x,y) instanceof Sheep || meadow.get(x,y) instanceof Wolve))
                     {
                         meadow.set(x,y, sheep);
                         break;
@@ -105,7 +106,7 @@ public class Model extends SimState
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getWidth());
 
-                    if (meadow.get(x,y) == null)
+                    if (!(meadow.get(x,y) instanceof Sheep || meadow.get(x,y) instanceof Wolve))
                     {
                         meadow.set(x,y, wolve);
                         break;
@@ -113,6 +114,23 @@ public class Model extends SimState
                 }
 
                 wolve_counter++;
+            }
+        }
+
+        int grass_id = 0;
+
+        // Fill rest of the Grid with Grass cells
+        for (int i = 0; i < meadow.getHeight(); i++)
+        {
+            for (int j = 0; j < meadow.getWidth(); j++)
+            {
+                if (!(meadow.get(i,j) instanceof Sheep || meadow.get(i,j) instanceof Wolve))
+                {
+                    Grass grass = new Grass(grass_id, Color.green);
+                    grass_id++;
+
+                    meadow.set(i,j, grass);
+                }
             }
         }
     }
