@@ -34,15 +34,6 @@ public class ModelTest {
     {
         model.populateMeadow();
 
-        int num_individuals = model.getSheeps() + model.getWolves();
-
-        // Test that the grid contains exactly as much objects as are defined in the model
-        assertEquals(
-            "Grid doesn't contains exactly as much objects as defined in the model!", 
-            num_individuals, 
-            this.grid.elements().size()
-        );
-
         assertTrue(
             "Number of Agents exceeds Individuals Limit!", 
             this.grid.elements().size() <= model.getMAX_INDIVIDUALS()

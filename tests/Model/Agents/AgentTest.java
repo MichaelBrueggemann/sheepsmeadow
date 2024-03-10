@@ -5,6 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import Model.Entities.Agents.Agent;
+import Model.Entities.Agents.Wolve;
+
 import java.awt.Color;
 
 
