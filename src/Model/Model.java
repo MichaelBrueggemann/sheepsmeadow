@@ -3,7 +3,6 @@ package Model;
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
 
-import java.awt.Color;
 
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
