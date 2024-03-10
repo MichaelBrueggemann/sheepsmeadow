@@ -1,8 +1,11 @@
 package Model;
-import Model.Agents.*;
+
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
+
 import java.awt.Color;
+
+import Model.Agents.*;
 
 public class Model extends SimState 
 {

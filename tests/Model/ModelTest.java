@@ -24,7 +24,7 @@ public class ModelTest {
     @Test
     public void testGridsize()
     {
-        int testsize = 10;
+        int testsize = 20;
         assertEquals(testsize, grid.getHeight());
         assertEquals(testsize, grid.getWidth());
     }
