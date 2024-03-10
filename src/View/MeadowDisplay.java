@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Model.Model;
-import Model.Agents.Agent;
+import Model.Entities.*;
 
 /**
  * This class is a collection of funtionality, do provide a Display GUI for the Grid of the model (meadow).
@@ -20,7 +20,7 @@ public class MeadowDisplay
     public static void setupPortrayal(ObjectGridPortrayal2D meadowPortrayal, Model state, Display2D display)
     {
         // show grid borders
-        meadowPortrayal.setBorder(true);
+        meadowPortrayal.setBorder(false);
         meadowPortrayal.setBorderColor(Color.black);
 
         // Set custom portrayal for each cell
@@ -28,24 +28,19 @@ public class MeadowDisplay
             new RectanglePortrayal2D() 
             {
                 @Override
-                // Overrides draw method for custom agent colors
+                // Overrides draw method for custom entity colors
                 public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
                 {
-                    // paint cell, if agent is present
-                    if (object != null) 
+                    // paint cell, if entity is present
+                    if (object instanceof Entity) 
                     {
-                        Agent agent = (Agent) object;
+                        Entity entity = (Entity) object;
 
-                        // Get color from the Agent class
-                        paint = agent.getColor(); 
+                        // Get color from the Entity class
+                        paint = entity.getColor(); 
                     } 
-                    else 
-                    {
-                        // Default color for empty cells
-                        paint = Color.green; 
-                    }
 
-                    scale = 0.9; // Scale factor to reduce the size of the rectangle
+                    scale = 1.0; // Scale factor to reduce the size of the rectangle
 
                     super.draw(object, graphics, info);
                 }
