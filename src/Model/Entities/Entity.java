@@ -1,17 +1,16 @@
-package Model.Agents;
+package Model.Entities;
 
 import java.awt.Color;
 
 /**
- * This is a abstract class defining general behavior and attributes of all Agents.
+ * Abstract Superclass for all Entities
  */
-public abstract class Agent {
-
+public abstract class Entity {
     private int id;
     private Color color;
 
 
-    public Agent(int id, Color color)
+    public Entity(int id, Color color)
     {
         this.id = id;
         this.color = color;

@@ -1,4 +1,4 @@
-package Model.Agents;
+package Model.Entities.Agents;
 
 import java.awt.Color;
 
