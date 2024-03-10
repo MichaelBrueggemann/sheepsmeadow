@@ -2,14 +2,15 @@ package Model.Entities;
 
 import java.awt.Color;
 
+import sim.engine.Steppable;
+
 /**
  * Abstract Superclass for all Entities
  */
-public abstract class Entity {
+public abstract class Entity implements Steppable 
+{
     private int id;
     private Color color;
-
-
 
     public Entity(int id, Color color)
     {

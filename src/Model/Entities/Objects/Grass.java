@@ -3,6 +3,7 @@ package Model.Entities.Objects;
 import java.awt.Color;
 
 import Model.Entities.Entity;
+import sim.engine.SimState;
 
 public class Grass extends Entity
 {
@@ -16,5 +17,11 @@ public class Grass extends Entity
     {
         super(id, Color.green);
         this.regrowing = false;
+    }
+
+    @Override
+    public void step(SimState state)
+    {
+
     }
 }

@@ -2,8 +2,7 @@ package Model;
 
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
-
-
+import sim.util.Int2D;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
 
@@ -25,8 +24,6 @@ public class Model extends SimState
 
     // Boundary for maximum number of Agents
     private int MAX_INDIVIDUALS;
-
-
 
     public Model(long seed)
     {   
@@ -74,7 +71,7 @@ public class Model extends SimState
             // Add sheeps
             if (sheep_counter < this.sheeps)
             {
-                Sheep sheep = new Sheep(sheep_counter, 20);
+                Sheep sheep = new Sheep(sheep_counter, 20, this.meadow);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -86,6 +83,10 @@ public class Model extends SimState
                     if (!(meadow.get(x,y) instanceof Sheep || meadow.get(x,y) instanceof Wolve))
                     {
                         meadow.set(x,y, sheep);
+
+                        // update agent location
+                        sheep.setLocation(new Int2D(x, y));
+
                         break;
                     }
                 }
@@ -99,7 +100,7 @@ public class Model extends SimState
             // Add wolves
             if (wolve_counter < this.wolves)
             {
-                Wolve wolve = new Wolve(wolve_counter, 20);
+                Wolve wolve = new Wolve(wolve_counter, 20, this.meadow);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -111,6 +112,10 @@ public class Model extends SimState
                     if (!(meadow.get(x,y) instanceof Sheep || meadow.get(x,y) instanceof Wolve))
                     {
                         meadow.set(x,y, wolve);
+
+                        // update agent location
+                        wolve.setLocation(new Int2D(x, y));
+
                         break;
                     }
                 }
