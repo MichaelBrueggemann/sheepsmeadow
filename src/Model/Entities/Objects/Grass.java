@@ -6,9 +6,15 @@ import Model.Entities.Entity;
 
 public class Grass extends Entity
 {
+    // time span until grass is "edible" again
+    private int renewal_period = 3;
 
-    public Grass(int id, Color color)
+    // status flag, if grass was "eaten" by a sheep
+    private boolean regrowing;
+
+    public Grass(int id)
     {
-        super(id, color);
+        super(id, Color.green);
+        this.regrowing = false;
     }
 }

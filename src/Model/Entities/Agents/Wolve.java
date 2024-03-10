@@ -5,9 +5,9 @@ import java.awt.Color;
 
 public class Wolve extends Agent{
 
-    public Wolve(int id, Color color)
+    public Wolve(int id, int energy)
     {
-        super(id, color);
+        super(id, Color.gray, energy);
 
     }
 

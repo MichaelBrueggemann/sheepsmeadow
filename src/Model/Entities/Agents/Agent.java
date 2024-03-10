@@ -9,10 +9,16 @@ import Model.Entities.Entity;
  */
 public class Agent extends Entity
 {
+    private int energy;
 
-    public Agent(int id, Color color)
+    public Agent(int id, Color color, int energy)
     {
         super(id, color);
+        this.energy = energy;
     }
     
+    public int getEnergy()
+    {
+        return this.energy;
+    }
 }

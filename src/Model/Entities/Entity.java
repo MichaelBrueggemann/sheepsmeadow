@@ -10,6 +10,7 @@ public abstract class Entity {
     private Color color;
 
 
+
     public Entity(int id, Color color)
     {
         this.id = id;
@@ -25,4 +26,6 @@ public abstract class Entity {
     {
         return this.color;
     }
+
+    
 }

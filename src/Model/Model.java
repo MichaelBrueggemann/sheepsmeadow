@@ -75,7 +75,7 @@ public class Model extends SimState
             // Add sheeps
             if (sheep_counter < this.sheeps)
             {
-                Sheep sheep = new Sheep(sheep_counter, Color.white);
+                Sheep sheep = new Sheep(sheep_counter, 20);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -97,7 +97,7 @@ public class Model extends SimState
             // Add wolves
             if (wolve_counter < this.wolves)
             {
-                Wolve wolve = new Wolve(wolve_counter, Color.gray);
+                Wolve wolve = new Wolve(wolve_counter, 20);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -126,7 +126,7 @@ public class Model extends SimState
             {
                 if (!(meadow.get(i,j) instanceof Sheep || meadow.get(i,j) instanceof Wolve))
                 {
-                    Grass grass = new Grass(grass_id, Color.green);
+                    Grass grass = new Grass(grass_id);
                     grass_id++;
 
                     meadow.set(i,j, grass);
