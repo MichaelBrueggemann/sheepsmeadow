@@ -75,7 +75,10 @@ public class Model extends SimState
             for (int j = 0; j < meadow.getWidth(); j++)
             {
                 
-                meadow.set(i,j, new Stack<Entity>().push(new Grass(grass_id)));
+                Stack<Entity> stack = new Stack<Entity>();
+                stack.push(new Grass(grass_id));
+
+                meadow.set(i,j, stack);
                 grass_id++;
             }
         }
