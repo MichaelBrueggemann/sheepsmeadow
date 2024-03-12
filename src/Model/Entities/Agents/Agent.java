@@ -1,7 +1,9 @@
 package Model.Entities.Agents;
 
 import java.awt.Color;
+
 import java.util.ArrayList;
+import java.util.Stack;
 
 import Model.Model;
 import Model.Entities.Entity;
@@ -24,20 +26,18 @@ public abstract class Agent extends Entity
     private Int2D location;
 
     // grid where all agents are stored
-    private ObjectGrid2D agentGrid;
+    private ObjectGrid2D grid;
 
-    // grid where all objects (grass) are stored
-    private ObjectGrid2D objectGrid;
+
 
     // ===== CONSTRUCTORS =====
 
-    public Agent(int id, Color color, int energy, ObjectGrid2D agentGrid, ObjectGrid2D objectGrid)
+    public Agent(int id, Color color, int energy, ObjectGrid2D grid)
     {
         super(id, color);
         this.energy = energy;
         this.location = null;
-        this.agentGrid = agentGrid;
-        this.objectGrid = objectGrid;
+        this.grid = grid;
     }
     
     // ===== METHODS =====
@@ -59,9 +59,14 @@ public abstract class Agent extends Entity
      * Neighbourhood is defined as all adjacent cells in each main direction. If no neighbour is present, null is inserted instead.
      * @return Neighbourhood with Entity object and location.
      */
+    @SuppressWarnings("unchecked")
     public Neighbourhood checkNeighbours()
     {
         Neighbourhood[] neighbours = new Neighbourhood[4];
+
+        // placeholder for the stack in each neighbouring cell
+        Stack<Entity> stack;
+
         Entity top;
         Int2D top_location;
         Entity bottom;
@@ -73,58 +78,29 @@ public abstract class Agent extends Entity
 
         // query each direction
 
-        // check agent grid
         // look above
         top_location = new Int2D(location.getX(), location.getY() - 1);
-        top = (Entity) this.agentGrid.get(top_location.getX(), top_location.getY());
+        stack = (Stack<Entity>) this.grid.get(top_location.getX(), top_location.getY());
+        top = stack.peek();
         neighbours[0] = new Neighbourhood(top, top_location);
 
         // look below
         bottom_location = new Int2D(location.getX(), location.getY() + 1);
-        bottom = (Entity) this.agentGrid.get(bottom_location.getX(), bottom_location.getY() + 1);
+        stack = (Stack<Entity>) this.grid.get(bottom_location.getX(), bottom_location.getY() + 1);
+        bottom = stack.peek();
         neighbours[1] = new Neighbourhood(bottom, bottom_location);
 
         // look left
         left_location = new Int2D(location.getX() - 1, location.getY());
-        left = (Entity) this.agentGrid.get(left_location.getX() - 1, left_location.getY());
+        stack = (Stack<Entity>) this.grid.get(left_location.getX() - 1, left_location.getY());
+        left = stack.peek();
         neighbours[2] = new Neighbourhood(left, left_location);
 
         // look right
         right_location = new Int2D(location.getX() + 1, location.getY());
-        right = (Entity) this.agentGrid.get(right_location.getX() + 1, right_location.getY());
+        stack = (Stack<Entity>) this.grid.get(right_location.getX() + 1, right_location.getY());
+        right = stack.peek();
         neighbours[3] = new Neighbourhood(right, right_location);
-
-        // find indices of missing neighbours (no agent present)
-
-        // storage for all neighbours that are "null" (no agent present)
-        ArrayList<Integer> nullindices = new ArrayList<Integer>();
-
-        for (int i = 0; i < neighbours.length; i++)
-        {
-            if (neighbours[i] == null) 
-            {
-                // add index of "o"
-                nullindices.add(i);
-            }    
-        }
-
-        // for each "null" (no agent found) add a grass object from the object grid
-        for (int i = 0; i < nullindices.size(); i++)
-        {
-            
-            // get Neighbourhood with null value as an Entity
-            Neighbourhood nullEntityNeighbourhood = neighbours[nullindices.get(i)];
-
-            // get location of this neighbourhoof
-            Int2D nullEntityNeighbourhoodLocation = nullEntityNeighbourhood.getneighbourLocation();
-
-            // change Entity to Grass Object from objectGrid (meadow)
-            Entity grass_entity = this.objectGrid.get(nullEntityNeighbourhoodLocation.getX(), nullEntityNeighbourhoodLocation.getY());
-
-            nullEntityNeighbourhood.setNeighbour(grass_entity);
-
-        }
-        
 
 
         // return first neighbour (highest precedence)
@@ -143,8 +119,8 @@ public abstract class Agent extends Entity
 
         // check if new location is in bounds of the grid
         if (
-            (location.getX() < 0 || location.getX() > this.agentGrid.getWidth()) || 
-            (location.getY() < 0 || location.getY() > this.agentGrid.getHeight())
+            (location.getX() < 0 || location.getX() > this.grid.getWidth()) || 
+            (location.getY() < 0 || location.getY() > this.grid.getHeight())
         )
         {
             throw new IllegalArgumentException("Location is out of bound!");
@@ -153,9 +129,9 @@ public abstract class Agent extends Entity
         this.location = location;
     }
 
-    public ObjectGrid2D getagentGrid() 
+    public ObjectGrid2D getGrid() 
     {
-       return this.agentGrid;
+       return this.grid;
     }
    
     public int getEnergy()
