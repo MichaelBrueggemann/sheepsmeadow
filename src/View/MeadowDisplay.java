@@ -8,6 +8,8 @@ import sim.portrayal.simple.RectanglePortrayal2D;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import java.util.Stack;
+
 import Model.Model;
 import Model.Entities.*;
 
@@ -19,9 +21,8 @@ public class MeadowDisplay
     
     public static void setupPortrayal(ObjectGridPortrayal2D meadowPortrayal, Model state, Display2D display)
     {
-        // show grid borders
+        // disable grid borders
         meadowPortrayal.setBorder(false);
-        meadowPortrayal.setBorderColor(Color.black);
 
         // Set custom portrayal for each cell
         meadowPortrayal.setPortrayalForAll(
@@ -31,17 +32,16 @@ public class MeadowDisplay
                 // Overrides draw method for custom entity colors
                 public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
                 {
-                    // paint cell, if entity is present
-                    if (object instanceof Entity) 
+                    if (object != null)
                     {
-                        Entity entity = (Entity) object;
+                        @SuppressWarnings("unchecked")
+                        Stack<Entity> stack = (Stack<Entity>) object;
 
-                        // Get color from the Entity class
+                        Entity entity = stack.peek();
                         paint = entity.getColor(); 
-                    } 
+                    }
 
-                    scale = 1.0; // Scale factor to reduce the size of the rectangle
-
+                    // scale = 1.0; 
                     super.draw(object, graphics, info);
                 }
             });
