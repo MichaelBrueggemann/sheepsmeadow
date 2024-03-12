@@ -1,16 +1,15 @@
 package Controller;
+
 import sim.engine.*;
 import sim.portrayal.*;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
-import sim.portrayal.simple.RectanglePortrayal2D;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
+import sim.display.*;
 
 import javax.swing.*;
+
 import Model.Model;
-import Model.Agents.Agent;
-import sim.display.*;
+import View.MeadowDisplay;
+
 
 
 /**
@@ -23,57 +22,6 @@ public class ModelWithUI extends GUIState {
     public Display2D display;
     public JFrame displayFrame;
     public ObjectGridPortrayal2D meadowPortrayal = new ObjectGridPortrayal2D();
-
-    public void setupPortrayals()
-    {
-        // used to acces the Model instance
-        Model model = (Model) state;
-
-        // show grid borders
-        meadowPortrayal.setBorder(true);
-        meadowPortrayal.setBorderColor(Color.black);
-
-        // Set custom portrayal for each cell
-        meadowPortrayal.setPortrayalForAll(
-            new RectanglePortrayal2D() 
-            {
-                @Override
-                // Overrides draw method for custom agent colors
-                public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
-                {
-                    // paint cell, if agent is present
-                    if (object != null) 
-                    {
-                        Agent agent = (Agent) object;
-
-                        // Get color from the Agent class
-                        paint = agent.getColor(); 
-                    } 
-                    else 
-                    {
-                        // Default color for empty cells
-                        paint = Color.green; 
-                    }
-
-                    scale = 0.9; // Scale factor to reduce the size of the rectangle
-
-                    super.draw(object, graphics, info);
-                }
-            });
-
-
-        // tell the portrayals what to portray and how to portray them
-        meadowPortrayal.setField(model.getMeadow());
-
-        // reschedule the displayer
-        display.reset();
-
-        display.setBackdrop(Color.white);
-        display.setClipping(true);
-
-        // redraw the display after each step of the model schedule
-        display.repaint();
-    }
 
     /**
      * Called on GUI creation
@@ -99,7 +47,7 @@ public class ModelWithUI extends GUIState {
     public void start()
     {
         super.start();
-        setupPortrayals();
+        MeadowDisplay.setupPortrayal(meadowPortrayal, (Model) state, display);
     }
 
     /**
@@ -118,7 +66,7 @@ public class ModelWithUI extends GUIState {
     public void load(SimState state)
     {
         super.load(state);
-        setupPortrayals();
+        MeadowDisplay.setupPortrayal(meadowPortrayal, (Model) state, display);
     }
 
     public static void main(String[] args)
@@ -144,7 +92,8 @@ public class ModelWithUI extends GUIState {
     public Inspector getInspector()
     {
         Inspector i = super.getInspector();
-        i.setVolatile(true);
+        i.setVolatile(false);
+
         return i;
     }
 

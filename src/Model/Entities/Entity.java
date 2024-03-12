@@ -1,16 +1,18 @@
-package Model.Agents;
+package Model.Entities;
+
 import java.awt.Color;
 
-/**
- * This is a abstract class defining general behavior and attributes of all Agents.
- */
-public abstract class Agent {
+import sim.engine.Steppable;
 
+/**
+ * Abstract Superclass for all Entities
+ */
+public abstract class Entity implements Steppable 
+{
     private int id;
     private Color color;
 
-
-    public Agent(int id, Color color)
+    public Entity(int id, Color color)
     {
         this.id = id;
         this.color = color;
@@ -25,4 +27,6 @@ public abstract class Agent {
     {
         return this.color;
     }
+
+    
 }
