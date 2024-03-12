@@ -8,7 +8,7 @@ import sim.engine.SimState;
 public class Grass extends Entity
 {
     // time span until grass is "edible" again
-    private int renewal_period = 3;
+    private int regroth_period = 3;
 
     // status flag, if grass was "eaten" by a sheep
     private boolean regrowing;
