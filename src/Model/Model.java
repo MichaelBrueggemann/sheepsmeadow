@@ -3,8 +3,13 @@ package Model;
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
+
+import java.util.Stack;
+
+import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
+
 
 public class Model extends SimState 
 {
@@ -57,10 +62,25 @@ public class Model extends SimState
     // ===== HELPER METHODS =====
 
     /**
-     * Populates the grid with Agents. This checks if a cell is empty, before adding the agent to this cell.
+     * Populates the grid with Agents. Each Grid cell will be filled with a "Stack<Entity>". Each Stack gets a "Grass" object as it's first entry, which will never be removed from the stack. Afterwards the Agents will be placed in the grid (added to a Stack). Filled Cells will have Stacks of size 2, each other will be size 1.
      */
     public void populateMeadow()
     {
+     
+        int grass_id = 0;
+
+        // initialize each cell of the grid with a Stack and add a Grass object to it
+        for (int i = 0; i < meadow.getHeight(); i++)
+        {
+            for (int j = 0; j < meadow.getWidth(); j++)
+            {
+                
+                meadow.set(i,j, new Stack<Entity>().push(new Grass(grass_id)));
+                grass_id++;
+            }
+        }
+        
+        // counters to keep track of the number of already added agents
         int sheep_counter = 0;
         int wolve_counter = 0;
 
@@ -76,13 +96,18 @@ public class Model extends SimState
                 // find a random, empty cell in the grid
                 while (true) 
                 {
-                    // draw random int from 0 till grid.getWidth()
+                    // draw random int from 0 till gridsize
                     int x = random.nextInt(meadow.getWidth());
-                    int y = random.nextInt(meadow.getWidth());
+                    int y = random.nextInt(meadow.getHeight());
 
-                    if (!(meadow.get(x,y) instanceof Sheep || meadow.get(x,y) instanceof Wolve))
+                    // get stack of the cell
+                    @SuppressWarnings("unchecked")
+                    Stack<Entity> stack = (Stack<Entity>) meadow.get(x,y);
+
+                    // if cell is "empty" (only a grass object is present)
+                    if (stack.size() == 1)
                     {
-                        meadow.set(x,y, sheep);
+                        stack.push(sheep);
 
                         // update agent location
                         sheep.setLocation(new Int2D(x, y));
@@ -105,13 +130,18 @@ public class Model extends SimState
                 // find a random, empty cell in the grid
                 while (true) 
                 {
-                    // draw random int from 0 till grid.getWidth()
+                    // draw random int from 0 till gridsize
                     int x = random.nextInt(meadow.getWidth());
-                    int y = random.nextInt(meadow.getWidth());
+                    int y = random.nextInt(meadow.getHeight());
 
-                    if (!(meadow.get(x,y) instanceof Sheep || meadow.get(x,y) instanceof Wolve))
+                    // get stack of the cell
+                    @SuppressWarnings("unchecked")
+                    Stack<Entity> stack = (Stack<Entity>) meadow.get(x,y);
+
+                    // if cell is "empty" (only a grass object is present)
+                    if (stack.size() == 1)
                     {
-                        meadow.set(x,y, wolve);
+                        stack.push(wolve);
 
                         // update agent location
                         wolve.setLocation(new Int2D(x, y));
@@ -126,28 +156,13 @@ public class Model extends SimState
                 wolve_counter++;
             }
         }
-
-        int grass_id = 0;
-
-        // Fill rest of the Grid with Grass cells
-        for (int i = 0; i < meadow.getHeight(); i++)
-        {
-            for (int j = 0; j < meadow.getWidth(); j++)
-            {
-                if (!(meadow.get(i,j) instanceof Sheep || meadow.get(i,j) instanceof Wolve))
-                {
-                    Grass grass = new Grass(grass_id);
-                    grass_id++;
-
-                    meadow.set(i,j, grass);
-                }
-            }
-        }
     }
 
 
     // ===== GETTER & SETTER =====
-    public int getSheeps() {
+
+    public int getSheeps() 
+    {
         return this.sheeps;
     }
 
@@ -165,11 +180,13 @@ public class Model extends SimState
         return new sim.util.Interval(0, MAX_INDIVIDUALS);
     }
 
-    public int getWolves() {
+    public int getWolves() 
+    {
         return this.wolves;
     }
 
-    public void setWolves(int value) throws IllegalArgumentException, Exception{
+    public void setWolves(int value) throws IllegalArgumentException, Exception
+    {
 
         if (value < 0) throw new IllegalArgumentException("Value has to be greater than 0!");
 
