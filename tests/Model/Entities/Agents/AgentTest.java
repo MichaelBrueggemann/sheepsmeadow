@@ -5,8 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import Model.Entities.Agents.Agent;
-import Model.Entities.Agents.Wolve;
+import sim.field.grid.ObjectGrid2D;
 
 import java.awt.Color;
 
@@ -17,8 +16,12 @@ public class AgentTest {
 
     @Before
     public void setUp() {
+
+        // create artificial , empty grid
+        ObjectGrid2D grid = new ObjectGrid2D(10, 10);
+
         // Initialize the agent instance before each test
-        agent = new Wolve(1, Color.RED); 
+        agent = new Wolve(1, 20, grid); 
     }
 
     @Test
@@ -28,7 +31,7 @@ public class AgentTest {
 
     @Test
     public void testAgentColor() {
-        assertEquals(Color.RED, agent.getColor());
+        assertEquals(Color.gray, agent.getColor());
     }
 
     // Additional test cases can be added here
