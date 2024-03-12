@@ -1,4 +1,4 @@
-package Model.Agents;
+package Model.Entities.Agents;
 
 import static org.junit.Assert.assertEquals;
 
