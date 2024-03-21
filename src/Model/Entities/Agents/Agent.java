@@ -1,16 +1,21 @@
 package Model.Entities.Agents;
 
+import sim.engine.SimState;
+import sim.field.grid.ObjectGrid2D;
+import sim.util.Int2D;
+
 import java.awt.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
 import Model.Model;
 import Model.Entities.Entity;
 import Model.Neighbourhood.Neighbourhood;
-import sim.engine.SimState;
-import sim.field.grid.ObjectGrid2D;
-import sim.util.Int2D;
+
 
 /**
  * This is a abstract class defining general behavior and attributes of all Agents.
@@ -27,6 +32,9 @@ public abstract class Agent extends Entity
 
     // grid where all agents are stored
     private ObjectGrid2D grid;
+
+    // This List defines which type of Entity in a neighbouring cell should be prioritized, when performing an action in a step. It's always based on the Agent class.
+    private ArrayList<Object> priorityList = new ArrayList<>();
 
 
 
@@ -78,33 +86,126 @@ public abstract class Agent extends Entity
 
         // query each direction
 
-        // look above
-        top_location = new Int2D(location.getX(), location.getY() - 1);
-        stack = (Stack<Entity>) this.grid.get(top_location.getX(), top_location.getY());
-        top = stack.peek();
-        neighbours[0] = new Neighbourhood(top, top_location);
-
-        // look below
-        bottom_location = new Int2D(location.getX(), location.getY() + 1);
-        stack = (Stack<Entity>) this.grid.get(bottom_location.getX(), bottom_location.getY() + 1);
-        bottom = stack.peek();
-        neighbours[1] = new Neighbourhood(bottom, bottom_location);
-
-        // look left
-        left_location = new Int2D(location.getX() - 1, location.getY());
-        stack = (Stack<Entity>) this.grid.get(left_location.getX() - 1, left_location.getY());
-        left = stack.peek();
-        neighbours[2] = new Neighbourhood(left, left_location);
-
-        // look right
-        right_location = new Int2D(location.getX() + 1, location.getY());
-        stack = (Stack<Entity>) this.grid.get(right_location.getX() + 1, right_location.getY());
-        right = stack.peek();
-        neighbours[3] = new Neighbourhood(right, right_location);
+        try 
+        {
+            // look above
+            top_location = new Int2D(location.getX(), location.getY() - 1);
+            stack = (Stack<Entity>) this.grid.get(top_location.getX(), top_location.getY());
+            top = stack.peek();
+            neighbours[0] = new Neighbourhood(top, top_location);
+            System.out.println("Neighbour sucessfully found!");
+        } 
+        catch (Exception e) 
+        {
+            System.err.println(e);
+            System.err.println("No Neighbour found!");
+        }
 
 
-        // return first neighbour (highest precedence)
-        return neighbours[0];
+        try 
+        {
+            // look below
+            bottom_location = new Int2D(location.getX(), location.getY() + 1);
+            stack = (Stack<Entity>) this.grid.get(bottom_location.getX(), bottom_location.getY());
+            bottom = stack.peek();
+            neighbours[1] = new Neighbourhood(bottom, bottom_location);
+            System.out.println("Neighbour sucessfully found!");
+        } 
+        catch (Exception e) 
+        {
+            System.err.println(e);
+            System.err.println("No Neighbour found!");
+        }
+
+        try 
+        {
+            /// look left
+            left_location = new Int2D(location.getX() - 1, location.getY());
+            stack = (Stack<Entity>) this.grid.get(left_location.getX(), left_location.getY());
+            left = stack.peek();
+            neighbours[2] = new Neighbourhood(left, left_location);
+            System.out.println("Neighbour sucessfully found!");
+        } 
+        catch (Exception e) 
+        {
+            System.err.println(e);
+            System.err.println("No Neighbour found!");
+        }
+
+        try 
+        {
+            // look right
+            right_location = new Int2D(location.getX() + 1, location.getY());
+            stack = (Stack<Entity>) this.grid.get(right_location.getX(), right_location.getY());
+            right = stack.peek();
+            neighbours[3] = new Neighbourhood(right, right_location);
+            System.out.println("Neighbour sucessfully found!");
+        } 
+        catch (Exception e) 
+        {
+            System.err.println(e);
+            System.err.println("No Neighbour found!");
+        }
+        
+        System.out.println("\n");
+        
+        int entries = 0;
+        // for debugging
+        for (Neighbourhood n : neighbours)
+        {
+            if (n != null) 
+            {
+                System.out.println("Neighbour: " + n.getNeighbour());
+                System.out.println("ID: " + n.getNeighbour().getId() + "\n");
+            }
+            else
+            {
+                System.out.println("Neighbour: null\n");
+            }
+            entries++;
+        }
+
+        System.out.println("Entries in neighbours: " + entries);
+            
+        // find the Neighbourhood that contains an Entity which has the highest priority based on this Agents priorityList.
+        // 0 = highest priority, from here ascending (1,2,3,...)
+        HashMap<Integer, Neighbourhood> priorityMap = new HashMap<>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            // get neighbourhood
+            Neighbourhood neighbourhood = neighbours[i];
+
+            // get priority value of each Neighbour
+            if (neighbourhood != null)
+            {
+                // get neighbour
+                Entity neighbour = neighbourhood.getNeighbour();
+
+                // get priority score
+                int neighbourPriority = this.priorityList.indexOf(neighbour.getClass());
+                System.out.println("Priority: " + neighbourPriority);
+            
+                // Add neighbour to priority map
+                priorityMap.put(neighbourPriority, neighbourhood);
+            }
+        }
+
+        // iterate over each entry of the hashmap and find the entry with the smallest key (highest priority neighbouring entity)
+        Iterator<Map.Entry<Integer, Neighbourhood>> iterator = priorityMap.entrySet().iterator();
+        Map.Entry<Integer, Neighbourhood> firstEntry = iterator.next();
+
+        for (Map.Entry<Integer, Neighbourhood> entry : priorityMap.entrySet()) {
+            if (entry.getKey() < firstEntry.getKey()) {
+                firstEntry = entry;
+            }
+        }
+
+        System.out.println("First entry with the lowest key: " + firstEntry);
+
+
+        // return first neighbourhood (highest precedence)
+        return firstEntry.getValue();
     }
 
     // ===== GETTER & SETTER =====
@@ -144,5 +245,25 @@ public abstract class Agent extends Entity
         if (value < 0) throw new IllegalArgumentException("New Energy can't be negative!");
 
         this.energy = value;
+    }
+
+    public ArrayList<Object> getPriorityList() 
+    {
+      return this.priorityList;
+    }
+
+    public void setPriorityList(ArrayList<Object> value) 
+    {
+      this.priorityList = value;
+    }
+
+
+    public void addPriorityClass(int index, Object priorityClass)
+    {
+        if (!this.priorityList.contains(priorityClass))
+        {
+            this.priorityList.add(index, priorityClass);
+        }
+        
     }
 }
