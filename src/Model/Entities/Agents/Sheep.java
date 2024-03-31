@@ -17,7 +17,7 @@ public class Sheep extends Agent
         super(id, Color.blue, energy, grid);
         this.addPriorityClass(0, Grass.class); // priority 0
         this.addPriorityClass(1, Sheep.class); // priority 1
-        this.addPriorityClass(2, Wolve.class); // priority 2
+        this.addPriorityClass(2, Wolf.class); // priority 2
     }
 
     @Override

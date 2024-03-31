@@ -85,11 +85,11 @@ public class Model extends SimState
         
         // counters to keep track of the number of already added agents
         int sheep_counter = 0;
-        int wolve_counter = 0;
+        int wolf_counter = 0;
 
         int num_individuals = this.wolves + this.sheeps;
 
-        while (sheep_counter + wolve_counter != num_individuals)
+        while (sheep_counter + wolf_counter != num_individuals)
         {
             // Add sheeps
             if (sheep_counter < this.sheeps)
@@ -126,9 +126,9 @@ public class Model extends SimState
             }
 
             // Add wolves
-            if (wolve_counter < this.wolves)
+            if (wolf_counter < this.wolves)
             {
-                Wolve wolve = new Wolve(wolve_counter, 20, this.meadow);
+                Wolf wolf = new Wolf(wolf_counter, 20, this.meadow);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -144,19 +144,19 @@ public class Model extends SimState
                     // if cell is "empty" (only a grass object is present)
                     if (stack.size() == 1)
                     {
-                        stack.push(wolve);
+                        stack.push(wolf);
 
                         // update agent location
-                        wolve.setLocation(new Int2D(x, y));
+                        wolf.setLocation(new Int2D(x, y));
 
                         break;
                     }
                 }
 
                 // add Entity to the schedule
-                this.schedule.scheduleRepeating(wolve);
+                this.schedule.scheduleRepeating(wolf);
 
-                wolve_counter++;
+                wolf_counter++;
             }
         }
     }
