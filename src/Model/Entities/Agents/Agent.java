@@ -44,7 +44,7 @@ public abstract class Agent extends Entity
     {
         super(id, color);
         this.energy = energy;
-        this.location = null;
+        this.location = null; // will be set on model setup
         this.grid = grid;
     }
     
@@ -189,6 +189,7 @@ public abstract class Agent extends Entity
                 // Add neighbour to priority map
                 priorityMap.put(neighbourPriority, neighbourhood);
             }
+            // is the neighbourhood "null", we won't have to include it in the priorityMap, as there is no neighbour present
         }
 
         // iterate over each entry of the hashmap and find the entry with the smallest key (highest priority neighbouring entity)
@@ -204,7 +205,7 @@ public abstract class Agent extends Entity
         System.out.println("First entry with the lowest key: " + firstEntry);
 
 
-        // return first neighbourhood (highest precedence)
+        // return first neighbourhood (highest priority)
         return firstEntry.getValue();
     }
 
