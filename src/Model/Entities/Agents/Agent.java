@@ -98,7 +98,7 @@ public abstract class Agent extends Entity
         catch (Exception e) 
         {
             System.err.println(e);
-            System.err.println("No Neighbour found!");
+            System.err.println("No top neighbour found!");
         }
 
 
@@ -114,7 +114,7 @@ public abstract class Agent extends Entity
         catch (Exception e) 
         {
             System.err.println(e);
-            System.err.println("No Neighbour found!");
+            System.err.println("No bottom neighbour found!");
         }
 
         try 
@@ -129,7 +129,7 @@ public abstract class Agent extends Entity
         catch (Exception e) 
         {
             System.err.println(e);
-            System.err.println("No Neighbour found!");
+            System.err.println("No left neighbour found!");
         }
 
         try 
@@ -144,7 +144,7 @@ public abstract class Agent extends Entity
         catch (Exception e) 
         {
             System.err.println(e);
-            System.err.println("No Neighbour found!");
+            System.err.println("No right neighbour found!");
         }
         
         System.out.println("\n");
