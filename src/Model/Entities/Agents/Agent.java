@@ -65,6 +65,7 @@ public abstract class Agent extends Entity
 
     /**
      * Neighbourhood is defined as all adjacent cells in each main direction. If no neighbour is present, null is inserted instead.
+     * This function returns one Neighbourhood. This neighbourhood is picked based on the "priorityList" of the current agent instance, so that only a neighbourhood is returned which corresponding Entity is highest on this current Agents "priorityList".
      * @return Neighbourhood with Entity object and location.
      */
     @SuppressWarnings("unchecked")
