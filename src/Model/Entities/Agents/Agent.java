@@ -165,7 +165,9 @@ public abstract class Agent extends Entity
             entries++;
         }
 
-        System.out.println("Entries in neighbours: " + entries);
+        System.out.println("Current Agent: " + this + "\n");
+
+        System.out.println("Entries in neighbours: " + entries + " \n");
             
         // find the Neighbourhood that contains an Entity which has the highest priority based on this Agents priorityList.
         // 0 = highest priority, from here ascending (1,2,3,...)
@@ -184,7 +186,7 @@ public abstract class Agent extends Entity
 
                 // get priority score
                 int neighbourPriority = this.priorityList.indexOf(neighbour.getClass());
-                System.out.println("Priority: " + neighbourPriority);
+                System.out.println("Neighbour " + neighbour + " with priority: " + neighbourPriority);
             
                 // Add neighbour to priority map
                 priorityMap.put(neighbourPriority, neighbourhood);
@@ -202,7 +204,7 @@ public abstract class Agent extends Entity
             }
         }
 
-        System.out.println("First entry with the lowest key: " + firstEntry);
+        System.out.println("\nFirst entry with the lowest key: " + firstEntry);
 
 
         // return first neighbourhood (highest priority)
