@@ -213,18 +213,48 @@ public abstract class Agent extends Entity
     }
 
     /**
+     * Utility function.
      * Pushes this agent on the given stack and updates it's "location" based on the given "x" and "y" values.
      * @param cell Stack object representing the cell where the agent will be placed
      * @param x position of the agent on the x axis of the grid
      * @param y position of the agent on the y axis of the grid
      */
-    public void addToLocation(Stack<Entity> cell, int x, int y)
+    private void addToLocation(Stack<Entity> cell, int x, int y)
     {
         // push entity on the stack
         cell.push(this);
 
         // update location of the agent
-        this.setLocation(Int2D(x,y));
+        this.setLocation(new Int2D(x,y));
+    }
+
+    /**
+     * Check if a position on the grid is already occupied. If yes, dont perform a move and return false, else move the agent and return true.
+     * @param x new x position
+     * @param y new y position
+     */
+    @SuppressWarnings("unchecked")
+    public boolean updateGridPosition(int x, int y)
+    {
+        // fetch the stack for the x,y coordinates
+        Stack<Entity> stack = (Stack<Entity>) this.grid.get(x,y);
+
+        // check state of the stack
+        if (stack.size() >= 2)
+        {
+            System.err.println("The location at x: " + x + ", y: " + y + " is already occupied!");
+            return false;
+        }
+        else if (stack.size() == 1)
+        {
+            this.addToLocation(stack, x, y);
+            return true;
+        }
+        else
+        {
+            throw new IllegalAccessError("Error in allocating a new Position.");
+        }
+        
     }
 
     // ===== GETTER & SETTER =====
