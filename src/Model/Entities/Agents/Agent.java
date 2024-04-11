@@ -35,7 +35,7 @@ public abstract class Agent extends Entity
     // state of the agent, whether its alive or not (energy = 0)
     private boolean alive;
 
-    // can be used to the reallocation of the agent to the schedule
+    // can be used to stop the reallocation of the agent to the schedule
     private Stoppable scheduleStopper;
 
     // grid where all agents are stored
@@ -72,7 +72,7 @@ public abstract class Agent extends Entity
     }
 
     /**
-     * Un-alives the agent. The Agent will then ultimately removed from the schedule.
+     * Un-alives the agent. The Agent will then be ultimately removed from the schedule.
      */
     public void die()
     {
