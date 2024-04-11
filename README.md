@@ -47,6 +47,7 @@ To run a test locally, execute: `bash test.sh`
 # Reflections on this project
 In this Section i will note some of my experiences with this project. Those notes aren't necessary to use this simulation tool, so feel free to skip the reading:
 
+## 08.03.2024
 - MASON extensively used the MVC paradigm (Model-View-Controller)
     - a **Model** is defined e.g. as a `SimState` instance
     - a **View** is a specific Visualization (2D, 3D, etc.)
@@ -54,6 +55,11 @@ In this Section i will note some of my experiences with this project. Those note
 
     > In this regard, all project files are also organised in the MVC pattern.
     - this was a great opportunity for me to refresh my college knowledge of the MVC pattern
+
+## 12.03.2024
 - I implemented a automated testing pipeline for the following reasons:
     1. keeping myself accountable. Any push will be checked by the pipeline, so i have to design my code in compliance with my tests or my build will fail (and i get annoying emails because of that).
     2. Learn to set up testing enviroments. Setting up this pipeline was a new experience for me, as these tests arent run on my local machine, but instead are run in a VM on GitHub. Therefore debugging was a bit challenging (i encountered the famous "but it works on my machine" a lot :) ). Using the tool `act` was a great help, to debug the VM locally.
+
+## 11.04.2024
+- In the current implementation, each agent will get a new Int2D-Object every time a location has to be changed. This is incredibly inefficient, as this pollutes memory. I decided to leave it in, as the effort needed to change this doesn't outweigh the benefit, as this project doesn't aim to provide the most performant simulation, but instead provide a simple example to learn Agent-Based-Modelling. This programm should be used as explanatory material in an first year undergrad course, so i think this is a fair consideration, as this is only a hobby project of me.
