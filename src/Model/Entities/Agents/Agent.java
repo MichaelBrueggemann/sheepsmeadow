@@ -14,6 +14,7 @@ import java.util.Stack;
 
 import Model.Model;
 import Model.Entities.Entity;
+import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Neighbourhood;
 
 
@@ -229,12 +230,13 @@ public abstract class Agent extends Entity
     }
 
     /**
-     * Check if a position on the grid is already occupied. If yes, dont perform a move and return false, else move the agent and return true.
+     * Check if a position on the grid is already occupied. If yes, dont perform a move, else move the agent to the new location.
      * @param x new x position
      * @param y new y position
+     * @throws GridPositionOccupiedException 
      */
     @SuppressWarnings("unchecked")
-    public boolean updateGridPosition(int x, int y)
+    public void updateGridPosition(int x, int y) throws GridPositionOccupiedException
     {
         // fetch the stack for the x,y coordinates
         Stack<Entity> stack = (Stack<Entity>) this.grid.get(x,y);
@@ -242,13 +244,12 @@ public abstract class Agent extends Entity
         // check state of the stack
         if (stack.size() >= 2)
         {
-            System.err.println("The location at x: " + x + ", y: " + y + " is already occupied!");
-            return false;
+            throw new GridPositionOccupiedException("The location at x: " + x + ", y: " + y + " is already occupied!");
         }
         else if (stack.size() == 1)
         {
             this.addToLocation(stack, x, y);
-            return true;
+            System.out.println("Position at: " + x + ", " + y + " successfully updated!");
         }
         else
         {
