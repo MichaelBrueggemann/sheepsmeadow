@@ -120,7 +120,8 @@ public class Model extends SimState
                 }
 
                 // add Entity to the schedule
-                this.schedule.scheduleRepeating(sheep);
+                Stoppable scheduleStopper = this.schedule.scheduleRepeating(sheep);
+                sheep.setScheduleStopper(scheduleStopper);
 
                 sheep_counter++;
             }
@@ -154,8 +155,9 @@ public class Model extends SimState
                 }
 
                 // add Entity to the schedule
-                this.schedule.scheduleRepeating(wolf);
-
+                Stoppable scheduleStopper = this.schedule.scheduleRepeating(wolf);
+                wolf.setScheduleStopper(scheduleStopper);
+                
                 wolf_counter++;
             }
         }
