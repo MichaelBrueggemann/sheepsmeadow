@@ -6,4 +6,9 @@ public class GridPositionOccupiedException extends Exception
     {
         super(errorMessage, errorRoot);
     }
+
+    public GridPositionOccupiedException(String errorMessage)
+    {
+        super(errorMessage);
+    }
 }
