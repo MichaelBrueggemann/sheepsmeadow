@@ -64,23 +64,19 @@ public class AgentTest {
         // fill grid with some agent combinations
         // CASE 1: all neighbouring cells contain Entities
         Stack<Entity> stack = (Stack<Entity>) grid.get(1,1);
-        stack.push(agent);
-        agent.setLocation(new Int2D(1, 1));
+        agent.addToLocation(stack, 1, 1);
         Stack<Entity> top = (Stack<Entity>) grid.get(0,1);
-        top.push(w1);
-        w1.setLocation(new Int2D(0, 1));
+        w1.addToLocation(top, 0, 1);
         Stack<Entity> left = (Stack<Entity>) grid.get(1,0);
-        left.push(w2);
-        w2.setLocation(new Int2D(1, 0));
+        w2.addToLocation(left, 1, 0);
         Stack<Entity> right = (Stack<Entity>) grid.get(2,1);
-        right.push(s1);
-        s1.setLocation(new Int2D(2, 1));
+        s1.addToLocation(right, 2, 1);
         Stack<Entity> bottom = (Stack<Entity>) grid.get(1,2);
-        bottom.push(s2);
-        s2.setLocation(new Int2D(1, 2));
+        s2.addToLocation(bottom, 1, 2);
 
         Neighbourhood neighbour = agent.checkNeighbours();
 
+        // the return should be of class sheep, as "agent" is of class Wolf and Sheeps are highest on its priority list
         assertEquals(Sheep.class, neighbour.getNeighbour().getClass());
 
     }
