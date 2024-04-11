@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import Model.Entities.Entity;
 import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Neighbourhood;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
@@ -37,7 +38,7 @@ public class AgentTest {
     }
 
     @Test
-    public void testCheckNeighbours()
+    public void testCheckNeighbours() throws GridPositionOccupiedException
     {
         // fill grid with Grass Entities
         int grass_id = 0;
@@ -63,16 +64,11 @@ public class AgentTest {
 
         // fill grid with some agent combinations
         // CASE 1: all neighbouring cells contain Entities
-        Stack<Entity> stack = (Stack<Entity>) grid.get(1,1);
-        agent.addToLocation(stack, 1, 1);
-        Stack<Entity> top = (Stack<Entity>) grid.get(0,1);
-        w1.addToLocation(top, 0, 1);
-        Stack<Entity> left = (Stack<Entity>) grid.get(1,0);
-        w2.addToLocation(left, 1, 0);
-        Stack<Entity> right = (Stack<Entity>) grid.get(2,1);
-        s1.addToLocation(right, 2, 1);
-        Stack<Entity> bottom = (Stack<Entity>) grid.get(1,2);
-        s2.addToLocation(bottom, 1, 2);
+        agent.updateGridPosition(1, 1);
+        w1.updateGridPosition(0, 1);
+        w2.updateGridPosition(1, 0);
+        s1.updateGridPosition(2, 1);
+        s2.updateGridPosition(1, 2);
 
         Neighbourhood neighbour = agent.checkNeighbours();
 
