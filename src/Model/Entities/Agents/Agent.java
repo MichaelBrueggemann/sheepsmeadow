@@ -1,6 +1,7 @@
 package Model.Entities.Agents;
 
 import sim.engine.SimState;
+import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 
@@ -30,6 +31,12 @@ public abstract class Agent extends Entity
 
     // location of the agent inside the grid
     private Int2D location;
+
+    // state of the agent, whether its alive or not (energy = 0)
+    private boolean alive;
+
+    // can be used to the reallocation of the agent to the schedule
+    private Stoppable scheduleStopper;
 
     // grid where all agents are stored
     private ObjectGrid2D grid;
@@ -62,6 +69,18 @@ public abstract class Agent extends Entity
 
         // look at neighbour cells to determine if movement is possible
         //HashMap<Int2D, Agent> neighbours = this.checkNeighbours();
+    }
+
+    /**
+     * Un-alives the agent. The Agent will then ultimately removed from the schedule.
+     */
+    public void die()
+    {
+        // change state of the agent
+        this.alive = false;
+
+        // remove agent from the schedule
+        this.scheduleStopper.stop();
     }
 
     /**
@@ -315,5 +334,15 @@ public abstract class Agent extends Entity
             this.priorityList.add(index, priorityClass);
         }
         
+    }
+
+    public Stoppable getScheduleStopper() 
+    {
+      return this.scheduleStopper;
+    }
+
+    public void setScheduleStopper(Stoppable value) 
+    {
+      this.scheduleStopper = value;
     }
 }
