@@ -212,6 +212,21 @@ public abstract class Agent extends Entity
         return firstEntry.getValue();
     }
 
+    /**
+     * Pushes this agent on the given stack and updates it's "location" based on the given "x" and "y" values.
+     * @param cell Stack object representing the cell where the agent will be placed
+     * @param x position of the agent on the x axis of the grid
+     * @param y position of the agent on the y axis of the grid
+     */
+    public void addToLocation(Stack<Entity> cell, int x, int y)
+    {
+        // push entity on the stack
+        cell.push(this);
+
+        // update location of the agent
+        this.setLocation(Int2D(x,y));
+    }
+
     // ===== GETTER & SETTER =====
 
     public Int2D getLocation() 
