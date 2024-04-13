@@ -256,6 +256,7 @@ public abstract class Agent extends Entity
 
     /**
      * Check if a position on the grid is already occupied. If yes, dont perform a move, else move the agent to the new location.
+     * The agent will also be removed from it's current position.
      * 
      * @implNote The grid cell has to be free beforehand. This methods checks, if the grid position is occupied, but it doesn't free it.
      * 
@@ -267,17 +268,24 @@ public abstract class Agent extends Entity
     public void updateGridPosition(int x, int y) throws GridPositionOccupiedException
     {
         // fetch the stack for the x,y coordinates
-        Stack<Entity> stack = (Stack<Entity>) this.grid.get(x,y);
+        Stack<Entity> new_cell = (Stack<Entity>) this.grid.get(x,y);
 
-        // check state of the stack
-        if (stack.size() >= 2)
+        Int2D old_location = this.getLocation();
+
+        // check state of the stack (new position)
+        if (new_cell.size() >= 2)
         {
             throw new GridPositionOccupiedException("The location at x: " + x + ", y: " + y + " is already occupied!");
         }
-        else if (stack.size() == 1)
+        else if (new_cell.size() == 1)
         {
-            this.addToLocation(stack, x, y);
+            this.addToLocation(new_cell, x, y);
             System.out.println("Position at: " + x + ", " + y + " successfully updated!");
+
+            // remove agent from it's old location
+            Stack<Entity> old_cell = (Stack<Entity>) this.grid.get(old_location.getX(), old_location.getY());
+            old_cell.pop();
+            System.out.println("Sucessfully remove from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
         }
         else
         {
