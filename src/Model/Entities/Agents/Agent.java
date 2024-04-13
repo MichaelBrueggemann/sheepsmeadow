@@ -69,6 +69,11 @@ public abstract class Agent extends Entity
 
         // look at neighbour cells to determine if movement is possible
         //HashMap<Int2D, Agent> neighbours = this.checkNeighbours();
+
+        if (this.energy == 0)
+        {
+            this.die();
+        }
     }
 
     /**
