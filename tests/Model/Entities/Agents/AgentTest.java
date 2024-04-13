@@ -1,6 +1,7 @@
 package Model.Entities.Agents;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -95,5 +96,23 @@ public class AgentTest {
         neighbour = agent.checkNeighbours();
 
         assertEquals(Grass.class, neighbour.getNeighbour().getClass());
+
+
+        // CASE 3: some neighboruing cells are out of bounds
+
+        middle = new Int2D(0,0);
+        right = new Int2D(0,1);
+        bottom = new Int2D(1,0);
+
+        w1.updateGridPosition(right.getX(), right.getY());
+        s1.updateGridPosition(bottom.getX(), bottom.getY());
+
+        // check Neighbourhood
+        neighbour = agent.checkNeighbours();
+        assertEquals(Sheep.class, neighbour.getNeighbour().getClass());
+
+        // check neighbourhood position
+        assertTrue("Neighbour from the wrong grid position was choosen!", neighbour.getneighbourLocation().getX() == bottom.getX() && neighbour.getneighbourLocation().getY() == bottom.getY());
+
     }
 }
