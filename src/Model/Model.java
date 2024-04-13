@@ -61,6 +61,24 @@ public class Model extends SimState
 
     // ===== HELPER METHODS =====
 
+
+    /**
+     * Remove all agents from the grid at the given x,y location.
+     * @param grid Grid to remove agent from
+     * @param x x position in the grid
+     * @param y y position in the grid
+     */
+    @SuppressWarnings("unchecked")
+    public static void emptyGridCell(ObjectGrid2D grid, int x, int y)
+    {
+        Stack<Entity> stack = (Stack<Entity>) grid.get(x, y);
+        
+        while (stack.size() != 1)
+        {
+            stack.pop();
+        }
+    }
+
     /**
      * Populates the grid with Agents. Each Grid cell will be filled with a "Stack<Entity>". Each Stack gets a "Grass" object as it's first entry, which will never be removed from the stack. Afterwards the Agents will be placed in the grid (added to a Stack). Filled Cells will have Stacks of size 2, each other will be size 1.
      */
