@@ -255,6 +255,9 @@ public abstract class Agent extends Entity
 
     /**
      * Check if a position on the grid is already occupied. If yes, dont perform a move, else move the agent to the new location.
+     * 
+     * @implNote The grid cell has to be free beforehand. This methods checks, if the grid position is occupied, but it doesn't free it.
+     * 
      * @param x new x position
      * @param y new y position
      * @throws GridPositionOccupiedException 
