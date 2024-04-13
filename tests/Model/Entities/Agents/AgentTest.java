@@ -98,7 +98,7 @@ public class AgentTest {
         assertEquals(Grass.class, neighbour.getNeighbour().getClass());
 
 
-        // CASE 3: some neighboruing cells are out of bounds
+        // CASE 3: some neighbouring cells are out of bounds
 
         middle = new Int2D(0,0);
         right = new Int2D(0,1);
