@@ -9,6 +9,7 @@ import Model.Entities.Entity;
 import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Neighbourhood;
+import Model.Model;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 
@@ -61,19 +62,38 @@ public class AgentTest {
         Wolf w2 = new Wolf(3, 20, this.grid);
         Sheep s2 = new Sheep(2,20, this.grid);
         
+        Int2D middle = new Int2D(1, 1);
+        Int2D left = new Int2D(0, 1);
+        Int2D top = new Int2D(1, 0);
+        Int2D right = new Int2D(1, 2);
+        Int2D bottom = new Int2D(2, 1);
+
+        Int2D[] neighbour_positions = {left, top, right, bottom};
 
         // fill grid with some agent combinations
         // CASE 1: all neighbouring cells contain Entities
-        agent.updateGridPosition(1, 1);
-        w1.updateGridPosition(0, 1);
-        w2.updateGridPosition(1, 0);
-        s1.updateGridPosition(2, 1);
-        s2.updateGridPosition(1, 2);
+        agent.updateGridPosition(middle.getX(), middle.getY());
+        w1.updateGridPosition(left.getX(), left.getY());
+        w2.updateGridPosition(top.getX(), top.getY());
+        s1.updateGridPosition(right.getX(), right.getY());
+        s2.updateGridPosition(bottom.getX(), bottom.getY());
 
         Neighbourhood neighbour = agent.checkNeighbours();
 
         // the return should be of class sheep, as "agent" is of class Wolf and Sheeps are highest on its priority list
         assertEquals(Sheep.class, neighbour.getNeighbour().getClass());
 
+        // CASE 2: no neighbours
+
+        // empty the neighbouring positions
+        for (Int2D position : neighbour_positions)
+        {
+            Model.emptyGridCell(this.grid, position.getX(), position.getY());
+        }
+
+        // check Neighbourhood
+        neighbour = agent.checkNeighbours();
+
+        assertEquals(Grass.class, neighbour.getNeighbour().getClass());
     }
 }
