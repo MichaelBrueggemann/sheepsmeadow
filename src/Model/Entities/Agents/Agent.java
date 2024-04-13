@@ -54,6 +54,7 @@ public abstract class Agent extends Entity
         this.energy = energy;
         this.location = null; // will be set on model setup
         this.grid = grid;
+        this.alive = true;
     }
     
     // ===== METHODS =====
