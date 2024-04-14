@@ -270,7 +270,7 @@ public abstract class Agent extends Entity
         // fetch the stack for the x,y coordinates
         Stack<Entity> new_cell = (Stack<Entity>) this.grid.get(x,y);
 
-        Int2D old_location = this.getLocation();
+        Int2D old_location = this.location;
 
         // check state of the stack (new position)
         if (new_cell.size() >= 2)
@@ -285,7 +285,7 @@ public abstract class Agent extends Entity
             // remove agent from it's old location
             Stack<Entity> old_cell = (Stack<Entity>) this.grid.get(old_location.getX(), old_location.getY());
             old_cell.pop();
-            System.out.println("Sucessfully remove from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
+            System.out.println("Sucessfully removed from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
         }
         else
         {
