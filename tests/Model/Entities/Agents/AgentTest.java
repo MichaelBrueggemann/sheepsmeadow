@@ -40,6 +40,7 @@ public class AgentTest {
         assertEquals(Color.gray, agent.getColor());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCheckNeighbours() throws GridPositionOccupiedException
     {
@@ -59,9 +60,9 @@ public class AgentTest {
             }
         }
 
-        Wolf w1 = new Wolf(2, 20, this.grid);
+        Wolf w2 = new Wolf(2, 20, this.grid);
         Sheep s1 = new Sheep(1,20, this.grid);
-        Wolf w2 = new Wolf(3, 20, this.grid);
+        Wolf w3 = new Wolf(3, 20, this.grid);
         Sheep s2 = new Sheep(2,20, this.grid);
         
         Int2D middle = new Int2D(1, 1);
@@ -74,14 +75,31 @@ public class AgentTest {
 
         // fill grid with some agent combinations
         // CASE 1: all neighbouring cells contain Entities
-        agent.updateGridPosition(middle.getX(), middle.getY());
-        w1.updateGridPosition(left.getX(), left.getY());
-        w2.updateGridPosition(top.getX(), top.getY());
-        s1.updateGridPosition(right.getX(), right.getY());
-        s2.updateGridPosition(bottom.getX(), bottom.getY());
+
+        // just set the location once, so that all agents have a initial location
+        Stack<Entity> stack = (Stack<Entity>) grid.get(middle.getX(), middle.getY());
+        agent.setLocation(middle);
+        stack.push(agent);
+
+
+        w3.setLocation(top);
+        stack = (Stack<Entity>) grid.get(top.getX(), top.getY());
+        stack.push(w3);
+
+        s1.setLocation(right);
+        stack = (Stack<Entity>) grid.get(right.getX(), right.getY());
+        stack.push(s1);
+
+        s2.setLocation(bottom);
+        stack = (Stack<Entity>) grid.get(bottom.getX(), bottom.getY());
+        stack.push(s2);
+
+        w2.setLocation(left);
+        stack = (Stack<Entity>) grid.get(left.getX(), left.getY());
+        stack.push(w2);
 
         Neighbourhood neighbours = agent.checkNeighbours();
-        Neighbourhood correctNeighbourhood = new Neighbourhood(new Cell(w2, top), new Cell(s1, right), new Cell(s2, bottom), new Cell(w1, left));
+        Neighbourhood correctNeighbourhood = new Neighbourhood(new Cell(w3, top), new Cell(s1, right), new Cell(s2, bottom), new Cell(w2, left));
 
         assertEquals(correctNeighbourhood.getTop().getEntity(), neighbours.getTop().getEntity());
         assertEquals(correctNeighbourhood.getRight().getEntity(), neighbours.getRight().getEntity());
@@ -105,19 +123,22 @@ public class AgentTest {
         }
         
 
-
         // CASE 3: some neighbouring cells are out of bounds
 
         middle = new Int2D(0,0);
         // top = null;
+        Model.emptyGridCell(this.grid, 1, 0);
         right = new Int2D(1,0);
+
         bottom = new Int2D(0,1);
         // left = null;
 
         agent.updateGridPosition(middle.getX(), middle.getY());
-        w1.updateGridPosition(right.getX(), right.getY());
+
+        w2.updateGridPosition(right.getX(), right.getY());
+
         s1.updateGridPosition(bottom.getX(), bottom.getY());
-        correctNeighbourhood = new Neighbourhood(null, new Cell(w1, right), new Cell(s1, bottom), null);
+        correctNeighbourhood = new Neighbourhood(null, new Cell(w2, right), new Cell(s1, bottom), null);
 
         // check Neighbourhood
         neighbours = agent.checkNeighbours();
