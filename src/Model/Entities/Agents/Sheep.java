@@ -15,9 +15,6 @@ public class Sheep extends Agent
     public Sheep(int id, int energy, ObjectGrid2D grid)
     {
         super(id, Color.blue, energy, grid);
-        this.addPriorityClass(0, Grass.class); // priority 0
-        this.addPriorityClass(1, Sheep.class); // priority 1
-        this.addPriorityClass(2, Wolf.class); // priority 2
     }
 
     @Override

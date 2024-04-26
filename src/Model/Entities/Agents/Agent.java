@@ -7,7 +7,6 @@ import sim.util.Int2D;
 
 import java.awt.Color;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Stack;
@@ -45,10 +44,6 @@ public abstract class Agent extends Entity
     // grid where all agents are stored
     protected ObjectGrid2D grid;
 
-    // This List defines which type of Entity in a neighbouring cell should be prioritized, when performing an action in a step. It's always based on the Agent class.
-    private ArrayList<Object> priorityList = new ArrayList<>();
-
-
 
     // ===== CONSTRUCTORS =====
 
@@ -69,11 +64,11 @@ public abstract class Agent extends Entity
         // access model instance
         Model model = (Model) state;
         
-        // access agentGrid
-        
+        // get the Neighbourhood of this agent
+        Neighbourhood neighbourhood = this.checkNeighbours();
 
-        // look at neighbour cells to determine if movement is possible
-        //HashMap<Int2D, Agent> neighbours = this.checkNeighbours();
+        // perform an "Action"
+        this.evaluateRuleSet(neighbourhood);
 
         if (this.energy == 0)
         {
@@ -212,45 +207,6 @@ public abstract class Agent extends Entity
 
         System.out.println("Entries in neighbours: " + entries + " \n");
             
-        // // find the Neighbourhood that contains an Entity which has the highest priority based on this Agents priorityList.
-        // // 0 = highest priority, from here ascending (1,2,3,...)
-        // HashMap<Integer, Neighbourhood> priorityMap = new HashMap<>();
-
-        // for (int i = 0; i < 4; i++)
-        // {
-        //     // get neighbourhood
-        //     Neighbourhood neighbourhood = neighbours[i];
-
-        //     // get priority value of each Neighbour
-        //     if (neighbourhood != null)
-        //     {
-        //         // get neighbour
-        //         Entity neighbour = neighbourhood.getNeighbour();
-
-        //         // get priority score
-        //         int neighbourPriority = this.priorityList.indexOf(neighbour.getClass());
-        //         System.out.println("Neighbour " + neighbour + " with priority: " + neighbourPriority);
-            
-        //         // Add neighbour to priority map
-        //         priorityMap.put(neighbourPriority, neighbourhood);
-        //     }
-        //     // is the neighbourhood "null", we won't have to include it in the priorityMap, as there is no neighbour present
-        // }
-
-        // // iterate over each entry of the hashmap and find the entry with the smallest key (highest priority neighbouring entity)
-        // Iterator<Map.Entry<Integer, Neighbourhood>> iterator = priorityMap.entrySet().iterator();
-        // Map.Entry<Integer, Neighbourhood> firstEntry = iterator.next();
-
-        // for (Map.Entry<Integer, Neighbourhood> entry : priorityMap.entrySet()) {
-        //     if (entry.getKey() < firstEntry.getKey()) {
-        //         firstEntry = entry;
-        //     }
-        // }
-
-        // System.out.println("\nFirst entry with the lowest key: " + firstEntry);
-
-
-        // return first neighbourhood (highest priority)
         return neighbourhood;
     }
 
@@ -395,26 +351,6 @@ public abstract class Agent extends Entity
         if (value < 0) throw new IllegalArgumentException("New Energy can't be negative!");
 
         this.energy = value;
-    }
-
-    public ArrayList<Object> getPriorityList() 
-    {
-      return this.priorityList;
-    }
-
-    public void setPriorityList(ArrayList<Object> value) 
-    {
-      this.priorityList = value;
-    }
-
-
-    public void addPriorityClass(int index, Object priorityClass)
-    {
-        if (!this.priorityList.contains(priorityClass))
-        {
-            this.priorityList.add(index, priorityClass);
-        }
-        
     }
 
     public Stoppable getScheduleStopper() 
