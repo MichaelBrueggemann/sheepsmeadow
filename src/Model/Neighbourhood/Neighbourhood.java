@@ -1,37 +1,52 @@
 package Model.Neighbourhood;
 
-import Model.Entities.Entity;
-import sim.util.Int2D;
 
 /**
  * Represents a neighbourhood relation in a grid. Neighbourhood is defined as all adjacent cells in each main direction.
  */
 public class Neighbourhood {
     
-    // neighbour agent
-    private Entity neighbour;
+  // neighbouring agents and their location
+  private Neighbour top;
+  private Neighbour rigth;
+  private Neighbour bottom;
+  private Neighbour left;
 
-    // location of the neighbouring entity
-    private Int2D neighbourLocation;
 
-    public Neighbourhood(Entity neighbour, Int2D location)
-    {
-        this.neighbour = neighbour;
-        this.neighbourLocation = location;
-    }
-    
+  public Neighbourhood(Neighbour top, Neighbour rigth, Neighbour bottom, Neighbour left)
+  {
+    this.top = top;
+    this.rigth = rigth;
+    this.bottom = bottom;
+    this.left = left;
+  }
+  
+  public Neighbour getTop() 
+  {
+    return this.top;
+  }
 
-    public Entity getNeighbour() {
-      return this.neighbour;
-    }
-    public void setNeighbour(Entity value) {
-      this.neighbour = value;
-    }
+  public Neighbour getRight() 
+  {
+    return this.rigth;
+  }
 
-    public Int2D getneighbourLocation() {
-      return this.neighbourLocation;
-    }
-    public void setneighbourLocation(Int2D value) {
-      this.neighbourLocation = value;
-    }
+  public Neighbour getBottom() 
+  {
+    return this.bottom;
+  }
+
+  public Neighbour getLeft() 
+  {
+    return this.left;
+  }
+
+  public Neighbour[] getAllNeighbours()
+  {
+    Neighbour[] allNeighbours = {this.top, this.rigth, this.bottom, this.left};
+    return allNeighbours;
+  }
+
+  
+  
 }
