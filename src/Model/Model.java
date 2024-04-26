@@ -73,7 +73,7 @@ public class Model extends SimState
     {
         Stack<Entity> stack = (Stack<Entity>) grid.get(x, y);
         
-        while (stack.size() != 1)
+        while (stack.size() > 1)
         {
             stack.pop();
         }

@@ -300,12 +300,11 @@ public abstract class Agent extends Entity
         else if (new_cell.size() == 1)
         {
             this.addToLocation(new_cell, x, y);
-            System.out.println("Position at: " + x + ", " + y + " successfully updated!");
+            System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
 
-            // // remove agent from it's old location
-            // Stack<Entity> old_cell = (Stack<Entity>) this.grid.get(old_location.getX(), old_location.getY());
-            // old_cell.pop();
-            // System.out.println("Sucessfully removed from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
+            // remove agent from it's old location
+            Model.emptyGridCell(this.grid, old_location.getX(), old_location.getY());
+            System.out.println("Sucessfully removed '" + this.getClass().getSimpleName() + ": " + this.getId() + "' from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
         }
         else
         {
