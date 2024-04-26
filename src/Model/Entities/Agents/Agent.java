@@ -8,16 +8,15 @@ import sim.util.Int2D;
 import java.awt.Color;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 import Model.Model;
-import Model.Entities.Entity;
-import Model.Entities.Agents.Behavior.ActionLists.ActionList;
+import Model.Entities.*;
+import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Exceptions.GridPositionOccupiedException;
-import Model.Neighbourhood.Neighbour;
+import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 
 
@@ -38,7 +37,7 @@ public abstract class Agent extends Entity
     protected boolean alive;
 
     // storage for all "Action"s an agent can perform
-    protected ActionList actionlist;
+    protected PriorityQueue<GeneralAction> ruleSet;
 
     // can be used to stop the reallocation of the agent to the schedule
     protected Stoppable scheduleStopper;
@@ -102,7 +101,6 @@ public abstract class Agent extends Entity
     @SuppressWarnings("unchecked")
     public Neighbourhood checkNeighbours()
     {
-
         // placeholder for the stack in each neighbouring cell
         Stack<Entity> stack;
 
@@ -116,15 +114,14 @@ public abstract class Agent extends Entity
         Int2D right_location;
 
         // query each direction
-        
-        Neighbour topNeighbour;
+        Cell topNeighbour;
         try 
         {
             // look above
             top_location = new Int2D(location.getX(), location.getY() - 1);
             stack = (Stack<Entity>) this.grid.get(top_location.getX(), top_location.getY());
             top = stack.peek();
-            topNeighbour = new Neighbour(top, top_location);
+            topNeighbour = new Cell(top, top_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -134,14 +131,14 @@ public abstract class Agent extends Entity
             topNeighbour = null;
         }
 
-        Neighbour bottomNeighbour;
+        Cell bottomNeighbour;
         try 
         {
             // look below
             bottom_location = new Int2D(location.getX(), location.getY() + 1);
             stack = (Stack<Entity>) this.grid.get(bottom_location.getX(), bottom_location.getY());
             bottom = stack.peek();
-            bottomNeighbour = new Neighbour(bottom, bottom_location);
+            bottomNeighbour = new Cell(bottom, bottom_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -151,14 +148,14 @@ public abstract class Agent extends Entity
             bottomNeighbour = null;
         }
 
-        Neighbour leftNeighbour;
+        Cell leftNeighbour;
         try 
         {
             /// look left
             left_location = new Int2D(location.getX() - 1, location.getY());
             stack = (Stack<Entity>) this.grid.get(left_location.getX(), left_location.getY());
             left = stack.peek();
-            leftNeighbour = new Neighbour(left, left_location);
+            leftNeighbour = new Cell(left, left_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -168,14 +165,14 @@ public abstract class Agent extends Entity
             leftNeighbour = null;
         }
 
-        Neighbour rightNeighbour;
+        Cell rightNeighbour;
         try 
         {
             // look right
             right_location = new Int2D(location.getX() + 1, location.getY());
             stack = (Stack<Entity>) this.grid.get(right_location.getX(), right_location.getY());
             right = stack.peek();
-            rightNeighbour = new Neighbour(right, right_location);
+            rightNeighbour = new Cell(right, right_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -188,24 +185,24 @@ public abstract class Agent extends Entity
         // add all Neighbours to a Neighbourhood
         Neighbourhood neighbourhood = new Neighbourhood(topNeighbour, rightNeighbour, bottomNeighbour, leftNeighbour);
 
-
         System.out.println("\n");
         
         int entries = 0;
         int i = 1;
         // for debugging
-        for (Neighbour n : neighbourhood.getAllNeighbours())
+        for (Cell n : neighbourhood.getAllNeighbours())
         {
             
             if (n != null) 
             {
                 System.out.println("Neighbour: " + n.getEntity());
                 System.out.println("ID: " + n.getEntity().getId());
-                System.out.println("Position: " + i + "\n");
+                System.out.println("Position: " + i);
             }
             else
             {
-                System.out.println("Neighbour: null\n");
+                System.out.println("Neighbour: null");
+                System.out.println("Position: " + i);
             }
             i++;
             entries++;
@@ -256,6 +253,54 @@ public abstract class Agent extends Entity
         // return first neighbourhood (highest priority)
         return neighbourhood;
     }
+
+    /**
+     * Evaluates, if any action of this agents "ruleSet" can be executed on any element of "neighbourhood". If an Action can be executed, this Action will be executed. Otherwise nothing happens.
+     * @param neighbourhood Collection of neighbouring cells
+     */
+    public void evaluateRuleSet(Neighbourhood neighbourhood)
+    {
+        // create iterator
+        Iterator<GeneralAction> ruleSetIterator = this.ruleSet.iterator();
+
+        boolean actionExecuted = false;
+
+        while (ruleSetIterator.hasNext())
+        {
+            GeneralAction action = ruleSetIterator.next();
+
+            System.out.println("Trying action...");
+            System.out.println("Action Name: " + action.getName());
+            System.out.println("Action Description: " + action.getDescription());
+
+            // check if "action" can be executed on any of the neighbours
+            for (Cell neighbourCell : neighbourhood.getAllNeighbours())
+            {
+                // only evaluate Actions of the ruleSet if there is a Neighbour
+                if (neighbourCell == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    if (action.checkCondition(neighbourCell))
+                    {
+                        System.out.println("Condition was fullfilled!");
+                        // execute the action
+                        System.out.println("execute " + action.getName() + "...");
+                        action.execute(this, neighbourCell);
+                        // change flag, to stop looping through the iterator
+                        actionExecuted = true;
+                        break;
+                    }
+                    // else do nothing
+                }
+            }
+            
+            if (actionExecuted) break;
+        }
+    }
+
 
     /**
      * Utility function.
