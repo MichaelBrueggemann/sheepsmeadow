@@ -62,4 +62,13 @@ In this Section i will note some of my experiences with this project. Those note
     2. Learn to set up testing enviroments. Setting up this pipeline was a new experience for me, as these tests arent run on my local machine, but instead are run in a VM on GitHub. Therefore debugging was a bit challenging (i encountered the famous "but it works on my machine" a lot :) ). Using the tool `act` was a great help, to debug the VM locally.
 
 ## 11.04.2024
-- In the current implementation, each agent will get a new Int2D-Object every time a location has to be changed. This is incredibly inefficient, as this pollutes memory. I decided to leave it in, as the effort needed to change this doesn't outweigh the benefit, as this project doesn't aim to provide the most performant simulation, but instead provide a simple example to learn Agent-Based-Modelling. This programm should be used as explanatory material in an first year undergrad course, so i think this is a fair consideration, as this is only a hobby project of me.
+- In the current implementation, each agent will get a new `Int2D`-Object every time a location has to be changed. This is incredibly inefficient, as this pollutes memory. I decided to leave it in, as the effort needed to change this doesn't outweigh the benefit, as this project doesn't aim to provide the most performant simulation, but instead provide a simple example to learn Agent-Based-Modelling. This programm should be used as explanatory material in an first year undergrad course, so i think this is a fair consideration, as this is only a hobby project of me.
+
+## 26.04.2024
+- changed the implementation of a Neighbourhood, to enable an easier control flow to evaluate if an `Action` can be performed on an `Agent`
+
+- Actions (rules) an agent can perform should be encapsulated in an object. This has the benefit, that the use of the `Action` interface can be enforced. This allows me to use the `checkCondition()` and `execute()` function in the agents source code. This later enables other Users to add new `Action`s, will still securing that the model logic won't break.
+
+- Each `Action` has a condition (defined by the `checkCondition()` function) that defines when the `Action` can be applied. 
+
+- All Actions of an `Agent` are collected in a `ruleSet`, a PriorityQuene\<Action>  which sorts all `Action`s of an `Agent` by their `priority`. This defines the "importance" of "Action"s for the "Agent".
