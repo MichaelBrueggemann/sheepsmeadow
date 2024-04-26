@@ -9,7 +9,7 @@ import org.junit.Test;
 import Model.Entities.Entity;
 import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridPositionOccupiedException;
-import Model.Neighbourhood.Neighbour;
+import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 import Model.Model;
 import sim.field.grid.ObjectGrid2D;
@@ -81,7 +81,7 @@ public class AgentTest {
         s2.updateGridPosition(bottom.getX(), bottom.getY());
 
         Neighbourhood neighbours = agent.checkNeighbours();
-        Neighbourhood correctNeighbourhood = new Neighbourhood(new Neighbour(w2, top), new Neighbour(s1, right), new Neighbour(s2, bottom), new Neighbour(w1, left));
+        Neighbourhood correctNeighbourhood = new Neighbourhood(new Cell(w2, top), new Cell(s1, right), new Cell(s2, bottom), new Cell(w1, left));
 
         assertEquals(correctNeighbourhood.getTop().getEntity(), neighbours.getTop().getEntity());
         assertEquals(correctNeighbourhood.getRight().getEntity(), neighbours.getRight().getEntity());
@@ -99,7 +99,7 @@ public class AgentTest {
         // check Neighbourhood
         neighbours = agent.checkNeighbours();
 
-        for (Neighbour n : neighbours.getAllNeighbours())
+        for (Cell n : neighbours.getAllNeighbours())
         {
             assertEquals(Grass.class, n.getEntity().getClass());
         }
@@ -117,12 +117,12 @@ public class AgentTest {
         agent.updateGridPosition(middle.getX(), middle.getY());
         w1.updateGridPosition(right.getX(), right.getY());
         s1.updateGridPosition(bottom.getX(), bottom.getY());
-        correctNeighbourhood = new Neighbourhood(null, new Neighbour(w1, right), new Neighbour(s1, bottom), null);
+        correctNeighbourhood = new Neighbourhood(null, new Cell(w1, right), new Cell(s1, bottom), null);
 
         // check Neighbourhood
         neighbours = agent.checkNeighbours();
 
-        for (Neighbour n : neighbours.getAllNeighbours())
+        for (Cell n : neighbours.getAllNeighbours())
         {
             if (n != null) System.out.println(n.getEntity());
         }
