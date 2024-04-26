@@ -46,7 +46,7 @@ public abstract class Agent extends Entity
     protected ObjectGrid2D grid;
 
     // This List defines which type of Entity in a neighbouring cell should be prioritized, when performing an action in a step. It's always based on the Agent class.
-    protected ArrayList<Object> priorityList = new ArrayList<>();
+    private ArrayList<Object> priorityList = new ArrayList<>();
 
 
 
