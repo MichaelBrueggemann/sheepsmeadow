@@ -15,6 +15,7 @@ import java.util.Stack;
 
 import Model.Model;
 import Model.Entities.Entity;
+import Model.Entities.Agents.Behavior.ActionLists.ActionList;
 import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Neighbourhood;
 
@@ -27,22 +28,25 @@ public abstract class Agent extends Entity
     // ===== ATTRIBUTES =====
 
     // determines the "lifetime" of an agent
-    private int energy;
+    protected int energy;
 
     // location of the agent inside the grid
-    private Int2D location;
+    protected Int2D location;
 
     // state of the agent, whether its alive or not (energy = 0)
-    private boolean alive;
+    protected boolean alive;
+
+    // storage for all "Action"s an agent can perform
+    protected ActionList actionlist;
 
     // can be used to stop the reallocation of the agent to the schedule
-    private Stoppable scheduleStopper;
+    protected Stoppable scheduleStopper;
 
     // grid where all agents are stored
-    private ObjectGrid2D grid;
+    protected ObjectGrid2D grid;
 
     // This List defines which type of Entity in a neighbouring cell should be prioritized, when performing an action in a step. It's always based on the Agent class.
-    private ArrayList<Object> priorityList = new ArrayList<>();
+    protected ArrayList<Object> priorityList = new ArrayList<>();
 
 
 
