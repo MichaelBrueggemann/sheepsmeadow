@@ -8,6 +8,9 @@ import Model.Neighbourhood.Cell;
 public class DefaultMove extends GeneralAction
 {
 
+    /**
+     * Move the Agent to a free neighbouring cell and reduce it's energy by 1
+     */
     public DefaultMove(int priority)
     {
         super(
@@ -43,6 +46,9 @@ public class DefaultMove extends GeneralAction
 
 
     @Override
+    /**
+     * Checks if this Action can be executed on the cell.
+     */
     public boolean checkCondition(Cell cell) 
     {
         if (cell.getEntity() instanceof Grass)
