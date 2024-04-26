@@ -7,13 +7,13 @@ package Model.Neighbourhood;
 public class Neighbourhood {
     
   // neighbouring agents and their location
-  private Neighbour top;
-  private Neighbour rigth;
-  private Neighbour bottom;
-  private Neighbour left;
+  private Cell top;
+  private Cell rigth;
+  private Cell bottom;
+  private Cell left;
 
 
-  public Neighbourhood(Neighbour top, Neighbour rigth, Neighbour bottom, Neighbour left)
+  public Neighbourhood(Cell top, Cell rigth, Cell bottom, Cell left)
   {
     this.top = top;
     this.rigth = rigth;
@@ -21,29 +21,29 @@ public class Neighbourhood {
     this.left = left;
   }
   
-  public Neighbour getTop() 
+  public Cell getTop() 
   {
     return this.top;
   }
 
-  public Neighbour getRight() 
+  public Cell getRight() 
   {
     return this.rigth;
   }
 
-  public Neighbour getBottom() 
+  public Cell getBottom() 
   {
     return this.bottom;
   }
 
-  public Neighbour getLeft() 
+  public Cell getLeft() 
   {
     return this.left;
   }
 
-  public Neighbour[] getAllNeighbours()
+  public Cell[] getAllNeighbours()
   {
-    Neighbour[] allNeighbours = {this.top, this.rigth, this.bottom, this.left};
+    Cell[] allNeighbours = {this.top, this.rigth, this.bottom, this.left};
     return allNeighbours;
   }
 
