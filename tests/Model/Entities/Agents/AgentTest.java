@@ -9,6 +9,7 @@ import org.junit.Test;
 import Model.Entities.Entity;
 import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridPositionOccupiedException;
+import Model.Neighbourhood.Neighbour;
 import Model.Neighbourhood.Neighbourhood;
 import Model.Model;
 import sim.field.grid.ObjectGrid2D;
@@ -66,8 +67,8 @@ public class AgentTest {
         Int2D middle = new Int2D(1, 1);
         Int2D left = new Int2D(0, 1);
         Int2D top = new Int2D(1, 0);
-        Int2D right = new Int2D(1, 2);
-        Int2D bottom = new Int2D(2, 1);
+        Int2D right = new Int2D(2, 1);
+        Int2D bottom = new Int2D(1, 2);
 
         Int2D[] neighbour_positions = {left, top, right, bottom};
 
@@ -79,10 +80,13 @@ public class AgentTest {
         s1.updateGridPosition(right.getX(), right.getY());
         s2.updateGridPosition(bottom.getX(), bottom.getY());
 
-        Neighbourhood neighbour = agent.checkNeighbours();
+        Neighbourhood neighbours = agent.checkNeighbours();
+        Neighbourhood correctNeighbourhood = new Neighbourhood(new Neighbour(w2, top), new Neighbour(s1, right), new Neighbour(s2, bottom), new Neighbour(w1, left));
 
-        // the return should be of class sheep, as "agent" is of class Wolf and Sheeps are highest on its priority list
-        assertEquals(Sheep.class, neighbour.getNeighbour().getClass());
+        assertEquals(correctNeighbourhood.getTop().getEntity(), neighbours.getTop().getEntity());
+        assertEquals(correctNeighbourhood.getRight().getEntity(), neighbours.getRight().getEntity());
+        assertEquals(correctNeighbourhood.getBottom().getEntity(), neighbours.getBottom().getEntity());
+        assertEquals(correctNeighbourhood.getLeft().getEntity(), neighbours.getLeft().getEntity());
 
         // CASE 2: no neighbours
 
@@ -93,26 +97,43 @@ public class AgentTest {
         }
 
         // check Neighbourhood
-        neighbour = agent.checkNeighbours();
+        neighbours = agent.checkNeighbours();
 
-        assertEquals(Grass.class, neighbour.getNeighbour().getClass());
+        for (Neighbour n : neighbours.getAllNeighbours())
+        {
+            assertEquals(Grass.class, n.getEntity().getClass());
+        }
+        
 
 
         // CASE 3: some neighbouring cells are out of bounds
 
         middle = new Int2D(0,0);
-        right = new Int2D(0,1);
-        bottom = new Int2D(1,0);
+        // top = null;
+        right = new Int2D(1,0);
+        bottom = new Int2D(0,1);
+        // left = null;
 
+        agent.updateGridPosition(middle.getX(), middle.getY());
         w1.updateGridPosition(right.getX(), right.getY());
         s1.updateGridPosition(bottom.getX(), bottom.getY());
+        correctNeighbourhood = new Neighbourhood(null, new Neighbour(w1, right), new Neighbour(s1, bottom), null);
 
         // check Neighbourhood
-        neighbour = agent.checkNeighbours();
-        assertEquals(Sheep.class, neighbour.getNeighbour().getClass());
+        neighbours = agent.checkNeighbours();
+
+        for (Neighbour n : neighbours.getAllNeighbours())
+        {
+            if (n != null) System.out.println(n.getEntity());
+        }
+
+        assertEquals(correctNeighbourhood.getTop(), neighbours.getTop());
+        assertEquals(correctNeighbourhood.getRight().getEntity(), neighbours.getRight().getEntity());
+        assertEquals(correctNeighbourhood.getBottom().getEntity(), neighbours.getBottom().getEntity());
+        assertEquals(correctNeighbourhood.getLeft(), neighbours.getLeft());
 
         // check neighbourhood position
-        assertTrue("Neighbour from the wrong grid position was choosen!", neighbour.getneighbourLocation().getX() == bottom.getX() && neighbour.getneighbourLocation().getY() == bottom.getY());
+        assertTrue("Neighbour from the wrong grid position was choosen!", neighbours.getBottom().getLocation().getX() == bottom.getX() && neighbours.getBottom().getLocation().getY() == bottom.getY());
 
     }
 }
