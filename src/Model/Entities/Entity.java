@@ -32,5 +32,9 @@ public abstract class Entity implements Steppable
         return this.color;
     }
 
+    public MersenneTwisterFast getRng() 
+    {
+      return this.rng;
+    }
     
 }
