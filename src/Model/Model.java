@@ -94,7 +94,7 @@ public class Model extends SimState
             {
                 
                 Stack<Entity> stack = new Stack<Entity>();
-                stack.push(new Grass(grass_id));
+                stack.push(new Grass(grass_id, this.random));
 
                 meadow.set(i,j, stack);
                 grass_id++;
@@ -112,7 +112,7 @@ public class Model extends SimState
             // Add sheeps
             if (sheep_counter < this.sheeps)
             {
-                Sheep sheep = new Sheep(sheep_counter, 20, this.meadow);
+                Sheep sheep = new Sheep(sheep_counter, 20, this.meadow, this.random);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -147,7 +147,7 @@ public class Model extends SimState
             // Add wolves
             if (wolf_counter < this.wolves)
             {
-                Wolf wolf = new Wolf(wolf_counter, 20, this.meadow);
+                Wolf wolf = new Wolf(wolf_counter, 20, this.meadow, this.random);
 
                 // find a random, empty cell in the grid
                 while (true) 
