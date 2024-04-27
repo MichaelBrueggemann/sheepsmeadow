@@ -85,6 +85,8 @@ public abstract class Agent extends Entity
         // change state of the agent
         this.alive = false;
 
+        System.out.println("Agent: '" + this.getClass().getSimpleName() + ": " + this.getId() + "' energy is " + this.getEnergy() + ". Agent has died!");
+
         // remove agent from the schedule
         this.scheduleStopper.stop();
     }
