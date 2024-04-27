@@ -10,10 +10,10 @@ import sim.engine.Steppable;
  */
 public abstract class Entity implements Steppable 
 {
-    private int id;
-    private Color color;
+    protected int id;
+    protected Color color;
     // RNG of the simulation object. Used for easy access to random numbers for every entity.
-    private MersenneTwisterFast rng;
+    protected MersenneTwisterFast rng;
 
     public Entity(int id, Color color, MersenneTwisterFast rng)
     {
