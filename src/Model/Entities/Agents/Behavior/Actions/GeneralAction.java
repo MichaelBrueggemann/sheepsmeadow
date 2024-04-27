@@ -27,10 +27,6 @@ public abstract class GeneralAction implements Action
 
   // Singleton factory method, that needs to be implemented by each "concrete action"
   // public abstract GeneralAction getInstance();
-  
-  // every GeneralAction must implement a function to check, if the GeneralAction can be performed on the entity
-  public abstract boolean checkCondition(Cell neighbour);
-
  
   public int getPriority() 
   {
