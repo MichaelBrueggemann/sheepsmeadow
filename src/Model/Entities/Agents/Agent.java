@@ -231,29 +231,18 @@ public abstract class Agent extends Entity
             System.out.println("Action Description: " + action.getDescription());
 
             // check if "action" can be executed on any of the neighbours
-            for (Cell neighbourCell : neighbourhood.getAllNeighbours())
+            if (action.checkCondition(neighbourhood))
             {
-                // only evaluate Actions of the ruleSet if there is a Neighbour
-                if (neighbourCell == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    if (action.checkCondition(neighbourCell))
-                    {
-                        System.out.println("\n Condition was fullfilled!");
-                        // execute the action
-                        System.out.println("execute " + action.getName() + "...");
-                        action.execute(this, neighbourCell);
-                        // change flag, to stop looping through the iterator
-                        actionExecuted = true;
-                        break;
-                    }
-                    // else do nothing
-                }
+                System.out.println("\nCondition was fullfilled!");
+
+                // execute the action
+                System.out.println("execute " + action.getName() + "...");
+                action.execute(this, neighbourhood);
+
+                // change flag, to stop looping through the iterator
+                actionExecuted = true;
             }
-            
+
             if (actionExecuted) break;
         }
     }
