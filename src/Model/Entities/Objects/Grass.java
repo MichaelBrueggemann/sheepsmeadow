@@ -3,6 +3,7 @@ package Model.Entities.Objects;
 import java.awt.Color;
 
 import Model.Entities.Entity;
+import ec.util.MersenneTwisterFast;
 import sim.engine.SimState;
 
 public class Grass extends Entity
@@ -13,9 +14,9 @@ public class Grass extends Entity
     // status flag, if grass was "eaten" by a sheep
     private boolean regrowing;
 
-    public Grass(int id)
+    public Grass(int id, MersenneTwisterFast rng)
     {
-        super(id, Color.green);
+        super(id, Color.green, rng);
         this.regrowing = false;
     }
 

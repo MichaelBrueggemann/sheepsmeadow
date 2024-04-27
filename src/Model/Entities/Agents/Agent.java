@@ -17,6 +17,7 @@ import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
+import ec.util.MersenneTwisterFast;
 
 
 /**
@@ -47,9 +48,9 @@ public abstract class Agent extends Entity
 
     // ===== CONSTRUCTORS =====
 
-    public Agent(int id, Color color, int energy, ObjectGrid2D grid)
+    public Agent(int id, Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
-        super(id, color);
+        super(id, color, rng);
         this.energy = energy;
         this.location = null; // will be set on model setup
         this.grid = grid;
@@ -241,7 +242,7 @@ public abstract class Agent extends Entity
                 {
                     if (action.checkCondition(neighbourCell))
                     {
-                        System.out.println("Condition was fullfilled!");
+                        System.out.println("\n Condition was fullfilled!");
                         // execute the action
                         System.out.println("execute " + action.getName() + "...");
                         action.execute(this, neighbourCell);

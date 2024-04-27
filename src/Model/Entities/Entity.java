@@ -2,6 +2,7 @@ package Model.Entities;
 
 import java.awt.Color;
 
+import ec.util.MersenneTwisterFast;
 import sim.engine.Steppable;
 
 /**
@@ -11,11 +12,14 @@ public abstract class Entity implements Steppable
 {
     private int id;
     private Color color;
+    // RNG of the simulation object. Used for easy access to random numbers for every entity.
+    private MersenneTwisterFast rng;
 
-    public Entity(int id, Color color)
+    public Entity(int id, Color color, MersenneTwisterFast rng)
     {
         this.id = id;
         this.color = color;
+        this.rng = rng;
     }
 
     public int getId()

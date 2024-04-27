@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 import Model.Entities.Agents.Behavior.Actions.GeneralActionComparator;
+import ec.util.MersenneTwisterFast;
 import Model.Entities.Agents.Behavior.Actions.DefaultMove;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 
@@ -16,11 +17,11 @@ import sim.field.grid.ObjectGrid2D;
 public class Wolf extends Agent
 {
 
-    public Wolf(int id, int energy, ObjectGrid2D grid)
+    public Wolf(int id, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
 
         // construct all attributes of an "Agent"
-        super(id, Color.gray, energy, grid);
+        super(id, Color.gray, energy, grid, rng);
 
         // Comparator needed to decide the order of two "GeneralAction"s
         Comparator<GeneralAction> generalActionComparator = new GeneralActionComparator();
