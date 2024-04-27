@@ -2,7 +2,6 @@ package Model.Entities.Agents.Behavior.Actions;
 
 import java.util.ArrayList;
 
-import Model.Entities.Entity;
 import Model.Entities.Agents.Agent;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Cell;
@@ -38,7 +37,11 @@ public class DefaultMove extends GeneralAction
 
         for (Cell cell : neighbourhood.getAllNeighbours())
         {
-            if (cell.getEntity() instanceof Grass)
+            if (cell == null)
+            {
+                continue;
+            }
+            else if (cell.getEntity() instanceof Grass)
             {
                 grass.add(cell);
             }
@@ -77,7 +80,11 @@ public class DefaultMove extends GeneralAction
 
         for (Cell cell : neighbourhood.getAllNeighbours())
         {
-            if (cell.getEntity() instanceof Grass)
+            if (cell == null)
+            {
+                continue;
+            }
+            else if (cell.getEntity() instanceof Grass)
             {
                 conditionFullfilled = true;
             }
