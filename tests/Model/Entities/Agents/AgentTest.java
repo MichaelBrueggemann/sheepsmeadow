@@ -11,6 +11,7 @@ import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
+import ec.util.MersenneTwisterFast;
 import Model.Model;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
@@ -27,11 +28,13 @@ public class AgentTest {
     @Before
     public void setUp() {
 
+        MersenneTwisterFast rng = new MersenneTwisterFast();
+        
         // create artificial , empty grid
         this.grid = new ObjectGrid2D(10, 10);
 
         // Initialize the agent instance before each test
-        agent = new Wolf(1, 20, grid); 
+        agent = new Wolf(1, 20, grid, rng); 
     }
 
 
@@ -47,23 +50,26 @@ public class AgentTest {
         // fill grid with Grass Entities
         int grass_id = 0;
 
+        // random RNG, dont used in this test
+        MersenneTwisterFast rng = new MersenneTwisterFast();
+
         for (int i = 0; i < grid.getHeight(); i++)
         {
             for (int j = 0; j < grid.getWidth(); j++)
             {
                 
                 Stack<Entity> stack = new Stack<Entity>();
-                stack.push(new Grass(grass_id));
+                stack.push(new Grass(grass_id, rng));
 
                 grid.set(i,j, stack);
                 grass_id++;
             }
         }
 
-        Wolf w2 = new Wolf(2, 20, this.grid);
-        Sheep s1 = new Sheep(1,20, this.grid);
-        Wolf w3 = new Wolf(3, 20, this.grid);
-        Sheep s2 = new Sheep(2,20, this.grid);
+        Wolf w2 = new Wolf(2, 20, this.grid, rng);
+        Sheep s1 = new Sheep(1,20, this.grid, rng);
+        Wolf w3 = new Wolf(3, 20, this.grid, rng);
+        Sheep s2 = new Sheep(2,20, this.grid, rng);
         
         Int2D middle = new Int2D(1, 1);
         Int2D left = new Int2D(0, 1);
