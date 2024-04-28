@@ -330,4 +330,9 @@ public abstract class Agent extends Entity
         this.energy = value;
     }
 
+
+    public Grass getGrasscell() 
+    {
+      return this.grasscell;
+    }
 }
