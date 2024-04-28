@@ -1,8 +1,9 @@
-package Model.Entities.Agents.Behavior.Actions;
+package Model.Entities.Agents.Behavior.Actions.ConcreteActions;
 
 import java.util.ArrayList;
 
 import Model.Entities.Agents.Agent;
+import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;

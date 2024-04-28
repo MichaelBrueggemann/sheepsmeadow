@@ -5,8 +5,8 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 import Model.Entities.Agents.Behavior.Actions.GeneralActionComparator;
+import Model.Entities.Agents.Behavior.Actions.ConcreteActions.DefaultMove;
 import ec.util.MersenneTwisterFast;
-import Model.Entities.Agents.Behavior.Actions.DefaultMove;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 
 import sim.engine.SimState;
