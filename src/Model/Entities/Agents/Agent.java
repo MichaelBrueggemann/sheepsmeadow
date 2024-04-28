@@ -301,12 +301,6 @@ public abstract class Agent extends Entity
         System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
     }
 
-
-    public String toString()
-    {
-        return Integer.toString(this.energy);
-    }
-
     // ===== GETTER & SETTER =====
 
     public Int2D getLocation() 
