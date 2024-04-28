@@ -126,4 +126,11 @@ Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class Model
         at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 ```
 
-... i think it's time to implement Multi-Object grids as intended by MASON ...
+... i think it's time to implement Multi-Object grids as intended by MASON. 
+
+- i changed the grid representation in the following way:
+    - The grid now only contains one object per cell
+    - at model setup, the grid contains only `Grass` objects
+    - after calling `populateMeadow` the grid will contain `Agent` objects in each cell an agent was added to
+        - adding a new agent to a cell now stores the `Grass` object of the cell in the `Agent` object. When the `Agent` later updates it's location, the `Grass` object will be placed on the cell, the `Agent` has left
+    - the same will than happen in each Step of the model
