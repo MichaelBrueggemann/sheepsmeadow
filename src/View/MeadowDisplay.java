@@ -9,6 +9,8 @@ import java.awt.*;
 
 import Model.Model;
 import Model.Entities.*;
+import Model.Entities.Agents.Agent;
+import Model.Entities.Objects.Grass;
 
 /**
  * This class is a collection of funtionality, do provide a Display GUI for the Grid of the model (meadow). This displays the grid itself and also every Entitity that is placed in the Grid.
@@ -39,20 +41,48 @@ public class MeadowDisplay
                             // draw the rectangle
                             super.draw(object, graphics, info);
 
-                            // draw the label
-                            String label = entity.toString(); // Or whatever logic you use to get the label
+                            // draw a label displaying the agents energy
+                            if (entity instanceof Agent)
+                            {
+                                Agent agent = (Agent) entity;
 
-                            // get width of the string and height of the font to correct the position of the label
-                            FontMetrics fm = graphics.getFontMetrics();
-                            int textWidth = fm.stringWidth(label);
-                            int textHeight = fm.getHeight();
+                                // draw the label
+                                String label = Integer.toString(agent.getEnergy()); // Or whatever logic you use to get the label
 
-                            // info.draw.<coord> indicates the center of the rectangle that should be drawn
-                            int centerX = (int) info.draw.x - textWidth / 2;
-                            int centerY = (int) info.draw.y + textHeight / 2;
+                                // get width of the string and height of the font to correct the position of the label
+                                FontMetrics fm = graphics.getFontMetrics();
+                                int textWidth = fm.stringWidth(label);
+                                int textHeight = fm.getHeight();
 
-                            graphics.setColor(Color.WHITE);
-                            graphics.drawString(label, centerX, centerY);
+                                // info.draw.<coord> indicates the center of the rectangle that should be drawn
+                                int centerX = (int) info.draw.x - textWidth / 2;
+                                int centerY = (int) info.draw.y + textHeight / 2;
+
+                                graphics.setColor(Color.WHITE);
+                                graphics.drawString(label, centerX, centerY);
+                            }
+
+                            // only draw labels for grass cells if they are "regrowing"
+                            if (entity instanceof Grass && ((Grass) entity).getIsRegrowing())
+                            {
+                                Grass grass = (Grass) entity;
+
+                                // draw the label
+                                String label = Integer.toString(grass.getRegrothCounter()); // Or whatever logic you use to get the label
+
+                                // get width of the string and height of the font to correct the position of the label
+                                FontMetrics fm = graphics.getFontMetrics();
+                                int textWidth = fm.stringWidth(label);
+                                int textHeight = fm.getHeight();
+
+                                // info.draw.<coord> indicates the center of the rectangle that should be drawn
+                                int centerX = (int) info.draw.x - textWidth / 2;
+                                int centerY = (int) info.draw.y + textHeight / 2;
+
+                                graphics.setColor(Color.WHITE);
+                                graphics.drawString(label, centerX, centerY);
+                            }
+                            
                         }
                     }
                 }
