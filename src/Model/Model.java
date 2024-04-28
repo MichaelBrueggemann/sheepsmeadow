@@ -199,14 +199,17 @@ public class Model extends SimState
 
     /**
      * Create a domain (interval) of values acceptable for the attribute WOLVES
-     * @return sim.util.Interval
+     * @return 
      */
     public Object domWolves()
     {
         return new sim.util.Interval(0, MAX_INDIVIDUALS);
     }
 
-    public ObjectGrid2D getMeadow() 
+    /** 
+     * This getter has to be named breaking the convention, to prevent the Model Inspector from "MeadowDisplay.java" to draw it in the "Model" tab
+     */
+    public ObjectGrid2D returnMeadow() 
     {
         return this.meadow;
     }
@@ -219,11 +222,6 @@ public class Model extends SimState
     public void setGridsize(int value)
     {
         this.gridsize = value;
-    }
-
-    public int getMAX_INDIVIDUALS()
-    {
-        return this.MAX_INDIVIDUALS;
     }
 
     // ===== MAIN =====

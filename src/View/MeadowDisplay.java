@@ -90,7 +90,7 @@ public class MeadowDisplay
 
 
         // tell the portrayals what to portray and how to portray them
-        meadowPortrayal.setField(state.getMeadow());
+        meadowPortrayal.setField(state.returnMeadow());
 
         // reschedule the displayer
         display.reset();
