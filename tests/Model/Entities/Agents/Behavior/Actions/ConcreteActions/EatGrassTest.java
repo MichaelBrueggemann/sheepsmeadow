@@ -1,4 +1,4 @@
-package Model.Entities.Agents.Behavior;
+package Model.Entities.Agents.Behavior.Actions.ConcreteActions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
