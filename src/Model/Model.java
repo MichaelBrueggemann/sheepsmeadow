@@ -60,8 +60,10 @@ public class Model extends SimState
     /**
      * Utitlity function to make writing these tests easier
      */
-    public static void addGrassToGrid(ObjectGrid2D grid)
+    public void addGrassToGrid()
     {
+        ObjectGrid2D grid = this.meadow;
+
         // fill grid with Grass Entities
         int grass_id = 0;
 
@@ -84,7 +86,7 @@ public class Model extends SimState
      */
     public void populateMeadow()
     {
-        addGrassToGrid(this.meadow);
+        this.addGrassToGrid();
         
         // counters to keep track of the number of already added agents
         int sheep_counter = 0;
