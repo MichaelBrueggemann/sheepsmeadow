@@ -47,6 +47,10 @@ public class Neighbourhood {
     return allNeighbours;
   }
 
-  
+  public String toString()
+  {
+    // add entity to string. if null, then write "null" into the string
+    return "[ Top: " + ((this.top != null) ? this.top.getEntity() : "null") + ", Right: " + ((this.rigth != null) ? this.rigth.getEntity() : "null") + ", Bottom: " + ((this.bottom != null) ? this.bottom.getEntity() : "null") + ", Left: " + ((this.left != null) ? this.left.getEntity() : "null") + " ]";
+  }
   
 }
