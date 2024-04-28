@@ -261,8 +261,6 @@ public abstract class Agent extends Entity
     /**
      * Replace an entity placed at "x", "y" on the grid with this agent. When this Agent has a location on the grid associated to this agent, it will be removed from this location beforehand.
      * 
-     * TODO: FUNKTION IN "updateLocationTo" UMBENNEN!!!
-     * 
      * @param x new x position
      * @param y new y position
      * @param hasOldLocation flag to indicate whether this agent already is placed on the grid
