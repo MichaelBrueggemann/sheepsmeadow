@@ -197,6 +197,10 @@ public class Model extends SimState
         this.wolves = value;
     }
 
+    /**
+     * Create a domain (interval) of values acceptable for the attribute WOLVES
+     * @return sim.util.Interval
+     */
     public Object domWolves()
     {
         return new sim.util.Interval(0, MAX_INDIVIDUALS);
