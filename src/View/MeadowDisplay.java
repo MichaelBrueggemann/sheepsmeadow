@@ -68,7 +68,7 @@ public class MeadowDisplay
                                 Grass grass = (Grass) entity;
 
                                 // draw the label
-                                String label = Integer.toString(grass.getRegrothCounter()); // Or whatever logic you use to get the label
+                                String label = Integer.toString(grass.getRegrowthCounter()); // Or whatever logic you use to get the label
 
                                 // get width of the string and height of the font to correct the position of the label
                                 FontMetrics fm = graphics.getFontMetrics();
