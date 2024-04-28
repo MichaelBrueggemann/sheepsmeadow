@@ -14,6 +14,7 @@ import java.util.Stack;
 import Model.Model;
 import Model.Entities.*;
 import Model.Entities.Agents.Behavior.Actions.*;
+import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
@@ -44,6 +45,9 @@ public abstract class Agent extends Entity
 
     // grid where all agents are stored
     protected ObjectGrid2D grid;
+
+    // Grass object at the location this agent is currently placed on the grid
+    protected Grass grasscell;
 
 
     // ===== CONSTRUCTORS =====
@@ -250,17 +254,19 @@ public abstract class Agent extends Entity
     }
 
 
+    
     /**
      * Utility function.
-     * Pushes this agent on the given stack and updates it's "location" based on the given "x" and "y" values.
-     * @param cell Stack object representing the cell where the agent will be placed
+     * Places this agent on the given grid and updates it's "location" based on the given "x" and "y" values.
+     * @param grid grid where the agent will be placed
      * @param x position of the agent on the x axis of the grid
      * @param y position of the agent on the y axis of the grid
      */
-    private void addToLocation(Stack<Entity> cell, int x, int y)
+    @Override
+    public void addToLocation(ObjectGrid2D grid, int x, int y)
     {
-        // push entity on the stack
-        cell.push(this);
+        // place agent on the grid
+        super.addToLocation(grid, x, y);
 
         // update location of the agent
         this.setLocation(new Int2D(x,y));
@@ -279,30 +285,34 @@ public abstract class Agent extends Entity
     @SuppressWarnings("unchecked")
     public void updateGridPosition(int x, int y) throws GridPositionOccupiedException
     {
-        // fetch the stack for the x,y coordinates
-        Stack<Entity> new_cell = (Stack<Entity>) this.grid.get(x,y);
-
-        Int2D old_location = this.location;
-
-        // check state of the stack (new position)
-        if (new_cell.size() >= 2)
-        {
-            throw new GridPositionOccupiedException("The location at x: " + x + ", y: " + y + " is already occupied!");
-        }
-        else if (new_cell.size() == 1)
-        {
-            this.addToLocation(new_cell, x, y);
-            System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
-
-            // remove agent from it's old location
-            Model.emptyGridCell(this.grid, old_location.getX(), old_location.getY());
-            System.out.println("Sucessfully removed '" + this.getClass().getSimpleName() + ": " + this.getId() + "' from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
-        }
-        else
-        {
-            throw new IllegalAccessError("Error in allocating a new Position.");
-        }
+        // save old location of this agent
+        Int2D oldLocation = this.location;
         
+        // fetch the entity at x,y in the grid
+        Entity entity = (Entity) this.grid.get(x,y);
+
+        // store the Grass-Object from the new location to later place it back on the grid, when this agent leaves the cell at x,y
+        if (entity instanceof Grass)
+        {
+            this.grasscell = (Grass) entity;
+        }
+
+        // remove Entity currently placed at x,y (by overwriting it with this agent)
+        this.addToLocation(this.grid, x, y);
+        System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
+
+        // get grass associated to this agent
+        Grass grass = this.grasscell;
+
+        // remove agent from it's old location by overwriting it with it's associated grasscell at the old location
+        grass.addToLocation(this.grid, oldLocation.getX(), oldLocation.getY());
+        System.out.println("Sucessfully removed '" + this.getClass().getSimpleName() + ": " + this.getId() + "' from position x: " + oldLocation.getX() + ", y: " + oldLocation.getY() + ".");
+        
+    }
+
+    public String toString()
+    {
+        return Integer.toString(this.energy);
     }
 
     // ===== GETTER & SETTER =====
