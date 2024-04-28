@@ -8,6 +8,7 @@ import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
+import sim.engine.SimState;
 
 public class EatGrass extends GeneralAction
 {
@@ -30,7 +31,7 @@ public class EatGrass extends GeneralAction
      * @param agent Agent, who perform this GeneralAction
      * @param cell neighbouring cell, on which the this GeneralAction should be executed
      */
-    public void execute(Agent agent, Neighbourhood neighbourhood)
+    public void execute(Agent agent, Neighbourhood neighbourhood, SimState state)
     {
 
         if (!(agent instanceof Sheep))
