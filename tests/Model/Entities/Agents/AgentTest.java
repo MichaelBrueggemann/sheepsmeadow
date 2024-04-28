@@ -6,18 +6,16 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import Model.Entities.Entity;
 import Model.Entities.Objects.Grass;
-import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
+
 import ec.util.MersenneTwisterFast;
-import Model.Model;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 
 import java.awt.Color;
-import java.util.Stack;
+
 
 
 public class AgentTest {
@@ -43,33 +41,36 @@ public class AgentTest {
         assertEquals(Color.gray, agent.getColor());
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testCheckNeighbours() throws GridPositionOccupiedException
+    /**
+     * Utitlity function to make writing these tests easier
+     */
+    public void addGrassToGrid()
     {
         // fill grid with Grass Entities
         int grass_id = 0;
 
-        // random RNG, dont used in this test
-        MersenneTwisterFast rng = new MersenneTwisterFast();
-
-        for (int i = 0; i < grid.getHeight(); i++)
+        // initialize each cell of the grid with a Grass object
+        for (int i = 0; i < this.grid.getHeight(); i++)
         {
-            for (int j = 0; j < grid.getWidth(); j++)
+            for (int j = 0; j < this.grid.getWidth(); j++)
             {
-                
-                Stack<Entity> stack = new Stack<Entity>();
-                stack.push(new Grass(grass_id, rng));
+                Grass grass = new Grass(grass_id, null);
 
-                grid.set(i,j, stack);
+                grass.addToLocation(this.grid, i, j);
                 grass_id++;
             }
         }
+    }
 
-        Wolf w2 = new Wolf(2, 20, this.grid, rng);
-        Sheep s1 = new Sheep(1,20, this.grid, rng);
-        Wolf w3 = new Wolf(3, 20, this.grid, rng);
-        Sheep s2 = new Sheep(2,20, this.grid, rng);
+    @Test
+    public void testCheckNeighbours()
+    {
+        addGrassToGrid();
+
+        Wolf w2 = new Wolf(2, 20, this.grid, null);
+        Sheep s1 = new Sheep(1,20, this.grid, null);
+        Wolf w3 = new Wolf(3, 20, this.grid, null);
+        Sheep s2 = new Sheep(2,20, this.grid, null);
         
         Int2D middle = new Int2D(1, 1);
         Int2D left = new Int2D(0, 1);
@@ -77,34 +78,21 @@ public class AgentTest {
         Int2D right = new Int2D(2, 1);
         Int2D bottom = new Int2D(1, 2);
 
-        Int2D[] neighbour_positions = {left, top, right, bottom};
-
         // fill grid with some agent combinations
-        // CASE 1: all neighbouring cells contain Entities
 
-        // just set the location once, so that all agents have a initial location
-        Stack<Entity> stack = (Stack<Entity>) grid.get(middle.getX(), middle.getY());
-        agent.setLocation(middle);
-        stack.push(agent);
+        // >>>>> CASE 1: all neighbouring cells contain Entities >>>>>
 
+        // place all agents on the grid
+        agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
 
-        w3.setLocation(top);
-        stack = (Stack<Entity>) grid.get(top.getX(), top.getY());
-        stack.push(w3);
-
-        s1.setLocation(right);
-        stack = (Stack<Entity>) grid.get(right.getX(), right.getY());
-        stack.push(s1);
-
-        s2.setLocation(bottom);
-        stack = (Stack<Entity>) grid.get(bottom.getX(), bottom.getY());
-        stack.push(s2);
-
-        w2.setLocation(left);
-        stack = (Stack<Entity>) grid.get(left.getX(), left.getY());
-        stack.push(w2);
+        w3.updateGridLocationTo(top.getX(), top.getY(), false);
+        s1.updateGridLocationTo(right.getX(), right.getY(), false);
+        s2.updateGridLocationTo(bottom.getX(), bottom.getY(), false);
+        w2.updateGridLocationTo(left.getX(), left.getY(), false);
 
         Neighbourhood neighbours = agent.checkNeighbours();
+
+        // define how the correct Neighbourhood should look like
         Neighbourhood correctNeighbourhood = new Neighbourhood(new Cell(w3, top), new Cell(s1, right), new Cell(s2, bottom), new Cell(w2, left));
 
         assertEquals(correctNeighbourhood.getTop().getEntity(), neighbours.getTop().getEntity());
@@ -112,13 +100,17 @@ public class AgentTest {
         assertEquals(correctNeighbourhood.getBottom().getEntity(), neighbours.getBottom().getEntity());
         assertEquals(correctNeighbourhood.getLeft().getEntity(), neighbours.getLeft().getEntity());
 
-        // CASE 2: no neighbours
+        // <<<<< CASE 1 <<<<<
 
-        // empty the neighbouring positions
-        for (Int2D position : neighbour_positions)
-        {
-            Model.emptyGridCell(this.grid, position.getX(), position.getY());
-        }
+        // >>>>> CASE 2: no neighbours >>>>>
+
+        // empty the grid
+        this.grid.clear();
+
+        addGrassToGrid();
+
+        // place this agent again (it will be the only agent currently on the grid; the rest is "Grass")
+        agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
 
         // check Neighbourhood
         neighbours = agent.checkNeighbours();
@@ -128,22 +120,28 @@ public class AgentTest {
             assertEquals(Grass.class, n.getEntity().getClass());
         }
         
+        // <<<<< CASE 2 <<<<<
 
-        // CASE 3: some neighbouring cells are out of bounds
+        // >>>>> CASE 3: some neighbouring cells are out of bounds >>>>>
+        // empty the grid
+        this.grid.clear();
+
+        addGrassToGrid();
+
 
         middle = new Int2D(0,0);
         // top = null;
-        Model.emptyGridCell(this.grid, 1, 0);
         right = new Int2D(1,0);
-
         bottom = new Int2D(0,1);
         // left = null;
 
-        agent.updateGridPosition(middle.getX(), middle.getY());
 
-        w2.updateGridPosition(right.getX(), right.getY());
+        // place agents on the grid
+        agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
+        w2.updateGridLocationTo(right.getX(), right.getY(), false);
+        s1.updateGridLocationTo(bottom.getX(), bottom.getY(), false);
 
-        s1.updateGridPosition(bottom.getX(), bottom.getY());
+        // define how the correct Neighbourhood should look like
         correctNeighbourhood = new Neighbourhood(null, new Cell(w2, right), new Cell(s1, bottom), null);
 
         // check Neighbourhood
@@ -151,13 +149,15 @@ public class AgentTest {
 
         for (Cell n : neighbours.getAllNeighbours())
         {
-            if (n != null) System.out.println(n.getEntity());
+            if (n != null) System.out.println(n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()));
         }
 
         assertEquals(correctNeighbourhood.getTop(), neighbours.getTop());
         assertEquals(correctNeighbourhood.getRight().getEntity(), neighbours.getRight().getEntity());
         assertEquals(correctNeighbourhood.getBottom().getEntity(), neighbours.getBottom().getEntity());
         assertEquals(correctNeighbourhood.getLeft(), neighbours.getLeft());
+
+        // <<<<< CASE 3 <<<<<
 
         // check neighbourhood position
         assertTrue("Neighbour from the wrong grid position was choosen!", neighbours.getBottom().getLocation().getX() == bottom.getX() && neighbours.getBottom().getLocation().getY() == bottom.getY());

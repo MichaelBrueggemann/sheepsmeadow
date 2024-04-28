@@ -30,8 +30,8 @@ public class ModelWithUI extends GUIState {
     {
         super.init(c);
 
-        // construct Display in the size of the grid used in "model"
-        display = new Display2D(300, 300, this);
+        // construct Display for the grid in the size of the grid used in "model"
+        display = new Display2D(1000, 900, this);
 
         displayFrame = display.createFrame();
         displayFrame.setTitle("Sheepsmeadow Display");
