@@ -2,6 +2,7 @@ package Model.Entities.Agents.Behavior.Actions.ConcreteActions;
 
 import java.util.ArrayList;
 
+import Model.Model;
 import Model.Entities.Agents.Agent;
 import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
@@ -9,6 +10,7 @@ import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 import sim.engine.SimState;
+import sim.engine.Stoppable;
 
 public class EatGrass extends GeneralAction
 {
@@ -30,19 +32,22 @@ public class EatGrass extends GeneralAction
      * Applies this GeneralAction for a given Agent and a neighbouring cell.
      * @param agent Agent, who perform this GeneralAction
      * @param cell neighbouring cell, on which the this GeneralAction should be executed
+     * @param state
      */
     public void execute(Agent agent, Neighbourhood neighbourhood, SimState state)
     {
+        // access simulation state
+        Model modelState = (Model) state;
 
         if (!(agent instanceof Sheep))
         {
             throw new IllegalArgumentException("The Agent executing this Action has to be of type " + Sheep.class + ", but is " + agent.getClass() + " instead!");
         }
 
-        // cast agent to its actual tyoe
+        // cast agent to its actual type
         Sheep sheep = (Sheep) agent;
 
-        // find all Cells that contain a Grass-object
+        // find all Cells that contain a Grass-object and that aren't regrowing
         ArrayList<Cell> grassCells = new ArrayList<>();
 
         for (Cell cell : neighbourhood.getAllNeighbours())
@@ -51,11 +56,11 @@ public class EatGrass extends GeneralAction
             {
                 continue;
             }
-            else if (cell.getEntity() instanceof Grass)
+            else if (cell.getEntity() instanceof Grass && !((Grass) cell.getEntity()).getIsRegrowing())
             {
                 grassCells.add(cell);
             }
-            // elso nothing
+            // else nothing
         }
 
         // get index of a random grass-cell
@@ -71,6 +76,12 @@ public class EatGrass extends GeneralAction
             Grass grass = (Grass) grassCell.getEntity();
             grass.setRegrowing(true);
 
+            // add grass to the schedule, so that it can regrow
+            Stoppable scheduleStopper = modelState.schedule.scheduleRepeating(grass);
+
+            // assign the grass it's scheduleStopper, so that it can remove itself from the schedule
+            grass.setScheduleStopper(scheduleStopper);
+
             // increase the sheeps energy by 4
             sheep.setEnergy(sheep.getEnergy() + 4);
 
@@ -79,7 +90,7 @@ public class EatGrass extends GeneralAction
         } 
         catch (Exception e) 
         {
-            // GridPositionOccupiedException can't occur, as the condition checks that the cell has to be grass (therefore is free)
+
         }
     }
 
