@@ -61,42 +61,22 @@ public class Model extends SimState
 
     // ===== HELPER METHODS =====
 
-
     /**
-     * Remove all agents from the grid at the given x,y location.
-     * @param grid Grid to remove agent from
-     * @param x x position in the grid
-     * @param y y position in the grid
-     */
-    @SuppressWarnings("unchecked")
-    public static void emptyGridCell(ObjectGrid2D grid, int x, int y)
-    {
-        Stack<Entity> stack = (Stack<Entity>) grid.get(x, y);
-        
-        while (stack.size() > 1)
-        {
-            stack.pop();
-        }
-    }
-
-    /**
-     * Populates the grid with Agents. Each Grid cell will be filled with a "Stack<Entity>". Each Stack gets a "Grass" object as it's first entry, which will never be removed from the stack. Afterwards the Agents will be placed in the grid (added to a Stack). Filled Cells will have Stacks of size 2, each other will be size 1.
+     * Populates the grid with Agents. Each Grid cell will be filled with an Entity.
      */
     public void populateMeadow()
     {
      
         int grass_id = 0;
 
-        // initialize each cell of the grid with a Stack and add a Grass object to it
+        // initialize each cell of the grid with a Grass object
         for (int i = 0; i < meadow.getHeight(); i++)
         {
             for (int j = 0; j < meadow.getWidth(); j++)
             {
-                
-                Stack<Entity> stack = new Stack<Entity>();
-                stack.push(new Grass(grass_id, this.random));
+                Grass grass = new Grass(grass_id, this.random);
 
-                meadow.set(i,j, stack);
+                grass.addToLocation(meadow, i, j);
                 grass_id++;
             }
         }
@@ -121,18 +101,14 @@ public class Model extends SimState
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getHeight());
 
-                    // get stack of the cell
-                    @SuppressWarnings("unchecked")
-                    Stack<Entity> stack = (Stack<Entity>) meadow.get(x,y);
+                    // get current Entity at x,y
+                    Entity entity = (Entity) meadow.get(x,y);
 
                     // if cell is "empty" (only a grass object is present)
-                    if (stack.size() == 1)
+                    if (entity instanceof Grass)
                     {
-                        stack.push(sheep);
-
                         // update agent location
-                        sheep.setLocation(new Int2D(x, y));
-
+                        sheep.updateGridPosition(x, y, false);
                         break;
                     }
                 }
@@ -156,18 +132,14 @@ public class Model extends SimState
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getHeight());
 
-                    // get stack of the cell
-                    @SuppressWarnings("unchecked")
-                    Stack<Entity> stack = (Stack<Entity>) meadow.get(x,y);
+                    // get current Entity at x,y
+                    Entity entity = (Entity) meadow.get(x,y);
 
                     // if cell is "empty" (only a grass object is present)
-                    if (stack.size() == 1)
+                    if (entity instanceof Grass)
                     {
-                        stack.push(wolf);
-
                         // update agent location
-                        wolf.setLocation(new Int2D(x, y));
-
+                        wolf.updateGridPosition(x, y, false);
                         break;
                     }
                 }
