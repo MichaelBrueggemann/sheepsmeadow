@@ -72,3 +72,58 @@ In this Section i will note some of my experiences with this project. Those note
 - Each `Action` has a condition (defined by the `checkCondition()` function) that defines when the `Action` can be applied. 
 
 - All Actions of an `Agent` are collected in a `ruleSet`, a PriorityQuene\<Action>  which sorts all `Action`s of an `Agent` by their `priority`. This defines the "importance" of "Action"s for the "Agent".
+
+## 28.04.2024
+Funny Note: on 08.03.2024 when setting up this project, i decided to represent each cell of the models grid as stacks of entities (Stack\<Entity>) as i thought that this would be a clever way to have multiple Entities in one grid cell whilst also having an easy way to decide, if a cell is already occupied (stack size is greater than 1). 
+Today seems to be the day this bites me in the ass, as i figured out that MASONs `LabeledPortrayal2D` is defined on Object directly passed from another object (my grid). But this grid doesnt pass the actual Entity-objects as `LabeledPortrayal2D` would expect, but passes `Stack<Entity>` objects instead. Running the model then greeds my with this kind error message:
+
+```
+Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class Model.Entities.Objects.Grass cannot be cast to class java.util.Stack (Model.Entities.Objects.Grass is in unnamed module of loader 'app'; java.util.Stack is in module java.base of loader 'bootstrap')
+        at View.MeadowDisplay$1.draw(MeadowDisplay.java:42)
+        at sim.portrayal.simple.LabelledPortrayal2D.draw(LabelledPortrayal2D.java:182)
+        at View.MeadowDisplay$2.draw(MeadowDisplay.java:63)
+        at sim.portrayal.grid.ObjectGridPortrayal2D.hitOrDraw(ObjectGridPortrayal2D.java:220)
+        at sim.portrayal.FieldPortrayal2D.draw(FieldPortrayal2D.java:84)
+        at sim.display.Display2D$InnerDisplay2D.paintUnbuffered(Display2D.java:671)
+        at sim.display.Display2D$InnerDisplay2D.paint(Display2D.java:594)
+        at sim.display.Display2D$InnerDisplay2D.paintComponent(Display2D.java:524)
+        at sim.display.Display2D$InnerDisplay2D.paintComponent(Display2D.java:511)
+        at java.desktop/javax.swing.JComponent.paint(JComponent.java:1128)
+        at java.desktop/javax.swing.JComponent.paintChildren(JComponent.java:961)
+        at java.desktop/javax.swing.JComponent.paint(JComponent.java:1137)
+        at java.desktop/javax.swing.JViewport.paint(JViewport.java:736)
+        at java.desktop/javax.swing.JComponent.paintChildren(JComponent.java:961)
+        at java.desktop/javax.swing.JComponent.paint(JComponent.java:1137)
+        at java.desktop/javax.swing.JComponent.paintChildren(JComponent.java:961)
+        at java.desktop/javax.swing.JComponent.paint(JComponent.java:1137)
+        at java.desktop/javax.swing.JComponent.paintChildren(JComponent.java:961)
+        at java.desktop/javax.swing.JComponent.paint(JComponent.java:1137)
+        at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5318)
+        at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+        at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1336)
+        at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5266)
+        at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5076)
+        at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:878)
+        at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:861)
+        at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+        at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+        at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:861)
+        at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:834)
+        at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:784)
+        at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1897)
+        at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+        at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+        at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+        at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+        at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+        at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+        at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+        at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+        at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+        at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+        at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+        at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+        at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+```
+
+... i think it's time to implement Multi-Object grids as intended by MASON ...
