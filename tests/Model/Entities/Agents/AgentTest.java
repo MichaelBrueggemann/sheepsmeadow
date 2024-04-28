@@ -13,6 +13,7 @@ import Model.Neighbourhood.Neighbourhood;
 import ec.util.MersenneTwisterFast;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
+import utils.TestUtils;
 
 import java.awt.Color;
 
@@ -41,31 +42,12 @@ public class AgentTest {
         assertEquals(Color.gray, agent.getColor());
     }
 
-    /**
-     * Utitlity function to make writing these tests easier
-     */
-    public void addGrassToGrid()
-    {
-        // fill grid with Grass Entities
-        int grass_id = 0;
-
-        // initialize each cell of the grid with a Grass object
-        for (int i = 0; i < this.grid.getHeight(); i++)
-        {
-            for (int j = 0; j < this.grid.getWidth(); j++)
-            {
-                Grass grass = new Grass(grass_id, null);
-
-                grass.addToLocation(this.grid, i, j);
-                grass_id++;
-            }
-        }
-    }
+    
 
     @Test
     public void testCheckNeighbours()
     {
-        addGrassToGrid();
+        TestUtils.addGrassToGrid(this.grid);
 
         Wolf w2 = new Wolf(2, 20, this.grid, null);
         Sheep s1 = new Sheep(1,20, this.grid, null);
@@ -107,7 +89,7 @@ public class AgentTest {
         // empty the grid
         this.grid.clear();
 
-        addGrassToGrid();
+        TestUtils.addGrassToGrid(this.grid);
 
         // place this agent again (it will be the only agent currently on the grid; the rest is "Grass")
         agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
@@ -126,7 +108,7 @@ public class AgentTest {
         // empty the grid
         this.grid.clear();
 
-        addGrassToGrid();
+        TestUtils.addGrassToGrid(this.grid);
 
 
         middle = new Int2D(0,0);
