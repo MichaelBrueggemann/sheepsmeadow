@@ -58,7 +58,7 @@ public class DefaultMove extends GeneralAction
         try 
         {
             // move agent to new cell
-            agent.updateGridPosition(grassCell.getLocation().getX(), grassCell.getLocation().getY(), true);
+            agent.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), true);
         } 
         catch (Exception e) 
         {

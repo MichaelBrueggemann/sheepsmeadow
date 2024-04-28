@@ -83,12 +83,12 @@ public class AgentTest {
         // >>>>> CASE 1: all neighbouring cells contain Entities >>>>>
 
         // place all agents on the grid
-        agent.updateGridPosition(middle.getX(), middle.getY(), false);
+        agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
 
-        w3.updateGridPosition(top.getX(), top.getY(), false);
-        s1.updateGridPosition(right.getX(), right.getY(), false);
-        s2.updateGridPosition(bottom.getX(), bottom.getY(), false);
-        w2.updateGridPosition(left.getX(), left.getY(), false);
+        w3.updateGridLocationTo(top.getX(), top.getY(), false);
+        s1.updateGridLocationTo(right.getX(), right.getY(), false);
+        s2.updateGridLocationTo(bottom.getX(), bottom.getY(), false);
+        w2.updateGridLocationTo(left.getX(), left.getY(), false);
 
         Neighbourhood neighbours = agent.checkNeighbours();
 
@@ -110,7 +110,7 @@ public class AgentTest {
         addGrassToGrid();
 
         // place this agent again (it will be the only agent currently on the grid; the rest is "Grass")
-        agent.updateGridPosition(middle.getX(), middle.getY(), false);
+        agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
 
         // check Neighbourhood
         neighbours = agent.checkNeighbours();
@@ -137,9 +137,9 @@ public class AgentTest {
 
 
         // place agents on the grid
-        agent.updateGridPosition(middle.getX(), middle.getY(), false);
-        w2.updateGridPosition(right.getX(), right.getY(), false);
-        s1.updateGridPosition(bottom.getX(), bottom.getY(), false);
+        agent.updateGridLocationTo(middle.getX(), middle.getY(), false);
+        w2.updateGridLocationTo(right.getX(), right.getY(), false);
+        s1.updateGridLocationTo(bottom.getX(), bottom.getY(), false);
 
         // define how the correct Neighbourhood should look like
         correctNeighbourhood = new Neighbourhood(null, new Cell(w2, right), new Cell(s1, bottom), null);

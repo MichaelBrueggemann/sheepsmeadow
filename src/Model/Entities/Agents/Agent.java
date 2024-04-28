@@ -9,13 +9,11 @@ import java.awt.Color;
 
 import java.util.Iterator;
 import java.util.PriorityQueue;
-import java.util.Stack;
 
 import Model.Model;
 import Model.Entities.*;
 import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Objects.Grass;
-import Model.Exceptions.GridPositionOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 import ec.util.MersenneTwisterFast;
@@ -272,7 +270,7 @@ public abstract class Agent extends Entity
      * @param y new y position
      * @param hasOldLocation flag to indicate whether this agent already is placed on the grid
      */
-    public void updateGridPosition(int x, int y, boolean hasOldLocation)
+    public void updateGridLocationTo(int x, int y, boolean hasOldLocation)
     {
         if (hasOldLocation)
         {

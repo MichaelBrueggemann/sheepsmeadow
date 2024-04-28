@@ -108,7 +108,7 @@ public class Model extends SimState
                     if (entity instanceof Grass)
                     {
                         // update agent location
-                        sheep.updateGridPosition(x, y, false);
+                        sheep.updateGridLocationTo(x, y, false);
                         break;
                     }
                 }
@@ -139,7 +139,7 @@ public class Model extends SimState
                     if (entity instanceof Grass)
                     {
                         // update agent location
-                        wolf.updateGridPosition(x, y, false);
+                        wolf.updateGridLocationTo(x, y, false);
                         break;
                     }
                 }
