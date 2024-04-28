@@ -9,6 +9,7 @@ import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
+
 import sim.engine.SimState;
 import sim.engine.Stoppable;
 
@@ -25,7 +26,6 @@ public class EatGrass extends GeneralAction
             priority
         );
     }
-
 
     @Override
     /**
@@ -69,7 +69,6 @@ public class EatGrass extends GeneralAction
         // pick a random grass cell
         Cell grassCell = grassCells.get(index);
 
-
         try 
         {
             // change status of grassCell to "regrowing"
@@ -94,7 +93,6 @@ public class EatGrass extends GeneralAction
         }
     }
 
-
     @Override
     /**
      * Checks if this Action can be executed on the Neighbourhood.
@@ -115,7 +113,6 @@ public class EatGrass extends GeneralAction
             }
             // elso nothing
         }
-        
         return conditionFullfilled;
     }
 }
