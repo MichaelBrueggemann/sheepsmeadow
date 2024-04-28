@@ -2,9 +2,6 @@ package Model;
 
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
-import sim.util.Int2D;
-
-import java.util.Stack;
 
 import Model.Entities.*;
 import Model.Entities.Agents.*;

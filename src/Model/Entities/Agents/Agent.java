@@ -4,19 +4,19 @@ import sim.engine.SimState;
 import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
+import ec.util.MersenneTwisterFast;
 
 import java.awt.Color;
 
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-import Model.Model;
 import Model.Entities.*;
 import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
-import ec.util.MersenneTwisterFast;
+
 
 
 /**
@@ -63,10 +63,7 @@ public abstract class Agent extends Entity
 
 
     public void step(SimState state)
-    {
-        // access model instance
-        Model model = (Model) state;
-        
+    {        
         // get the Neighbourhood of this agent
         Neighbourhood neighbourhood = this.checkNeighbours();
 
