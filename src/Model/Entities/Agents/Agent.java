@@ -36,7 +36,7 @@ public abstract class Agent extends Entity
     protected boolean alive;
 
     // storage for all "Action"s an agent can perform
-    protected PriorityQueue<GeneralAction> ruleSet;
+    protected PriorityQueue<GeneralAction> ruleset;
 
     // can be used to stop the reallocation of the agent to the schedule
     protected Stoppable scheduleStopper;
@@ -210,7 +210,7 @@ public abstract class Agent extends Entity
     public void evaluateRuleSet(Neighbourhood neighbourhood)
     {
         // create iterator
-        Iterator<GeneralAction> ruleSetIterator = this.ruleSet.iterator();
+        Iterator<GeneralAction> ruleSetIterator = this.ruleset.iterator();
 
         boolean actionExecuted = false;
 

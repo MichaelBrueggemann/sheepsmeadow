@@ -30,8 +30,8 @@ public class Wolf extends Agent
         GeneralAction defaultMove = new DefaultMove(0);
         // ..
 
-        this.ruleSet = new PriorityQueue<>(generalActionComparator);
-        ruleSet.add(defaultMove);
+        this.ruleset = new PriorityQueue<>(generalActionComparator);
+        ruleset.add(defaultMove);
     }
 
     @Override
