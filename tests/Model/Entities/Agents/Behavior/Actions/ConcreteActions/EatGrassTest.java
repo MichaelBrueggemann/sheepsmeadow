@@ -100,11 +100,6 @@ public class EatGrassTest {
         // place sheep into the grid
         this.sheep.updateGridLocationTo(0, 0, false);
 
-        // get Neighbourhood
-        Neighbourhood neighbourhood = this.sheep.checkNeighbours();
-
-        System.out.println("Neighbourhood: " + neighbourhood.toString());
-
         // occupy the neighbouring cells
         Wolf w1 = new Wolf(1, 20, this.testModel.modelInstance.getMeadow(), this.testModel.modelInstance.random);
         Wolf w2 = new Wolf(2, 20, this.testModel.modelInstance.getMeadow(), this.testModel.modelInstance.random);
@@ -112,8 +107,13 @@ public class EatGrassTest {
         w1.updateGridLocationTo(0, 1, false);
         w2.updateGridLocationTo(1, 0, false);
 
+        // get Neighbourhood
+        Neighbourhood neighbourhood = this.sheep.checkNeighbours();
+
+        System.out.println("Neighbourhood: " + neighbourhood.toString());
+
         // TEST: condition isn't fullfilled (no neighbouring  grass cells)
-        assertTrue(this.eatGrass.checkCondition(neighbourhood));
+        assertTrue(!this.eatGrass.checkCondition(neighbourhood));
 
         // remove neighbours
         w1.getGrasscell().addToLocation(this.testModel.modelInstance.getMeadow(), 0, 1);
