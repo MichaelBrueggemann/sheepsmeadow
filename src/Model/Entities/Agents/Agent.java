@@ -264,19 +264,29 @@ public abstract class Agent extends Entity
     }
 
     /**
-     * Check if a position on the grid is already occupied. If yes, dont perform a move, else move the agent to the new location.
-     * The agent will also be removed from it's current position.
+     * Replace an entity placed at "x", "y" on the grid with this agent. When this Agent has a location on the grid associated to this agent, it will be removed from this location beforehand.
      * 
-     * @implNote The grid cell has to be free beforehand. This methods checks, if the grid position is occupied, but it doesn't free it.
+     * TODO: FUNKTION IN "updateLocationTo" UMBENNEN!!!
      * 
      * @param x new x position
      * @param y new y position
+     * @param hasOldLocation flag to indicate whether this agent already is placed on the grid
      */
-    public void updateGridPosition(int x, int y)
+    public void updateGridPosition(int x, int y, boolean hasOldLocation)
     {
-        // save old location of this agent
-        Int2D oldLocation = this.location;
-        
+        if (hasOldLocation)
+        {
+            // save old location of this agent
+            Int2D oldLocation = this.location;
+                    
+            // get grass associated to this agent
+            Grass grass = this.grasscell;
+
+            // remove agent from it's old location by overwriting it with it's associated grasscell at the old location
+            grass.addToLocation(this.grid, oldLocation.getX(), oldLocation.getY());
+            System.out.println("Sucessfully removed '" + this.getClass().getSimpleName() + ": " + this.getId() + "' from position x: " + oldLocation.getX() + ", y: " + oldLocation.getY() + ".");
+        }
+
         // fetch the entity at x,y in the grid
         Entity entity = (Entity) this.grid.get(x,y);
 
@@ -289,15 +299,8 @@ public abstract class Agent extends Entity
         // remove Entity currently placed at x,y (by overwriting it with this agent)
         this.addToLocation(this.grid, x, y);
         System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
-
-        // get grass associated to this agent
-        Grass grass = this.grasscell;
-
-        // remove agent from it's old location by overwriting it with it's associated grasscell at the old location
-        grass.addToLocation(this.grid, oldLocation.getX(), oldLocation.getY());
-        System.out.println("Sucessfully removed '" + this.getClass().getSimpleName() + ": " + this.getId() + "' from position x: " + oldLocation.getX() + ", y: " + oldLocation.getY() + ".");
-        
     }
+
 
     public String toString()
     {
