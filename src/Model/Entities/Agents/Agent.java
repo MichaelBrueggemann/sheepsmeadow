@@ -65,7 +65,7 @@ public abstract class Agent extends Entity
         Neighbourhood neighbourhood = this.checkNeighbours();
 
         // perform an "Action"
-        this.evaluateRuleset(neighbourhood);
+        this.evaluateRuleset(neighbourhood, state);
 
         if (this.energy == 0)
         {
@@ -204,7 +204,7 @@ public abstract class Agent extends Entity
      * Evaluates, if any action of this agents "ruleSet" can be executed on any element of "neighbourhood". If an Action can be executed, this Action will be executed. Otherwise nothing happens.
      * @param neighbourhood Collection of neighbouring cells
      */
-    public void evaluateRuleset(Neighbourhood neighbourhood)
+    public void evaluateRuleset(Neighbourhood neighbourhood, SimState state)
     {
         // create iterator
         Iterator<GeneralAction> ruleSetIterator = this.ruleset.iterator();
@@ -226,7 +226,7 @@ public abstract class Agent extends Entity
 
                 // execute the action
                 System.out.println("execute " + action.getName() + "...");
-                action.execute(this, neighbourhood);
+                action.execute(this, neighbourhood, state);
 
                 // change flag, to stop looping through the iterator
                 actionExecuted = true;
