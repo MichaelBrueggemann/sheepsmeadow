@@ -100,19 +100,14 @@ public abstract class Agent extends Entity
      * This function returns one Neighbourhood. This neighbourhood is picked based on the "priorityList" of the current agent instance, so that only a neighbourhood is returned which corresponding Entity is highest on this current Agents "priorityList".
      * @return Neighbourhood with Entity object and location.
      */
-    @SuppressWarnings("unchecked")
     public Neighbourhood checkNeighbours()
     {
-        // placeholder for the stack in each neighbouring cell
-        Stack<Entity> stack;
+        // placeholder for the entity in each neighbouring cell
+        Entity neighbour;
 
-        Entity top;
         Int2D top_location;
-        Entity bottom;
         Int2D bottom_location;
-        Entity left;
         Int2D left_location;
-        Entity right;
         Int2D right_location;
 
         // query each direction
@@ -120,10 +115,9 @@ public abstract class Agent extends Entity
         try 
         {
             // look above
-            top_location = new Int2D(location.getX(), location.getY() - 1);
-            stack = (Stack<Entity>) this.grid.get(top_location.getX(), top_location.getY());
-            top = stack.peek();
-            topNeighbour = new Cell(top, top_location);
+            top_location = new Int2D(this.location.getX(), this.location.getY() - 1);
+            neighbour = (Entity) this.grid.get(top_location.getX(), top_location.getY());
+            topNeighbour = new Cell(neighbour, top_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -138,9 +132,8 @@ public abstract class Agent extends Entity
         {
             // look below
             bottom_location = new Int2D(location.getX(), location.getY() + 1);
-            stack = (Stack<Entity>) this.grid.get(bottom_location.getX(), bottom_location.getY());
-            bottom = stack.peek();
-            bottomNeighbour = new Cell(bottom, bottom_location);
+            neighbour = (Entity) this.grid.get(bottom_location.getX(), bottom_location.getY());
+            bottomNeighbour = new Cell(neighbour, bottom_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -155,9 +148,8 @@ public abstract class Agent extends Entity
         {
             /// look left
             left_location = new Int2D(location.getX() - 1, location.getY());
-            stack = (Stack<Entity>) this.grid.get(left_location.getX(), left_location.getY());
-            left = stack.peek();
-            leftNeighbour = new Cell(left, left_location);
+            neighbour = (Entity) this.grid.get(left_location.getX(), left_location.getY());
+            leftNeighbour = new Cell(neighbour, left_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
@@ -172,9 +164,8 @@ public abstract class Agent extends Entity
         {
             // look right
             right_location = new Int2D(location.getX() + 1, location.getY());
-            stack = (Stack<Entity>) this.grid.get(right_location.getX(), right_location.getY());
-            right = stack.peek();
-            rightNeighbour = new Cell(right, right_location);
+            neighbour = (Entity) this.grid.get(right_location.getX(), right_location.getY());
+            rightNeighbour = new Cell(neighbour, right_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
