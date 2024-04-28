@@ -57,26 +57,34 @@ public class Model extends SimState
     }
 
     // ===== HELPER METHODS =====
+    /**
+     * Utitlity function to make writing these tests easier
+     */
+    public static void addGrassToGrid(ObjectGrid2D grid)
+    {
+        // fill grid with Grass Entities
+        int grass_id = 0;
+
+        // initialize each cell of the grid with a Grass object
+        for (int i = 0; i < grid.getHeight(); i++)
+        {
+            for (int j = 0; j < grid.getWidth(); j++)
+            {
+                Grass grass = new Grass(grass_id, null);
+
+                grass.addToLocation(grid, i, j);
+                grass_id++;
+            }
+        }
+    }
+
 
     /**
      * Populates the grid with Agents. Each Grid cell will be filled with an Entity.
      */
     public void populateMeadow()
     {
-     
-        int grass_id = 0;
-
-        // initialize each cell of the grid with a Grass object
-        for (int i = 0; i < meadow.getHeight(); i++)
-        {
-            for (int j = 0; j < meadow.getWidth(); j++)
-            {
-                Grass grass = new Grass(grass_id, this.random);
-
-                grass.addToLocation(meadow, i, j);
-                grass_id++;
-            }
-        }
+        addGrassToGrid(this.meadow);
         
         // counters to keep track of the number of already added agents
         int sheep_counter = 0;
