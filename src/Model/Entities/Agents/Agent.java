@@ -38,9 +38,6 @@ public abstract class Agent extends Entity
     // storage for all "Action"s an agent can perform
     protected PriorityQueue<GeneralAction> ruleset;
 
-    // can be used to stop the reallocation of the agent to the schedule
-    protected Stoppable scheduleStopper;
-
     // grid where all agents are stored
     protected ObjectGrid2D grid;
 
@@ -333,13 +330,4 @@ public abstract class Agent extends Entity
         this.energy = value;
     }
 
-    public Stoppable getScheduleStopper() 
-    {
-      return this.scheduleStopper;
-    }
-
-    public void setScheduleStopper(Stoppable value) 
-    {
-      this.scheduleStopper = value;
-    }
 }

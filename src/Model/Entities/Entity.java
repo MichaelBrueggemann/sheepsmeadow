@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import ec.util.MersenneTwisterFast;
 import sim.engine.Steppable;
+import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 
 /**
@@ -15,6 +16,9 @@ public abstract class Entity implements Steppable
     protected Color color;
     // RNG of the simulation object. Used for easy access to random numbers for every entity.
     protected MersenneTwisterFast rng;
+
+    // can be used to stop the reallocation of the agent to the schedule
+    protected Stoppable scheduleStopper;
 
     public Entity(int id, Color color, MersenneTwisterFast rng)
     {
@@ -49,5 +53,15 @@ public abstract class Entity implements Steppable
     {
         // place agent on the grid
         grid.set(x, y, this);
+    }
+
+    public Stoppable getScheduleStopper() 
+    {
+      return this.scheduleStopper;
+    }
+
+    public void setScheduleStopper(Stoppable value) 
+    {
+      this.scheduleStopper = value;
     }
 }
