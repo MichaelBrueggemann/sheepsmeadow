@@ -271,10 +271,8 @@ public abstract class Agent extends Entity
      * 
      * @param x new x position
      * @param y new y position
-     * @throws GridPositionOccupiedException 
      */
-    @SuppressWarnings("unchecked")
-    public void updateGridPosition(int x, int y) throws GridPositionOccupiedException
+    public void updateGridPosition(int x, int y)
     {
         // save old location of this agent
         Int2D oldLocation = this.location;
