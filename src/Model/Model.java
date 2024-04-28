@@ -12,11 +12,8 @@ public class Model extends SimState
 {
     // ===== ATTRIBUTES =====
 
-    // Size of the grid
-    private int gridsize;
-
     // create spatial representation for the model (a "field"). This is where all agents "live"
-    private ObjectGrid2D meadow = new ObjectGrid2D(20, 20);
+    private ObjectGrid2D meadow = new ObjectGrid2D(7, 7);
 
     // sets number of sheeps in this simulation
     private int sheeps;
@@ -212,16 +209,6 @@ public class Model extends SimState
     public ObjectGrid2D returnMeadow() 
     {
         return this.meadow;
-    }
-
-    public int getGridsize()
-    {
-        return this.gridsize;
-    }
-
-    public void setGridsize(int value)
-    {
-        this.gridsize = value;
     }
 
     // ===== MAIN =====
