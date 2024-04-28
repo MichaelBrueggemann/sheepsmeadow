@@ -188,7 +188,7 @@ public abstract class Agent extends Entity
             
             if (n != null) 
             {
-                System.out.println("Neighbour: " + n.getEntity());
+                System.out.println("Neighbour: " + n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(n.getEntity().getClass()));
                 System.out.println("ID: " + n.getEntity().getId());
                 System.out.println("Position: " + i);
             }
@@ -201,7 +201,7 @@ public abstract class Agent extends Entity
             entries++;
         }
 
-        System.out.println("Current Agent: " + this + "\n");
+        System.out.println("Current Agent: " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()) + "\n");
 
         System.out.println("Entries in neighbours: " + entries + " \n");
             

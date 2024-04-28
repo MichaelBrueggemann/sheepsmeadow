@@ -149,7 +149,7 @@ public class AgentTest {
 
         for (Cell n : neighbours.getAllNeighbours())
         {
-            if (n != null) System.out.println(n.getEntity());
+            if (n != null) System.out.println(n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()));
         }
 
         assertEquals(correctNeighbourhood.getTop(), neighbours.getTop());
