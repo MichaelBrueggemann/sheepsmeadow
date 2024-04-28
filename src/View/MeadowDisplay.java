@@ -5,16 +5,13 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-
-import java.util.Stack;
+import java.awt.*;
 
 import Model.Model;
 import Model.Entities.*;
 
 /**
- * This class is a collection of funtionality, do provide a Display GUI for the Grid of the model (meadow).
+ * This class is a collection of funtionality, do provide a Display GUI for the Grid of the model (meadow). This displays the grid itself and also every Entitity that is placed in the Grid.
  */
 public class MeadowDisplay 
 {
@@ -26,25 +23,40 @@ public class MeadowDisplay
 
         // Set custom portrayal for each cell
         meadowPortrayal.setPortrayalForAll(
-            new RectanglePortrayal2D() 
-            {
-                @Override
-                // Overrides draw method for custom entity colors
-                public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
+                // draw a rectangle graphic for each grid cell
+                new RectanglePortrayal2D() 
                 {
-                    if (object != null)
+                    @Override
+                    // Overrides draw method for custom entity colors
+                    public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
                     {
-                        @SuppressWarnings("unchecked")
-                        Stack<Entity> stack = (Stack<Entity>) object;
+                        if (object != null)
+                        {
+                            Entity entity = (Entity) object;
 
-                        Entity entity = stack.peek();
-                        paint = entity.getColor(); 
+                            paint = entity.getColor(); 
+
+                            // draw the rectangle
+                            super.draw(object, graphics, info);
+
+                            // draw the label
+                            String label = entity.toString(); // Or whatever logic you use to get the label
+
+                            // get width of the string and height of the font to correct the position of the label
+                            FontMetrics fm = graphics.getFontMetrics();
+                            int textWidth = fm.stringWidth(label);
+                            int textHeight = fm.getHeight();
+
+                            // info.draw.<coord> indicates the center of the rectangle that should be drawn
+                            int centerX = (int) info.draw.x - textWidth / 2;
+                            int centerY = (int) info.draw.y + textHeight / 2;
+
+                            graphics.setColor(Color.WHITE);
+                            graphics.drawString(label, centerX, centerY);
+                        }
                     }
-
-                    // scale = 1.0; 
-                    super.draw(object, graphics, info);
                 }
-            });
+        );
 
 
         // tell the portrayals what to portray and how to portray them
