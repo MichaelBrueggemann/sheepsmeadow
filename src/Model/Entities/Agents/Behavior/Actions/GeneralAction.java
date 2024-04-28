@@ -1,7 +1,5 @@
 package Model.Entities.Agents.Behavior.Actions;
 
-import Model.Neighbourhood.Cell;
-
 /**
  * @implNote The interface "Action" will be implemented in the subclasses.
  */
@@ -15,9 +13,6 @@ public abstract class GeneralAction implements Action
 
   private String description;
 
-  // class instance for singleton design pattern
-  // private static GeneralAction instance;
-
   public GeneralAction(String name , String description, int priority)
   {
     this.name = name;
@@ -25,9 +20,6 @@ public abstract class GeneralAction implements Action
     this.priority = priority;
   }
 
-  // Singleton factory method, that needs to be implemented by each "concrete action"
-  // public abstract GeneralAction getInstance();
- 
   public int getPriority() 
   {
     return this.priority;
