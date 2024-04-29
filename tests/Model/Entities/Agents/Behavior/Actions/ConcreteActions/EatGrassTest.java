@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Wolf;
-import Model.Entities.Agents.Behavior.Actions.ConcreteActions.EatGrass;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.Neighbourhood;
 
@@ -29,7 +28,7 @@ public class EatGrassTest {
         this.testModel = new TestModel();
 
         // create a lonely sheep agent
-        this.sheep = new Sheep(1, 20, this.testModel.modelInstance.getMeadow(), this.testModel.modelInstance.random);
+        this.sheep = new Sheep(1, 20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
 
         // add sheep to the model schedule
         Stoppable scheduleStopper = testModel.modelInstance.schedule.scheduleRepeating(sheep);
@@ -43,7 +42,7 @@ public class EatGrassTest {
     public void cleanup()
     {
         // remove all Entities and add new grass
-        this.testModel.modelInstance.getMeadow().clear();
+        this.testModel.modelInstance.returnMeadow().clear();
         this.testModel.modelInstance.addGrassToGrid();
     }
 
@@ -101,8 +100,8 @@ public class EatGrassTest {
         this.sheep.updateGridLocationTo(0, 0, false);
 
         // occupy the neighbouring cells
-        Wolf w1 = new Wolf(1, 20, this.testModel.modelInstance.getMeadow(), this.testModel.modelInstance.random);
-        Wolf w2 = new Wolf(2, 20, this.testModel.modelInstance.getMeadow(), this.testModel.modelInstance.random);
+        Wolf w1 = new Wolf(1, 20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
+        Wolf w2 = new Wolf(2, 20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
 
         w1.updateGridLocationTo(0, 1, false);
         w2.updateGridLocationTo(1, 0, false);
@@ -116,8 +115,8 @@ public class EatGrassTest {
         assertTrue(!this.eatGrass.checkCondition(neighbourhood));
 
         // remove neighbours
-        w1.getGrasscell().addToLocation(this.testModel.modelInstance.getMeadow(), 0, 1);
-        w2.getGrasscell().addToLocation(this.testModel.modelInstance.getMeadow(), 1, 0);
+        w1.getGrasscell().addToLocation(this.testModel.modelInstance.returnMeadow(), 0, 1);
+        w2.getGrasscell().addToLocation(this.testModel.modelInstance.returnMeadow(), 1, 0);
 
         // re-check neighbourhood after removing the neighbours
         neighbourhood = this.sheep.checkNeighbours();

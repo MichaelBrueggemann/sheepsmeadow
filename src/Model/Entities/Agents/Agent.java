@@ -1,7 +1,6 @@
 package Model.Entities.Agents;
 
 import sim.engine.SimState;
-import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 import ec.util.MersenneTwisterFast;
