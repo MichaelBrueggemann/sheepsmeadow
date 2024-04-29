@@ -134,3 +134,9 @@ Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class Model
     - after calling `populateMeadow` the grid will contain `Agent` objects in each cell an agent was added to
         - adding a new agent to a cell now stores the `Grass` object of the cell in the `Agent` object. When the `Agent` later updates it's location, the `Grass` object will be placed on the cell, the `Agent` has left
     - the same will than happen in each Step of the model
+
+
+## 29.04.2024 - A note on Scheduling
+- In the lecture example, each agents step is evaluated whilst "freezing" every other agent in their position. This means that a new position of an agent (which was previously "stepped") is not known to the other agents.
+In this simulation on the other hand, all agent have a finite order, so an agent that would be out-of-reach for another agent (because it isn't placed in an adjacent grid cell) could move into a grid cell adjacent to another agent. This agent then checks it's "new" neighbourhood.
+- This has to be kept in mind, when students try performing simulations with "Sheepsmeadow".
