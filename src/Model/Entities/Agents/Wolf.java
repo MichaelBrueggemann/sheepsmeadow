@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 
 import Model.Entities.Agents.Behavior.Actions.GeneralActionComparator;
 import Model.Entities.Agents.Behavior.Actions.ConcreteActions.DefaultMove;
+import Model.Entities.Agents.Behavior.Actions.ConcreteActions.EatSheep;
 import ec.util.MersenneTwisterFast;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 
@@ -19,7 +20,6 @@ public class Wolf extends Agent
 
     public Wolf(int id, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
-
         // construct all attributes of an "Agent"
         super(id, Color.gray, energy, grid, rng);
 
@@ -27,10 +27,12 @@ public class Wolf extends Agent
         Comparator<GeneralAction> generalActionComparator = new GeneralActionComparator();
 
         // create "Action"s for this agents "ActionList"
-        GeneralAction defaultMove = new DefaultMove(0);
+        GeneralAction eatSheep = new EatSheep(0);
+        GeneralAction defaultMove = new DefaultMove(1);
         // ..
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
+        ruleset.add(eatSheep);
         ruleset.add(defaultMove);
     }
 
