@@ -77,6 +77,10 @@ public class ModelWithUI extends GUIState {
         // create GUI console
         Console console = new Console(simulation);
         console.setVisible(true);
+
+        // set some defaults for the console
+        // sets a delay for each step in milliseconds
+        console.setPlaySleep(400);
     }
 
 
