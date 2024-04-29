@@ -36,7 +36,13 @@ public class MeadowDisplay
                         {
                             Entity entity = (Entity) object;
 
-                            paint = entity.getColor(); 
+                            paint = entity.getColor();
+
+                            if (entity instanceof Grass && ((Grass) entity).getIsRegrowing())
+                            {
+                                // paint regrowing grass yellow
+                                paint = Color.YELLOW;
+                            }
 
                             // draw the rectangle
                             super.draw(object, graphics, info);
@@ -79,7 +85,7 @@ public class MeadowDisplay
                                 int centerX = (int) info.draw.x - textWidth / 2;
                                 int centerY = (int) info.draw.y + textHeight / 2;
 
-                                graphics.setColor(Color.WHITE);
+                                graphics.setColor(Color.BLACK);
                                 graphics.drawString(label, centerX, centerY);
                             }
                             
