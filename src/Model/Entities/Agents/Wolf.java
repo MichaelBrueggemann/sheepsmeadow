@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import Model.Entities.Agents.Behavior.Actions.GeneralActionComparator;
-import Model.Entities.Agents.Behavior.Actions.ConcreteActions.DefaultMove;
-import Model.Entities.Agents.Behavior.Actions.ConcreteActions.EatSheep;
-import ec.util.MersenneTwisterFast;
-import Model.Entities.Agents.Behavior.Actions.GeneralAction;
+import Model.Entities.Agents.Behavior.Actions.*;
+import Model.Entities.Agents.Behavior.Actions.ConcreteActions.*;
 
+import ec.util.MersenneTwisterFast;
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 
@@ -28,11 +26,13 @@ public class Wolf extends Agent
 
         // create "Action"s for this agents "ActionList"
         GeneralAction eatSheep = new EatSheep(0);
-        GeneralAction defaultMove = new DefaultMove(1);
+        GeneralAction reproduceWolf = new ReproduceWolf(1);
+        GeneralAction defaultMove = new DefaultMove(2);
         // ..
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
         ruleset.add(eatSheep);
+        ruleset.add(reproduceWolf);
         ruleset.add(defaultMove);
     }
 

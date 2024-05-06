@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import Model.Entities.Agents.Behavior.Actions.GeneralAction;
-import Model.Entities.Agents.Behavior.Actions.GeneralActionComparator;
-import Model.Entities.Agents.Behavior.Actions.ConcreteActions.DefaultMove;
-import Model.Entities.Agents.Behavior.Actions.ConcreteActions.EatGrass;
+import Model.Entities.Agents.Behavior.Actions.*;
+import Model.Entities.Agents.Behavior.Actions.ConcreteActions.*;
+
 import ec.util.MersenneTwisterFast;
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
@@ -25,11 +24,13 @@ public class Sheep extends Agent
 
         // create "Action"s for this agents "ActionList"
         GeneralAction eatGrass = new EatGrass(0);
-        GeneralAction defaultMove = new DefaultMove(1);
+        GeneralAction reproduceSheep = new ReproduceSheep(1);
+        GeneralAction defaultMove = new DefaultMove(2);
         // ..
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
         ruleset.add(eatGrass);
+        ruleset.add(reproduceSheep);
         ruleset.add(defaultMove);
     }
 
