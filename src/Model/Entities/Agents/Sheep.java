@@ -26,12 +26,14 @@ public class Sheep extends Agent
         GeneralAction eatGrass = new EatGrass(0);
         GeneralAction reproduceSheep = new ReproduceSheep(1);
         GeneralAction defaultMove = new DefaultMove(2);
+        GeneralAction loseEnergy = new LoseEnergy(3);
         // ..
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
         ruleset.add(eatGrass);
         ruleset.add(reproduceSheep);
         ruleset.add(defaultMove);
+        ruleset.add(loseEnergy);
     }
 
     @Override

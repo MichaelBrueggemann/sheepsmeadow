@@ -28,12 +28,14 @@ public class Wolf extends Agent
         GeneralAction eatSheep = new EatSheep(0);
         GeneralAction reproduceWolf = new ReproduceWolf(1);
         GeneralAction defaultMove = new DefaultMove(2);
-        // ..
+        GeneralAction loseEnergy = new LoseEnergy(3);
+
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
         ruleset.add(eatSheep);
         ruleset.add(reproduceWolf);
         ruleset.add(defaultMove);
+        ruleset.add(loseEnergy);
     }
 
     @Override
