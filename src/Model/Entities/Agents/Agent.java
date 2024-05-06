@@ -158,44 +158,44 @@ public abstract class Agent extends Entity
             right_location = new Int2D(location.getX() + 1, location.getY());
             neighbour = (Entity) this.grid.get(right_location.getX(), right_location.getY());
             rightNeighbour = new Cell(neighbour, right_location);
-            System.out.println("Neighbour sucessfully found!");
+            System.out.println("Neighbour sucessfully found!\n");
         } 
         catch (Exception e) 
         {
             System.err.println(e);
-            System.err.println("No right neighbour found!");
+            System.err.println("No right neighbour found!\n");
             rightNeighbour = null;
         }
         
         // add all Neighbours to a Neighbourhood
         Neighbourhood neighbourhood = new Neighbourhood(topNeighbour, rightNeighbour, bottomNeighbour, leftNeighbour);
 
-        System.out.println("\n");
+        // System.out.println("\n");
         
-        int entries = 0;
-        int i = 1;
-        // for debugging
-        for (Cell n : neighbourhood.getAllNeighbours())
-        {
+        // int entries = 0;
+        // int i = 1;
+        // // for debugging
+        // for (Cell n : neighbourhood.getAllNeighbours())
+        // {
             
-            if (n != null) 
-            {
-                System.out.println("Neighbour: " + n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(n.getEntity().getClass()));
-                System.out.println("ID: " + n.getEntity().getId());
-                System.out.println("Position: " + i);
-            }
-            else
-            {
-                System.out.println("Neighbour: null");
-                System.out.println("Position: " + i);
-            }
-            i++;
-            entries++;
-        }
+        //     if (n != null) 
+        //     {
+        //         System.out.println("Neighbour: " + n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(n.getEntity().getClass()));
+        //         System.out.println("ID: " + n.getEntity().getId());
+        //         System.out.println("Position: " + i);
+        //     }
+        //     else
+        //     {
+        //         System.out.println("Neighbour: null");
+        //         System.out.println("Position: " + i);
+        //     }
+        //     i++;
+        //     entries++;
+        // }
 
-        System.out.println("Current Agent: " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()) + "\n");
+        // System.out.println("Current Agent: " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()) + "\n");
 
-        System.out.println("Entries in neighbours: " + entries + " \n");
+        // System.out.println("Entries in neighbours: " + entries + " \n");
             
         return neighbourhood;
     }
