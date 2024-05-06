@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import Model.Entities.Agents.Agent;
 import Model.Entities.Agents.Sheep;
-import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.*;
@@ -70,8 +69,17 @@ public class ReproduceSheep extends GeneralAction
         // reproduce with this wolf by creating a new wolf in a free neighbouring cell
         Sheep newbornSheep = new Sheep(1, 20, sheep.getGrid(), sheep.getRng());
 
-        // place new wolf in a free neighbouting cell
-        newbornSheep.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+        try 
+        {
+            // place new wolf in a free neighbouting cell
+            newbornSheep.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+
+        } 
+        catch (Exception e) 
+        {
+            System.err.println(e.getMessage());
+        }
+        
     
     }
 

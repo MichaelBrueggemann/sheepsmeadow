@@ -7,6 +7,7 @@ import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridLocationOccupiedException;
 import Model.Neighbourhood.*;
 import sim.engine.SimState;
 
@@ -68,7 +69,15 @@ public class ReproduceWolf extends GeneralAction
         Wolf newbornWolf = new Wolf(1, 20, wolf.getGrid(), wolf.getRng());
 
         // place new wolf in a free neighbouting cell
-        newbornWolf.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+        try 
+        {
+            newbornWolf.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+        } 
+        catch (GridLocationOccupiedException e) 
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import sim.field.grid.ObjectGrid2D;
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridLocationOccupiedException;
 
 
 public class Model extends SimState 
@@ -112,7 +113,12 @@ public class Model extends SimState
                     if (entity instanceof Grass)
                     {
                         // update agent location
-                        sheep.updateGridLocationTo(x, y, false);
+                        try {
+                            sheep.updateGridLocationTo(x, y, false);
+                        } catch (GridLocationOccupiedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                         break;
                     }
                 }
@@ -143,7 +149,12 @@ public class Model extends SimState
                     if (entity instanceof Grass)
                     {
                         // update agent location
-                        wolf.updateGridLocationTo(x, y, false);
+                        try {
+                            wolf.updateGridLocationTo(x, y, false);
+                        } catch (GridLocationOccupiedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                         break;
                     }
                 }
