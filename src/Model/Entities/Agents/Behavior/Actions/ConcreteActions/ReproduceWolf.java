@@ -10,6 +10,7 @@ import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridLocationOccupiedException;
 import Model.Neighbourhood.*;
 import sim.engine.SimState;
+import sim.engine.Stoppable;
 
 public class ReproduceWolf extends GeneralAction
 {
@@ -72,6 +73,10 @@ public class ReproduceWolf extends GeneralAction
         try 
         {
             newbornWolf.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+
+            // add nwebornWolf to the schedule
+            Stoppable scheduleStopper = state.schedule.scheduleRepeating(newbornWolf);
+            newbornWolf.setScheduleStopper(scheduleStopper);
         } 
         catch (GridLocationOccupiedException e) 
         {

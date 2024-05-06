@@ -8,6 +8,7 @@ import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.*;
 import sim.engine.SimState;
+import sim.engine.Stoppable;
 
 public class ReproduceSheep extends GeneralAction
 {
@@ -66,13 +67,17 @@ public class ReproduceSheep extends GeneralAction
 
         // TODO: make energy of new agent dependent on something (Distribution, Energy of parents)
 
-        // reproduce with this wolf by creating a new wolf in a free neighbouring cell
+        // reproduce with this sheep by creating a new sheep in a free neighbouring cell
         Sheep newbornSheep = new Sheep(1, 20, sheep.getGrid(), sheep.getRng());
 
         try 
         {
-            // place new wolf in a free neighbouting cell
+            // place new sheep in a free neighbouting cell
             newbornSheep.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+
+            // add newbornSheep to the schedule
+            Stoppable scheduleStopper = state.schedule.scheduleRepeating(newbornSheep);
+            newbornSheep.setScheduleStopper(scheduleStopper);
 
         } 
         catch (Exception e) 
