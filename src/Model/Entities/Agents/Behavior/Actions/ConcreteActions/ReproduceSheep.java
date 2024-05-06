@@ -98,12 +98,10 @@ public class ReproduceSheep extends GeneralAction
             else if (cell.getEntity() instanceof Sheep)
             {
                 hasSheep = true;
-                break;
             }
             else if (cell.getEntity() instanceof Grass)
             {
                 hasGrassCell = true;
-                break;
             }
             // else nothing
         }
