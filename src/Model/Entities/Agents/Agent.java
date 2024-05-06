@@ -13,6 +13,7 @@ import java.util.PriorityQueue;
 import Model.Entities.*;
 import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridLocationOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 
@@ -216,7 +217,6 @@ public abstract class Agent extends Entity
 
             System.out.println("Trying action...");
             System.out.println("Action Name: " + action.getName());
-            System.out.println("Action Description: " + action.getDescription());
 
             // check if "action" can be executed on any of the neighbours
             if (action.checkCondition(neighbourhood))
@@ -260,8 +260,9 @@ public abstract class Agent extends Entity
      * @param x new x position
      * @param y new y position
      * @param hasOldLocation flag to indicate whether this agent already is placed on the grid
+     * @throws GridLocationOccupiedException 
      */
-    public void updateGridLocationTo(int x, int y, boolean hasOldLocation)
+    public void updateGridLocationTo(int x, int y, boolean hasOldLocation) throws GridLocationOccupiedException
     {
         if (hasOldLocation)
         {
@@ -283,11 +284,15 @@ public abstract class Agent extends Entity
         if (entity instanceof Grass)
         {
             this.grasscell = (Grass) entity;
-        }
 
-        // remove Entity currently placed at x,y (by overwriting it with this agent)
-        this.addToLocation(this.grid, x, y);
-        System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
+            // remove Entity currently placed at x,y (by overwriting it with this agent)
+            this.addToLocation(this.grid, x, y);
+            System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
+        }
+        else if (entity instanceof Sheep || entity instanceof Wolf)
+        {
+            throw new GridLocationOccupiedException("Cell at x: " + x + ", y: " + y + " is occupied by " + entity);
+        }   
     }
 
     // ===== GETTER & SETTER =====
