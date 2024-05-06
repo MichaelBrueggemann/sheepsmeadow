@@ -230,6 +230,10 @@ public abstract class Agent extends Entity
                 // change flag, to stop looping through the iterator
                 actionExecuted = true;
             }
+            else 
+            {
+                System.out.println("CONDITION FAILED!!!");
+            }
 
             if (actionExecuted) break;
         }
