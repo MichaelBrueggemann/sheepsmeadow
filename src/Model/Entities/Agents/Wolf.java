@@ -15,7 +15,6 @@ import sim.field.grid.ObjectGrid2D;
 
 public class Wolf extends Agent
 {
-
     public Wolf(int id, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
         // construct all attributes of an "Agent"
@@ -29,7 +28,6 @@ public class Wolf extends Agent
         GeneralAction reproduceWolf = new ReproduceWolf(1);
         GeneralAction defaultMove = new DefaultMove(2);
         GeneralAction loseEnergy = new LoseEnergy(3);
-
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
         ruleset.add(eatSheep);
