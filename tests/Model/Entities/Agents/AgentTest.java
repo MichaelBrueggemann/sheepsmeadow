@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridLocationOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 
@@ -33,7 +34,7 @@ public class AgentTest {
         this.grid = new ObjectGrid2D(10, 10);
 
         // Initialize the agent instance before each test
-        agent = new Wolf(1, 20, grid, rng); 
+        agent = new Wolf(20, grid, rng); 
     }
 
 
@@ -45,14 +46,14 @@ public class AgentTest {
     
 
     @Test
-    public void testCheckNeighbours()
+    public void testCheckNeighbours() throws GridLocationOccupiedException
     {
         TestUtils.addGrassToGrid(this.grid);
 
-        Wolf w2 = new Wolf(2, 20, this.grid, null);
-        Sheep s1 = new Sheep(1,20, this.grid, null);
-        Wolf w3 = new Wolf(3, 20, this.grid, null);
-        Sheep s2 = new Sheep(2,20, this.grid, null);
+        Wolf w2 = new Wolf(20, this.grid, null);
+        Sheep s1 = new Sheep(20, this.grid, null);
+        Wolf w3 = new Wolf(20, this.grid, null);
+        Sheep s2 = new Sheep(20, this.grid, null);
         
         Int2D middle = new Int2D(1, 1);
         Int2D left = new Int2D(0, 1);

@@ -26,6 +26,8 @@ public abstract class Agent extends Entity
 {
     // ===== ATTRIBUTES =====
 
+    protected int id;
+
     // determines the "lifetime" of an agent
     protected int energy;
 
@@ -343,5 +345,10 @@ public abstract class Agent extends Entity
     public Grass getGrasscell() 
     {
       return this.grasscell;
+    }
+
+    public int getId()
+    {
+        return this.id;
     }
 }

@@ -17,7 +17,7 @@ public class Wolf extends Agent
 {
 
     // class based ID to autoincrement when creating a new agent
-    protected static int id = 0;
+    protected static int idCount = 0;
 
     public Wolf(int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
@@ -25,7 +25,9 @@ public class Wolf extends Agent
         super(Color.gray, energy, grid, rng); 
 
         // add auto-increamenting id for this agent
-        id++;
+        idCount++;
+
+        this.id = idCount;
 
         // Comparator needed to decide the order of two "GeneralAction"s
         Comparator<GeneralAction> generalActionComparator = new GeneralActionComparator();
@@ -47,10 +49,5 @@ public class Wolf extends Agent
     public void step(SimState state)
     {
         super.step(state);
-    }
-
-    public int getId()
-    {
-        return Wolf.id;
     }
 }
