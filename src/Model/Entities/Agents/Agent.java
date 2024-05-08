@@ -47,9 +47,10 @@ public abstract class Agent extends Entity
 
     // ===== CONSTRUCTORS =====
 
-    public Agent(int id, Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
+    public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
-        super(id, color, rng);
+        super(color, rng);
+
         this.energy = energy;
         this.location = null; // will be set on model setup
         this.grid = grid;

@@ -15,9 +15,15 @@ import sim.field.grid.ObjectGrid2D;
 
 public class Sheep extends Agent
 {
-    public Sheep(int id, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
+    // class based ID to autoincrement when creating a new agent
+    protected static int id = 0;
+
+    public Sheep(int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
-        super(id, Color.blue, energy, grid, rng);
+        super(Color.blue, energy, grid, rng);
+
+        // add auto-increamenting id for this agent
+        id++;
 
         // Comparator needed to decide the order of two "GeneralAction"s
         Comparator<GeneralAction> generalActionComparator = new GeneralActionComparator();
@@ -42,4 +48,9 @@ public class Sheep extends Agent
         super.step(state);
     }
 
+
+    public int getId()
+    {
+        return Sheep.id;
+    }
 }

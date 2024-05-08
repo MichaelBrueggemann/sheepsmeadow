@@ -12,7 +12,7 @@ import sim.field.grid.ObjectGrid2D;
  */
 public abstract class Entity implements Steppable 
 {
-    protected int id;
+
     protected Color color;
     // RNG of the simulation object. Used for easy access to random numbers for every entity.
     protected MersenneTwisterFast rng;
@@ -20,17 +20,13 @@ public abstract class Entity implements Steppable
     // can be used to stop the reallocation of the agent to the schedule
     protected Stoppable scheduleStopper;
 
-    public Entity(int id, Color color, MersenneTwisterFast rng)
+    public Entity(Color color, MersenneTwisterFast rng)
     {
-        this.id = id;
         this.color = color;
         this.rng = rng;
     }
 
-    public int getId()
-    {
-        return this.id;
-    }
+    
 
     public Color getColor()
     {
