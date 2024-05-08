@@ -16,9 +16,9 @@ public class Grass extends Entity
   // status flag, if grass was "eaten" by a sheep
   private boolean isRegrowing;
 
-  public Grass(int id, MersenneTwisterFast rng)
+  public Grass(MersenneTwisterFast rng)
   {
-    super(id, Color.green, rng);
+    super(Color.green, rng);
     this.isRegrowing = false;
   }
 

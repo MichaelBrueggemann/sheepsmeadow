@@ -67,7 +67,7 @@ public class ReproduceWolf extends GeneralAction
         Cell grassCell = grassCells.get(grassIndex);
 
         // reproduce with this wolf by creating a new wolf in a free neighbouring cell
-        Wolf newbornWolf = new Wolf(1, 20, wolf.getGrid(), wolf.getRng());
+        Wolf newbornWolf = new Wolf(20, wolf.getGrid(), wolf.getRng());
 
         // place new wolf in a free neighbouting cell
         try 

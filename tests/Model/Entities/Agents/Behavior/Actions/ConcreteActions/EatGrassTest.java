@@ -10,6 +10,7 @@ import org.junit.Test;
 import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Wolf;
 import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridLocationOccupiedException;
 import Model.Neighbourhood.Neighbourhood;
 
 import sim.engine.Stoppable;
@@ -28,7 +29,7 @@ public class EatGrassTest {
         this.testModel = new TestModel();
 
         // create a lonely sheep agent
-        this.sheep = new Sheep(1, 20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
+        this.sheep = new Sheep(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
 
         // add sheep to the model schedule
         Stoppable scheduleStopper = testModel.modelInstance.schedule.scheduleRepeating(sheep);
@@ -47,7 +48,7 @@ public class EatGrassTest {
     }
 
     @Test
-    public void testExecute()
+    public void testExecute() throws GridLocationOccupiedException
     {
         // place sheep into the grid
         this.sheep.updateGridLocationTo(1, 1, false);
@@ -94,14 +95,14 @@ public class EatGrassTest {
     }
 
     @Test
-    public void testCheckCondition()
+    public void testCheckCondition() throws GridLocationOccupiedException
     {
         // place sheep into the grid
         this.sheep.updateGridLocationTo(0, 0, false);
 
         // occupy the neighbouring cells
-        Wolf w1 = new Wolf(1, 20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
-        Wolf w2 = new Wolf(2, 20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
+        Wolf w1 = new Wolf(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
+        Wolf w2 = new Wolf(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
 
         w1.updateGridLocationTo(0, 1, false);
         w2.updateGridLocationTo(1, 0, false);

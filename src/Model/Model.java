@@ -62,18 +62,14 @@ public class Model extends SimState
     {
         ObjectGrid2D grid = this.meadow;
 
-        // fill grid with Grass Entities
-        int grass_id = 0;
-
         // initialize each cell of the grid with a Grass object
         for (int i = 0; i < grid.getHeight(); i++)
         {
             for (int j = 0; j < grid.getWidth(); j++)
             {
-                Grass grass = new Grass(grass_id, null);
+                Grass grass = new Grass(null);
 
                 grass.addToLocation(grid, i, j);
-                grass_id++;
             }
         }
     }
@@ -97,7 +93,7 @@ public class Model extends SimState
             // Add sheeps
             if (sheep_counter < this.sheeps)
             {
-                Sheep sheep = new Sheep(sheep_counter, 20, this.meadow, this.random);
+                Sheep sheep = new Sheep(20, this.meadow, this.random);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -133,7 +129,7 @@ public class Model extends SimState
             // Add wolves
             if (wolf_counter < this.wolves)
             {
-                Wolf wolf = new Wolf(wolf_counter, 20, this.meadow, this.random);
+                Wolf wolf = new Wolf(20, this.meadow, this.random);
 
                 // find a random, empty cell in the grid
                 while (true) 
