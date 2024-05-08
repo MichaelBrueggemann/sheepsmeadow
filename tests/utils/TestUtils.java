@@ -20,7 +20,7 @@ public class TestUtils {
         {
             for (int j = 0; j < grid.getWidth(); j++)
             {
-                Grass grass = new Grass(grass_id, null);
+                Grass grass = new Grass(null);
 
                 grass.addToLocation(grid, i, j);
                 grass_id++;
