@@ -71,7 +71,6 @@ public class DefaultMove extends GeneralAction
         agent.setEnergy(agent.getEnergy() - 1);
     }
 
-
     @Override
     /**
      * Checks if this Action can be executed on the Neighbourhood.
@@ -90,7 +89,7 @@ public class DefaultMove extends GeneralAction
             {
                 conditionFullfilled = true;
             }
-            // elso nothing
+            // else nothing
         }
         
         return conditionFullfilled;
