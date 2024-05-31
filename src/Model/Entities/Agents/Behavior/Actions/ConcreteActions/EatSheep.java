@@ -53,15 +53,22 @@ public class EatSheep extends GeneralAction
         // pick a random cell containing a sheep
         Cell sheepCell = sheepCells.get(index);
 
+        Sheep sheep = (Sheep) sheepCell.getEntity();
+
         try 
         {
             // remove sheep from the schedule
-            sheepCell.getEntity().getScheduleStopper().stop();
+            sheep.getScheduleStopper().stop();
 
-            // remove sheep agent from it's grid location
+            // place the grass cell assigned to the sheep back on the grid & remove sheep agent from it's grid location
+            sheep.getGrid().set(sheepCell.getLocation().getX(), sheepCell.getLocation().getY(), sheep.getGrasscell());
+
+            // place wolf in the cell of the sheep
             wolf.updateGridLocationTo(sheepCell.getLocation().getX(), sheepCell.getLocation().getY(), true);
 
             //TODO: check if sheep objects could be marked for garbage collection to free up memory
+
+            System.out.println(sheep.getClass().getSimpleName() + ": " + sheep.getId() + " was eaten!\n");
 
             // increase energy by 20
             wolf.setEnergy(wolf.getEnergy() + 20);
