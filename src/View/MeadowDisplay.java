@@ -55,6 +55,9 @@ public class MeadowDisplay
                                 // draw the label
                                 String label = Integer.toString(agent.getEnergy()); // Or whatever logic you use to get the label
 
+                                Font font = new Font("Calibri", 1, 18);
+                                graphics.setFont(font);
+
                                 // get width of the string and height of the font to correct the position of the label
                                 FontMetrics fm = graphics.getFontMetrics();
                                 int textWidth = fm.stringWidth(label);
