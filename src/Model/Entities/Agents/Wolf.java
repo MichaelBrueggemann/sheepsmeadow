@@ -8,20 +8,21 @@ import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Agents.Behavior.Actions.ConcreteActions.*;
 
 import ec.util.MersenneTwisterFast;
-
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 
 
 
-public class Sheep extends Agent
+public class Wolf extends Agent
 {
+
     // class based ID to autoincrement when creating a new agent
     protected static int idCount = 0;
 
-    public Sheep(int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
+    public Wolf(int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
-        super(Color.blue, energy, grid, rng);
+        // construct all attributes of an "Agent"
+        super(Color.gray, energy, grid, rng); 
 
         // add auto-increamenting id for this agent
         idCount++;
@@ -32,15 +33,14 @@ public class Sheep extends Agent
         Comparator<GeneralAction> generalActionComparator = new GeneralActionComparator();
 
         // create "Action"s for this agents "ActionList"
-        GeneralAction eatGrass = new EatGrass(0);
-        GeneralAction reproduceSheep = new ReproduceSheep(1);
+        GeneralAction eatSheep = new EatSheep(0);
+        GeneralAction reproduceWolf = new ReproduceWolf(1);
         GeneralAction defaultMove = new DefaultMove(2);
         GeneralAction loseEnergy = new LoseEnergy(3);
-        // ..
 
         this.ruleset = new PriorityQueue<>(generalActionComparator);
-        ruleset.add(eatGrass);
-        ruleset.add(reproduceSheep);
+        ruleset.add(eatSheep);
+        ruleset.add(reproduceWolf);
         ruleset.add(defaultMove);
         ruleset.add(loseEnergy);
     }
@@ -48,7 +48,6 @@ public class Sheep extends Agent
     @Override
     public void step(SimState state)
     {
-
         super.step(state);
     }
 }

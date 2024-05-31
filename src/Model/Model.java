@@ -2,24 +2,22 @@ package Model;
 
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
-import sim.util.Int2D;
-
-import java.util.Stack;
 
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
+
+import Model.Exceptions.GridLocationOccupiedException;
+
 
 
 public class Model extends SimState 
 {
     // ===== ATTRIBUTES =====
 
-    // Size of the grid
-    private int gridsize;
 
     // create spatial representation for the model (a "field"). This is where all agents "live"
-    private ObjectGrid2D meadow = new ObjectGrid2D(20, 20);
+    private ObjectGrid2D meadow = new ObjectGrid2D(7, 7);
 
     // sets number of sheeps in this simulation
     private int sheeps;
@@ -59,42 +57,48 @@ public class Model extends SimState
         this.populateMeadow();
     }
 
+
     // ===== HELPER METHODS =====
+    /**
+     * Utitlity function to make writing these tests easier
+     */
+    public void addGrassToGrid()
+    {
+        ObjectGrid2D grid = this.meadow;
+
+        // initialize each cell of the grid with a Grass object
+        for (int i = 0; i < grid.getHeight(); i++)
+        {
+            for (int j = 0; j < grid.getWidth(); j++)
+            {
+                Grass grass = new Grass(null);
+
+                grass.addToLocation(grid, i, j);
+            }
+        }
+    }
+
 
     /**
-     * Populates the grid with Agents. Each Grid cell will be filled with a "Stack<Entity>". Each Stack gets a "Grass" object as it's first entry, which will never be removed from the stack. Afterwards the Agents will be placed in the grid (added to a Stack). Filled Cells will have Stacks of size 2, each other will be size 1.
+     * Populates the grid with Agents. Each Grid cell will be filled with an Entity.
      */
     public void populateMeadow()
     {
-     
-        int grass_id = 0;
-
-        // initialize each cell of the grid with a Stack and add a Grass object to it
-        for (int i = 0; i < meadow.getHeight(); i++)
-        {
-            for (int j = 0; j < meadow.getWidth(); j++)
-            {
-                
-                Stack<Entity> stack = new Stack<Entity>();
-                stack.push(new Grass(grass_id));
-
-                meadow.set(i,j, stack);
-                grass_id++;
-            }
-        }
+        this.addGrassToGrid();
         
         // counters to keep track of the number of already added agents
         int sheep_counter = 0;
-        int wolve_counter = 0;
+        int wolf_counter = 0;
 
         int num_individuals = this.wolves + this.sheeps;
 
-        while (sheep_counter + wolve_counter != num_individuals)
+        while (sheep_counter + wolf_counter != num_individuals)
+
         {
             // Add sheeps
             if (sheep_counter < this.sheeps)
             {
-                Sheep sheep = new Sheep(sheep_counter, 20, this.meadow);
+                Sheep sheep = new Sheep(20, this.meadow, this.random);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -102,33 +106,35 @@ public class Model extends SimState
                     // draw random int from 0 till gridsize
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getHeight());
-
-                    // get stack of the cell
-                    @SuppressWarnings("unchecked")
-                    Stack<Entity> stack = (Stack<Entity>) meadow.get(x,y);
+                    
+                    // get current Entity at x,y
+                    Entity entity = (Entity) meadow.get(x,y);
 
                     // if cell is "empty" (only a grass object is present)
-                    if (stack.size() == 1)
+                    if (entity instanceof Grass)
                     {
-                        stack.push(sheep);
-
                         // update agent location
-                        sheep.setLocation(new Int2D(x, y));
-
+                        try {
+                            sheep.updateGridLocationTo(x, y, false);
+                        } catch (GridLocationOccupiedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                         break;
                     }
                 }
 
                 // add Entity to the schedule
-                this.schedule.scheduleRepeating(sheep);
-
+                Stoppable scheduleStopper = this.schedule.scheduleRepeating(sheep);
+                sheep.setScheduleStopper(scheduleStopper);
+                
                 sheep_counter++;
             }
 
             // Add wolves
-            if (wolve_counter < this.wolves)
+            if (wolf_counter < this.wolves)
             {
-                Wolve wolve = new Wolve(wolve_counter, 20, this.meadow);
+                Wolf wolf = new Wolf(20, this.meadow, this.random);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -137,26 +143,29 @@ public class Model extends SimState
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getHeight());
 
-                    // get stack of the cell
-                    @SuppressWarnings("unchecked")
-                    Stack<Entity> stack = (Stack<Entity>) meadow.get(x,y);
+                    // get current Entity at x,y
+                    Entity entity = (Entity) meadow.get(x,y);
 
                     // if cell is "empty" (only a grass object is present)
-                    if (stack.size() == 1)
+                    if (entity instanceof Grass)
                     {
-                        stack.push(wolve);
-
                         // update agent location
-                        wolve.setLocation(new Int2D(x, y));
-
+                        try {
+                            wolf.updateGridLocationTo(x, y, false);
+                        } catch (GridLocationOccupiedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                         break;
                     }
                 }
 
                 // add Entity to the schedule
-                this.schedule.scheduleRepeating(wolve);
+                Stoppable scheduleStopper = this.schedule.scheduleRepeating(wolf);
+                wolf.setScheduleStopper(scheduleStopper);
+                
+                wolf_counter++;
 
-                wolve_counter++;
             }
         }
     }
@@ -198,27 +207,26 @@ public class Model extends SimState
         this.wolves = value;
     }
 
+
+    /**
+     * Create a domain (interval) of values acceptable for the attribute WOLVES
+     * @return 
+     */
     public Object domWolves()
     {
         return new sim.util.Interval(0, MAX_INDIVIDUALS);
     }
 
-    public ObjectGrid2D getMeadow() 
+
+    /** 
+     * This getter has to be named breaking the convention, to prevent the Model Inspector from "MeadowDisplay.java" to draw it in the "Model" tab
+     */
+    public ObjectGrid2D returnMeadow() 
     {
         return this.meadow;
     }
 
-    public int getGridsize()
-    {
-        return this.gridsize;
-    }
-
-    public void setGridsize(int value)
-    {
-        this.gridsize = value;
-    }
-
-    public int getMAX_INDIVIDUALS()
+    public int returnMAX_INDIVIDUALS()
     {
         return this.MAX_INDIVIDUALS;
     }
@@ -233,8 +241,4 @@ public class Model extends SimState
         // exit main process to ensure all threads have stopped
         System.exit(0); 
     }
-
-    
-
-    
 }
