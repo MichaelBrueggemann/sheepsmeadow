@@ -1,23 +1,21 @@
 package Model.Entities.Agents;
 
 import sim.engine.SimState;
-import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
+import ec.util.MersenneTwisterFast;
 
 import java.awt.Color;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Stack;
+import java.util.PriorityQueue;
 
-import Model.Model;
-import Model.Entities.Entity;
-import Model.Exceptions.GridPositionOccupiedException;
+import Model.Entities.*;
+import Model.Entities.Agents.Behavior.Actions.*;
+import Model.Entities.Objects.Grass;
+import Model.Exceptions.GridLocationOccupiedException;
+import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
-
 
 /**
  * This is a abstract class defining general behavior and attributes of all Agents.
@@ -26,31 +24,34 @@ public abstract class Agent extends Entity
 {
     // ===== ATTRIBUTES =====
 
+
+    protected int id;
+
     // determines the "lifetime" of an agent
-    private int energy;
+    protected int energy;
 
     // location of the agent inside the grid
-    private Int2D location;
+    protected Int2D location;
 
     // state of the agent, whether its alive or not (energy = 0)
-    private boolean alive;
+    protected boolean alive;
 
-    // can be used to stop the reallocation of the agent to the schedule
-    private Stoppable scheduleStopper;
+    // storage for all "Action"s an agent can perform
+    protected PriorityQueue<GeneralAction> ruleset;
 
     // grid where all agents are stored
-    private ObjectGrid2D grid;
+    protected ObjectGrid2D grid;
 
-    // This List defines which type of Entity in a neighbouring cell should be prioritized, when performing an action in a step. It's always based on the Agent class.
-    private ArrayList<Object> priorityList = new ArrayList<>();
+    // Grass object at the location this agent is currently placed on the grid
+    protected Grass grasscell;
 
 
 
     // ===== CONSTRUCTORS =====
-
-    public Agent(int id, Color color, int energy, ObjectGrid2D grid)
+    public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
-        super(id, color);
+        super(color, rng);
+
         this.energy = energy;
         this.location = null; // will be set on model setup
         this.grid = grid;
@@ -61,15 +62,12 @@ public abstract class Agent extends Entity
 
 
     public void step(SimState state)
-    {
-        // access model instance
-        Model model = (Model) state;
-        
-        // access agentGrid
-        
+    {        
+        // get the Neighbourhood of this agent
+        Neighbourhood neighbourhood = this.checkNeighbours();
 
-        // look at neighbour cells to determine if movement is possible
-        //HashMap<Int2D, Agent> neighbours = this.checkNeighbours();
+        // perform an "Action"
+        this.evaluateRuleset(neighbourhood, state);
 
         if (this.energy == 0)
         {
@@ -85,8 +83,12 @@ public abstract class Agent extends Entity
         // change state of the agent
         this.alive = false;
 
+        System.out.println("Agent: '" + this.getClass().getSimpleName() + ": " + this.getId() + "' energy is " + this.getEnergy() + ". Agent has died!");
+
         // remove agent from the schedule
         this.scheduleStopper.stop();
+
+
     }
 
     /**
@@ -94,161 +96,167 @@ public abstract class Agent extends Entity
      * This function returns one Neighbourhood. This neighbourhood is picked based on the "priorityList" of the current agent instance, so that only a neighbourhood is returned which corresponding Entity is highest on this current Agents "priorityList".
      * @return Neighbourhood with Entity object and location.
      */
-    @SuppressWarnings("unchecked")
     public Neighbourhood checkNeighbours()
     {
-        Neighbourhood[] neighbours = new Neighbourhood[4];
+        // placeholder for the entity in each neighbouring cell
+        Entity neighbour;
 
-        // placeholder for the stack in each neighbouring cell
-        Stack<Entity> stack;
-
-        Entity top;
         Int2D top_location;
-        Entity bottom;
         Int2D bottom_location;
-        Entity left;
         Int2D left_location;
-        Entity right;
         Int2D right_location;
 
         // query each direction
-
+        Cell topNeighbour;
         try 
         {
             // look above
-            top_location = new Int2D(location.getX(), location.getY() - 1);
-            stack = (Stack<Entity>) this.grid.get(top_location.getX(), top_location.getY());
-            top = stack.peek();
-            neighbours[0] = new Neighbourhood(top, top_location);
-            System.out.println("Neighbour sucessfully found!");
-        } 
-        catch (Exception e) 
-        {
-            System.err.println(e);
-            System.err.println("No top neighbour found!");
-        }
-
-
-        try 
-        {
-            // look below
-            bottom_location = new Int2D(location.getX(), location.getY() + 1);
-            stack = (Stack<Entity>) this.grid.get(bottom_location.getX(), bottom_location.getY());
-            bottom = stack.peek();
-            neighbours[1] = new Neighbourhood(bottom, bottom_location);
+            top_location = new Int2D(this.location.getX(), this.location.getY() - 1);
+            neighbour = (Entity) this.grid.get(top_location.getX(), top_location.getY());
+            topNeighbour = new Cell(neighbour, top_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
         {
             System.err.println(e);
             System.err.println("No bottom neighbour found!");
+            topNeighbour = null;
         }
 
+        Cell bottomNeighbour;
+        try 
+        {
+            // look below
+            bottom_location = new Int2D(location.getX(), location.getY() + 1);
+            neighbour = (Entity) this.grid.get(bottom_location.getX(), bottom_location.getY());
+            bottomNeighbour = new Cell(neighbour, bottom_location);
+            System.out.println("Neighbour sucessfully found!");
+        } 
+        catch (Exception e) 
+        {
+            System.err.println(e);
+            System.err.println("No bottom neighbour found!");
+            bottomNeighbour = null;
+        }
+
+        Cell leftNeighbour;
         try 
         {
             /// look left
             left_location = new Int2D(location.getX() - 1, location.getY());
-            stack = (Stack<Entity>) this.grid.get(left_location.getX(), left_location.getY());
-            left = stack.peek();
-            neighbours[2] = new Neighbourhood(left, left_location);
+            neighbour = (Entity) this.grid.get(left_location.getX(), left_location.getY());
+            leftNeighbour = new Cell(neighbour, left_location);
             System.out.println("Neighbour sucessfully found!");
         } 
         catch (Exception e) 
         {
             System.err.println(e);
             System.err.println("No left neighbour found!");
+            leftNeighbour = null;
         }
 
+        Cell rightNeighbour;
         try 
         {
             // look right
             right_location = new Int2D(location.getX() + 1, location.getY());
-            stack = (Stack<Entity>) this.grid.get(right_location.getX(), right_location.getY());
-            right = stack.peek();
-            neighbours[3] = new Neighbourhood(right, right_location);
-            System.out.println("Neighbour sucessfully found!");
+            neighbour = (Entity) this.grid.get(right_location.getX(), right_location.getY());
+            rightNeighbour = new Cell(neighbour, right_location);
+            System.out.println("Neighbour sucessfully found!\n");
         } 
         catch (Exception e) 
         {
             System.err.println(e);
-            System.err.println("No right neighbour found!");
+            System.err.println("No right neighbour found!\n");
+            rightNeighbour = null;
         }
         
-        System.out.println("\n");
+        // add all Neighbours to a Neighbourhood
+        Neighbourhood neighbourhood = new Neighbourhood(topNeighbour, rightNeighbour, bottomNeighbour, leftNeighbour);
+
+        // System.out.println("\n");
         
-        int entries = 0;
-        // for debugging
-        for (Neighbourhood n : neighbours)
-        {
-            if (n != null) 
-            {
-                System.out.println("Neighbour: " + n.getNeighbour());
-                System.out.println("ID: " + n.getNeighbour().getId() + "\n");
-            }
-            else
-            {
-                System.out.println("Neighbour: null\n");
-            }
-            entries++;
-        }
-
-        System.out.println("Current Agent: " + this + "\n");
-
-        System.out.println("Entries in neighbours: " + entries + " \n");
+        // int entries = 0;
+        // int i = 1;
+        // // for debugging
+        // for (Cell n : neighbourhood.getAllNeighbours())
+        // {
             
-        // find the Neighbourhood that contains an Entity which has the highest priority based on this Agents priorityList.
-        // 0 = highest priority, from here ascending (1,2,3,...)
-        HashMap<Integer, Neighbourhood> priorityMap = new HashMap<>();
+        //     if (n != null) 
+        //     {
+        //         System.out.println("Neighbour: " + n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(n.getEntity().getClass()));
+        //         System.out.println("ID: " + n.getEntity().getId());
+        //         System.out.println("Position: " + i);
+        //     }
+        //     else
+        //     {
+        //         System.out.println("Neighbour: null");
+        //         System.out.println("Position: " + i);
+        //     }
+        //     i++;
+        //     entries++;
+        // }
 
-        for (int i = 0; i < 4; i++)
-        {
-            // get neighbourhood
-            Neighbourhood neighbourhood = neighbours[i];
+        // System.out.println("Current Agent: " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()) + "\n");
 
-            // get priority value of each Neighbour
-            if (neighbourhood != null)
-            {
-                // get neighbour
-                Entity neighbour = neighbourhood.getNeighbour();
-
-                // get priority score
-                int neighbourPriority = this.priorityList.indexOf(neighbour.getClass());
-                System.out.println("Neighbour " + neighbour + " with priority: " + neighbourPriority);
+        // System.out.println("Entries in neighbours: " + entries + " \n");
             
-                // Add neighbour to priority map
-                priorityMap.put(neighbourPriority, neighbourhood);
-            }
-            // is the neighbourhood "null", we won't have to include it in the priorityMap, as there is no neighbour present
-        }
-
-        // iterate over each entry of the hashmap and find the entry with the smallest key (highest priority neighbouring entity)
-        Iterator<Map.Entry<Integer, Neighbourhood>> iterator = priorityMap.entrySet().iterator();
-        Map.Entry<Integer, Neighbourhood> firstEntry = iterator.next();
-
-        for (Map.Entry<Integer, Neighbourhood> entry : priorityMap.entrySet()) {
-            if (entry.getKey() < firstEntry.getKey()) {
-                firstEntry = entry;
-            }
-        }
-
-        System.out.println("\nFirst entry with the lowest key: " + firstEntry);
-
-
-        // return first neighbourhood (highest priority)
-        return firstEntry.getValue();
+        return neighbourhood;
     }
 
     /**
+     * Evaluates, if any action of this agents "ruleSet" can be executed on any element of "neighbourhood". If an Action can be executed, this Action will be executed. Otherwise nothing happens.
+     * @param neighbourhood Collection of neighbouring cells
+     */
+    public void evaluateRuleset(Neighbourhood neighbourhood, SimState state)
+    {
+        // create iterator
+        Iterator<GeneralAction> ruleSetIterator = this.ruleset.iterator();
+
+        boolean actionExecuted = false;
+
+        while (ruleSetIterator.hasNext())
+        {
+            GeneralAction action = ruleSetIterator.next();
+
+            System.out.println("Trying action...");
+            System.out.println("Action Name: " + action.getName());
+
+            // check if "action" can be executed on any of the neighbours
+            if (action.checkCondition(neighbourhood))
+            {
+                System.out.println("\nCondition was fullfilled!");
+
+                // execute the action
+                System.out.println("execute " + action.getName() + "...");
+                action.execute(this, neighbourhood, state);
+
+                // change flag, to stop looping through the iterator
+                actionExecuted = true;
+            }
+            else 
+            {
+                System.out.println("CONDITION FAILED!!!");
+            }
+
+            if (actionExecuted) break;
+        }
+    }
+
+
+    
+    /**
      * Utility function.
-     * Pushes this agent on the given stack and updates it's "location" based on the given "x" and "y" values.
-     * @param cell Stack object representing the cell where the agent will be placed
+     * Places this agent on the given grid and updates it's "location" based on the given "x" and "y" values.
+     * @param grid grid where the agent will be placed
      * @param x position of the agent on the x axis of the grid
      * @param y position of the agent on the y axis of the grid
      */
-    private void addToLocation(Stack<Entity> cell, int x, int y)
+    @Override
+    public void addToLocation(ObjectGrid2D grid, int x, int y)
     {
-        // push entity on the stack
-        cell.push(this);
+        // place agent on the grid
+        super.addToLocation(grid, x, y);
 
         // update location of the agent
         this.setLocation(new Int2D(x,y));
@@ -262,36 +270,40 @@ public abstract class Agent extends Entity
      * 
      * @param x new x position
      * @param y new y position
-     * @throws GridPositionOccupiedException 
+     * @param hasOldLocation flag to indicate whether this agent already is placed on the grid
+     * @throws GridLocationOccupiedException 
      */
-    @SuppressWarnings("unchecked")
-    public void updateGridPosition(int x, int y) throws GridPositionOccupiedException
+    public void updateGridLocationTo(int x, int y, boolean hasOldLocation) throws GridLocationOccupiedException
     {
-        // fetch the stack for the x,y coordinates
-        Stack<Entity> new_cell = (Stack<Entity>) this.grid.get(x,y);
-
-        Int2D old_location = this.getLocation();
-
-        // check state of the stack (new position)
-        if (new_cell.size() >= 2)
+        if (hasOldLocation)
         {
-            throw new GridPositionOccupiedException("The location at x: " + x + ", y: " + y + " is already occupied!");
-        }
-        else if (new_cell.size() == 1)
-        {
-            this.addToLocation(new_cell, x, y);
-            System.out.println("Position at: " + x + ", " + y + " successfully updated!");
+            // save old location of this agent
+            Int2D oldLocation = this.location;
+                    
+            // get grass associated to this agent
+            Grass grass = this.grasscell;
 
-            // remove agent from it's old location
-            Stack<Entity> old_cell = (Stack<Entity>) this.grid.get(old_location.getX(), old_location.getY());
-            old_cell.pop();
-            System.out.println("Sucessfully remove from position x: " + old_location.getX() + ", y: " + old_location.getY() + ".");
+            // remove agent from it's old location by overwriting it with it's associated grasscell at the old location
+            grass.addToLocation(this.grid, oldLocation.getX(), oldLocation.getY());
+            System.out.println("Sucessfully removed '" + this.getClass().getSimpleName() + ": " + this.getId() + "' from position x: " + oldLocation.getX() + ", y: " + oldLocation.getY() + ".");
         }
-        else
+
+        // fetch the entity at x,y in the grid
+        Entity entity = (Entity) this.grid.get(x,y);
+
+        // store the Grass-Object from the new location to later place it back on the grid, when this agent leaves the cell at x,y
+        if (entity instanceof Grass)
         {
-            throw new IllegalAccessError("Error in allocating a new Position.");
+            this.grasscell = (Grass) entity;
+
+            // remove Entity currently placed at x,y (by overwriting it with this agent)
+            this.addToLocation(this.grid, x, y);
+            System.out.println("Position of '" + this.getClass().getSimpleName() + ": " + this.getId() + "' successfully updated to x: " + x + ", y: " + y + "!");
         }
-        
+        else if (entity instanceof Sheep || entity instanceof Wolf)
+        {
+            throw new GridLocationOccupiedException("Cell at x: " + x + ", y: " + y + " is occupied by " + entity);
+        }   
     }
 
     // ===== GETTER & SETTER =====
@@ -333,33 +345,14 @@ public abstract class Agent extends Entity
         this.energy = value;
     }
 
-    public ArrayList<Object> getPriorityList() 
+    public Grass getGrasscell() 
     {
-      return this.priorityList;
+      return this.grasscell;
     }
 
-    public void setPriorityList(ArrayList<Object> value) 
+    public int getId()
     {
-      this.priorityList = value;
+        return this.id;
     }
 
-
-    public void addPriorityClass(int index, Object priorityClass)
-    {
-        if (!this.priorityList.contains(priorityClass))
-        {
-            this.priorityList.add(index, priorityClass);
-        }
-        
-    }
-
-    public Stoppable getScheduleStopper() 
-    {
-      return this.scheduleStopper;
-    }
-
-    public void setScheduleStopper(Stoppable value) 
-    {
-      this.scheduleStopper = value;
-    }
 }

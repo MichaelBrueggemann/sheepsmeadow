@@ -1,37 +1,55 @@
 package Model.Neighbourhood;
 
-import Model.Entities.Entity;
-import sim.util.Int2D;
 
 /**
  * Represents a neighbourhood relation in a grid. Neighbourhood is defined as all adjacent cells in each main direction.
  */
-public class Neighbourhood {
-    
-    // neighbour agent
-    private Entity neighbour;
+public class Neighbourhood 
+{
+  // neighbouring agents and their location
+  private Cell top;
+  private Cell rigth;
+  private Cell bottom;
+  private Cell left;
 
-    // location of the neighbouring entity
-    private Int2D neighbourLocation;
 
-    public Neighbourhood(Entity neighbour, Int2D location)
-    {
-        this.neighbour = neighbour;
-        this.neighbourLocation = location;
-    }
-    
+  public Neighbourhood(Cell top, Cell rigth, Cell bottom, Cell left)
+  {
+    this.top = top;
+    this.rigth = rigth;
+    this.bottom = bottom;
+    this.left = left;
+  }
+  
+  public Cell getTop() 
+  {
+    return this.top;
+  }
 
-    public Entity getNeighbour() {
-      return this.neighbour;
-    }
-    public void setNeighbour(Entity value) {
-      this.neighbour = value;
-    }
+  public Cell getRight() 
+  {
+    return this.rigth;
+  }
 
-    public Int2D getneighbourLocation() {
-      return this.neighbourLocation;
-    }
-    public void setneighbourLocation(Int2D value) {
-      this.neighbourLocation = value;
-    }
+  public Cell getBottom() 
+  {
+    return this.bottom;
+  }
+
+  public Cell getLeft() 
+  {
+    return this.left;
+  }
+
+  public Cell[] getAllNeighbours()
+  {
+    Cell[] allNeighbours = {this.top, this.rigth, this.bottom, this.left};
+    return allNeighbours;
+  }
+
+  public String toString()
+  {
+    // add entity to string. if null, then write "null" into the string
+    return "[ Top: " + ((this.top != null) ? this.top.getEntity() : "null") + ", Right: " + ((this.rigth != null) ? this.rigth.getEntity() : "null") + ", Bottom: " + ((this.bottom != null) ? this.bottom.getEntity() : "null") + ", Left: " + ((this.left != null) ? this.left.getEntity() : "null") + " ]";
+  }
 }
