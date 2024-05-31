@@ -229,7 +229,7 @@ public abstract class Agent extends Entity
                 System.out.println("\nCondition was fullfilled!");
 
                 // execute the action
-                System.out.println("execute " + action.getName() + "...");
+                System.out.println("execute " + action.getName() + "...\n");
                 action.execute(this, neighbourhood, state);
 
                 // change flag, to stop looping through the iterator
@@ -237,7 +237,7 @@ public abstract class Agent extends Entity
             }
             else 
             {
-                System.out.println("CONDITION FAILED!!!");
+                System.out.println("CONDITION FAILED!!!\n");
             }
 
             if (actionExecuted) break;
