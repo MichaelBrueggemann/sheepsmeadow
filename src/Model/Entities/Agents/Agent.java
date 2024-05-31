@@ -207,6 +207,7 @@ public abstract class Agent extends Entity
     /**
      * Evaluates, if any action of this agents "ruleSet" can be executed on any element of "neighbourhood". If an Action can be executed, this Action will be executed. Otherwise nothing happens.
      * @param neighbourhood Collection of neighbouring cells
+     * @param state Current model state. Is used to add entities to the schedule.
      */
     public void evaluateRuleset(Neighbourhood neighbourhood, SimState state)
     {
@@ -228,7 +229,7 @@ public abstract class Agent extends Entity
                 System.out.println("\nCondition was fullfilled!");
 
                 // execute the action
-                System.out.println("execute " + action.getName() + "...");
+                System.out.println("execute " + action.getName() + "...\n");
                 action.execute(this, neighbourhood, state);
 
                 // change flag, to stop looping through the iterator
@@ -236,7 +237,7 @@ public abstract class Agent extends Entity
             }
             else 
             {
-                System.out.println("CONDITION FAILED!!!");
+                System.out.println("CONDITION FAILED!!!\n");
             }
 
             if (actionExecuted) break;

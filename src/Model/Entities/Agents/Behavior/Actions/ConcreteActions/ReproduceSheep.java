@@ -70,6 +70,8 @@ public class ReproduceSheep extends GeneralAction
         // reproduce with this sheep by creating a new sheep in a free neighbouring cell
         Sheep newbornSheep = new Sheep(20, sheep.getGrid(), sheep.getRng());
 
+        System.out.println(newbornSheep.getClass().getSimpleName() + ": " + newbornSheep.getId() + " was born!\n");
+
         try 
         {
             // place new sheep in a free neighbouting cell

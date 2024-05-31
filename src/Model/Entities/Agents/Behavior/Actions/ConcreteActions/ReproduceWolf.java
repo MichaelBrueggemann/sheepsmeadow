@@ -69,6 +69,8 @@ public class ReproduceWolf extends GeneralAction
         // reproduce with this wolf by creating a new wolf in a free neighbouring cell
         Wolf newbornWolf = new Wolf(20, wolf.getGrid(), wolf.getRng());
 
+        System.out.println(newbornWolf.getClass().getSimpleName() + ": " + newbornWolf.getId() + " was born!\n");
+
         // place new wolf in a free neighbouting cell
         try 
         {
