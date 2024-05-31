@@ -30,4 +30,15 @@ public class ModelTest {
             this.grid.elements().size() <= model.returnMAX_INDIVIDUALS()
         );
     }
+
+    @Test
+    public void testPopulateMeadow()
+    {
+        model.populateMeadow();
+
+        assertTrue(
+            "Number of Agents exceeds Individuals Limit!", 
+            this.grid.elements().size() <= model.getMAX_INDIVIDUALS()
+        );
+    }
 }

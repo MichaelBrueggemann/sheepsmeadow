@@ -4,8 +4,8 @@ package Model.Neighbourhood;
 /**
  * Represents a neighbourhood relation in a grid. Neighbourhood is defined as all adjacent cells in each main direction.
  */
-public class Neighbourhood {
-    
+public class Neighbourhood 
+{
   // neighbouring agents and their location
   private Cell top;
   private Cell rigth;
@@ -52,5 +52,4 @@ public class Neighbourhood {
     // add entity to string. if null, then write "null" into the string
     return "[ Top: " + ((this.top != null) ? this.top.getEntity() : "null") + ", Right: " + ((this.rigth != null) ? this.rigth.getEntity() : "null") + ", Bottom: " + ((this.bottom != null) ? this.bottom.getEntity() : "null") + ", Left: " + ((this.left != null) ? this.left.getEntity() : "null") + " ]";
   }
-  
 }

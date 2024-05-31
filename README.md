@@ -47,7 +47,9 @@ To run a test locally, execute: `bash test.sh`
 # Reflections on this project
 In this Section i will note some of my experiences with this project. Those notes aren't necessary to use this simulation tool, so feel free to skip the reading:
 
+
 ## 08.03.2024
+
 - MASON extensively used the MVC paradigm (Model-View-Controller)
     - a **Model** is defined e.g. as a `SimState` instance
     - a **View** is a specific Visualization (2D, 3D, etc.)
@@ -140,3 +142,5 @@ Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class Model
 - In the lecture example, each agents step is evaluated whilst "freezing" every other agent in their position. This means that a new position of an agent (which was previously "stepped") is not known to the other agents.
 In this simulation on the other hand, all agent have a finite order, so an agent that would be out-of-reach for another agent (because it isn't placed in an adjacent grid cell) could move into a grid cell adjacent to another agent. This agent then checks it's "new" neighbourhood.
 - This has to be kept in mind, when students try performing simulations with "Sheepsmeadow".
+
+

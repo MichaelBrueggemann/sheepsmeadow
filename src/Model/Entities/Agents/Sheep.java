@@ -8,6 +8,7 @@ import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Agents.Behavior.Actions.ConcreteActions.*;
 
 import ec.util.MersenneTwisterFast;
+
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 
@@ -47,6 +48,7 @@ public class Sheep extends Agent
     @Override
     public void step(SimState state)
     {
+
         super.step(state);
     }
 }

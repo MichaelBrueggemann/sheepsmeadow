@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import Model.Entities.Entity;
 import ec.util.MersenneTwisterFast;
+
 import sim.engine.SimState;
 
 public class Grass extends Entity

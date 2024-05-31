@@ -6,12 +6,15 @@ import sim.field.grid.ObjectGrid2D;
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
+
 import Model.Exceptions.GridLocationOccupiedException;
+
 
 
 public class Model extends SimState 
 {
     // ===== ATTRIBUTES =====
+
 
     // create spatial representation for the model (a "field"). This is where all agents "live"
     private ObjectGrid2D meadow = new ObjectGrid2D(7, 7);
@@ -54,6 +57,7 @@ public class Model extends SimState
         this.populateMeadow();
     }
 
+
     // ===== HELPER METHODS =====
     /**
      * Utitlity function to make writing these tests easier
@@ -89,6 +93,7 @@ public class Model extends SimState
         int num_individuals = this.wolves + this.sheeps;
 
         while (sheep_counter + wolf_counter != num_individuals)
+
         {
             // Add sheeps
             if (sheep_counter < this.sheeps)
@@ -101,7 +106,7 @@ public class Model extends SimState
                     // draw random int from 0 till gridsize
                     int x = random.nextInt(meadow.getWidth());
                     int y = random.nextInt(meadow.getHeight());
-
+                    
                     // get current Entity at x,y
                     Entity entity = (Entity) meadow.get(x,y);
 
@@ -122,7 +127,7 @@ public class Model extends SimState
                 // add Entity to the schedule
                 Stoppable scheduleStopper = this.schedule.scheduleRepeating(sheep);
                 sheep.setScheduleStopper(scheduleStopper);
-
+                
                 sheep_counter++;
             }
 
@@ -160,6 +165,7 @@ public class Model extends SimState
                 wolf.setScheduleStopper(scheduleStopper);
                 
                 wolf_counter++;
+
             }
         }
     }
@@ -201,6 +207,7 @@ public class Model extends SimState
         this.wolves = value;
     }
 
+
     /**
      * Create a domain (interval) of values acceptable for the attribute WOLVES
      * @return 
@@ -209,6 +216,7 @@ public class Model extends SimState
     {
         return new sim.util.Interval(0, MAX_INDIVIDUALS);
     }
+
 
     /** 
      * This getter has to be named breaking the convention, to prevent the Model Inspector from "MeadowDisplay.java" to draw it in the "Model" tab
@@ -233,8 +241,4 @@ public class Model extends SimState
         // exit main process to ensure all threads have stopped
         System.exit(0); 
     }
-
-    
-
-    
 }

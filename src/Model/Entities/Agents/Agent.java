@@ -17,14 +17,13 @@ import Model.Exceptions.GridLocationOccupiedException;
 import Model.Neighbourhood.Cell;
 import Model.Neighbourhood.Neighbourhood;
 
-
-
 /**
  * This is a abstract class defining general behavior and attributes of all Agents.
  */
 public abstract class Agent extends Entity
 {
     // ===== ATTRIBUTES =====
+
 
     protected int id;
 
@@ -47,8 +46,8 @@ public abstract class Agent extends Entity
     protected Grass grasscell;
 
 
-    // ===== CONSTRUCTORS =====
 
+    // ===== CONSTRUCTORS =====
     public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
     {
         super(color, rng);
@@ -88,6 +87,8 @@ public abstract class Agent extends Entity
 
         // remove agent from the schedule
         this.scheduleStopper.stop();
+
+
     }
 
     /**
@@ -341,7 +342,6 @@ public abstract class Agent extends Entity
         this.energy = value;
     }
 
-
     public Grass getGrasscell() 
     {
       return this.grasscell;
@@ -351,4 +351,5 @@ public abstract class Agent extends Entity
     {
         return this.id;
     }
+
 }

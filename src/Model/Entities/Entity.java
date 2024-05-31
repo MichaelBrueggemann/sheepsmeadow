@@ -7,11 +7,13 @@ import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 
+
 /**
  * Abstract Superclass for all Entities
  */
 public abstract class Entity implements Steppable 
 {
+
 
     protected Color color;
     // RNG of the simulation object. Used for easy access to random numbers for every entity.
@@ -26,12 +28,11 @@ public abstract class Entity implements Steppable
         this.rng = rng;
     }
 
-    
-
     public Color getColor()
     {
         return this.color;
     }
+
 
     public MersenneTwisterFast getRng() 
     {

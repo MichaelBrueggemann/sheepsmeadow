@@ -3,6 +3,7 @@ package Model.Entities.Agents;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,12 +17,11 @@ import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 import utils.TestUtils;
 
+
 import java.awt.Color;
 
-
-
-public class AgentTest {
-
+public class AgentTest 
+{
     private Agent agent;
     private ObjectGrid2D grid;
 
@@ -37,13 +37,10 @@ public class AgentTest {
         agent = new Wolf(20, grid, rng); 
     }
 
-
     @Test
     public void testAgentColor() {
         assertEquals(Color.gray, agent.getColor());
     }
-
-    
 
     @Test
     public void testCheckNeighbours() throws GridLocationOccupiedException
