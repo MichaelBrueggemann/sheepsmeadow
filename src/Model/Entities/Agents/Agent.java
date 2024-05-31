@@ -207,6 +207,7 @@ public abstract class Agent extends Entity
     /**
      * Evaluates, if any action of this agents "ruleSet" can be executed on any element of "neighbourhood". If an Action can be executed, this Action will be executed. Otherwise nothing happens.
      * @param neighbourhood Collection of neighbouring cells
+     * @param state Current model state. Is used to add entities to the schedule.
      */
     public void evaluateRuleset(Neighbourhood neighbourhood, SimState state)
     {
