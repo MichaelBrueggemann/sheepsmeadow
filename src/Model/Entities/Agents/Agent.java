@@ -46,6 +46,9 @@ public abstract class Agent extends Entity
     // indicates whether an agent can reproduce again, after having produced an offspring
     protected boolean canReproduceAgain;
 
+    // indicates how many steps this agent has to wait until it can reproduce again
+    protected int reproductionDelayCounter;
+
 
 
     // ===== CONSTRUCTORS =====
@@ -335,4 +338,23 @@ public abstract class Agent extends Entity
         return this.id;
     }
 
+    public boolean getCanReproduceAgain() 
+    {
+        return this.canReproduceAgain;
+    }
+    
+    public void setCanReproduceAgain(boolean value) 
+    {
+        this.canReproduceAgain = value;
+    }
+
+    public int getReproductionDelayCounter() 
+    {
+      return this.reproductionDelayCounter;
+    }
+
+    public void setReproductionDelayCounter(int value) 
+    {
+      this.reproductionDelayCounter = value;
+    }
 }
