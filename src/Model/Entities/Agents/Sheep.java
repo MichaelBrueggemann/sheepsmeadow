@@ -19,9 +19,9 @@ public class Sheep extends Agent
     // class based ID to autoincrement when creating a new agent
     protected static int idCount = 0;
 
-    public Sheep(int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
+    public Sheep(int energy, ObjectGrid2D grid, MersenneTwisterFast rng, int reproductionDelay)
     {
-        super(Color.blue, energy, grid, rng);
+        super(Color.blue, energy, grid, rng, reproductionDelay);
 
         // add auto-increamenting id for this agent
         idCount++;

@@ -103,7 +103,7 @@ public class Model extends SimState
             // Add sheeps
             if (sheep_counter < this.sheeps)
             {
-                Sheep sheep = new Sheep(20, this.meadow, this.random);
+                Sheep sheep = new Sheep(20, this.meadow, this.random, this.reproductionDelay);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -139,7 +139,7 @@ public class Model extends SimState
             // Add wolves
             if (wolf_counter < this.wolves)
             {
-                Wolf wolf = new Wolf(20, this.meadow, this.random);
+                Wolf wolf = new Wolf(20, this.meadow, this.random, this.reproductionDelay);
 
                 // find a random, empty cell in the grid
                 while (true) 
@@ -267,6 +267,16 @@ public class Model extends SimState
         return new sim.util.Interval(0.0d, 1.0d);
     }
 
+    public int getReproductionDelay() 
+    {
+      return this.reproductionDelay;
+    }
+
+    public void setReproductionDelay(int value) 
+    {
+      this.reproductionDelay = value;
+    }
+
     // ===== MAIN =====
 
     public static void main(String[] args)
@@ -277,6 +287,8 @@ public class Model extends SimState
         // exit main process to ensure all threads have stopped
         System.exit(0); 
     }
+
+    
 
     
 }

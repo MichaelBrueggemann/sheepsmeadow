@@ -52,7 +52,7 @@ public abstract class Agent extends Entity
 
 
     // ===== CONSTRUCTORS =====
-    public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
+    public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng, int reproductionDelay)
     {
         super(color, rng);
 
@@ -60,6 +60,8 @@ public abstract class Agent extends Entity
         this.location = null; // will be set on model setup
         this.grid = grid;
         this.alive = true;
+        this.canReproduceAgain = true;
+        this.reproductionDelayCounter = reproductionDelay;
     }
     
     // ===== METHODS =====
@@ -94,6 +96,23 @@ public abstract class Agent extends Entity
 
 
     }
+
+    /**
+     * Checks whether this agent can reproduce in the current step. 
+     */
+    public void checkReproducibility()
+    {
+        if (!this.canReproduceAgain)
+        {
+            this.reproductionDelayCounter--;
+
+            if (reproductionDelayCounter == 0)
+            {
+                this.canReproduceAgain = true;
+            }
+        }
+    }
+
 
     /**
      * Neighbourhood is defined as all adjacent cells in each main direction. If no neighbour is present, null is inserted instead.
@@ -356,5 +375,5 @@ public abstract class Agent extends Entity
     public void setReproductionDelayCounter(int value) 
     {
       this.reproductionDelayCounter = value;
-    }
+    }   
 }

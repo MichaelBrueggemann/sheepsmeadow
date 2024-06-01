@@ -32,6 +32,8 @@ public class ReproduceSheep extends GeneralAction
 
         Sheep sheep = (Sheep) agent;
 
+        Model model = (Model) state;
+
         // storage for each type of neighbour
         ArrayList<Cell> sheepCells = new ArrayList<>();
         ArrayList<Cell> grassCells = new ArrayList<>();
@@ -69,7 +71,7 @@ public class ReproduceSheep extends GeneralAction
         // TODO: make energy of new agent dependent on something (Distribution, Energy of parents)
 
         // reproduce with this sheep by creating a new sheep in a free neighbouring cell
-        Sheep newbornSheep = new Sheep(20, sheep.getGrid(), sheep.getRng());
+        Sheep newbornSheep = new Sheep(20, sheep.getGrid(), sheep.getRng(), model.getReproductionDelay());
 
         System.out.println(newbornSheep.getClass().getSimpleName() + ": " + newbornSheep.getId() + " was born!\n");
 
@@ -99,7 +101,10 @@ public class ReproduceSheep extends GeneralAction
 
         Model model = (Model) state;
 
-        // check fertility rate
+        // check if agent is able to reproduce
+        boolean canReproduce = agent.getCanReproduceAgain();
+
+        // check if reproduction would be successful
         boolean reproductionSuccessful = (1 - model.getSheepFertilityRate()) < model.random.nextFloat(false, true);
 
         for (Cell cell : neighbourhood.getAllNeighbours())
@@ -118,6 +123,6 @@ public class ReproduceSheep extends GeneralAction
             }
             // else nothing
         }
-        return hasSheep && hasGrassCell && reproductionSuccessful;
+        return hasSheep && hasGrassCell && canReproduce && reproductionSuccessful;
     }    
 }

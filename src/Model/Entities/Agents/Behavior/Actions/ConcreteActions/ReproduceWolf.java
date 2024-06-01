@@ -34,6 +34,8 @@ public class ReproduceWolf extends GeneralAction
 
         Wolf wolf = (Wolf) agent;
 
+        Model model = (Model) state;
+
         // storage for each type of neighbour
         ArrayList<Cell> wolfCells = new ArrayList<>();
         ArrayList<Cell> grassCells = new ArrayList<>();
@@ -68,7 +70,7 @@ public class ReproduceWolf extends GeneralAction
         Cell grassCell = grassCells.get(grassIndex);
 
         // reproduce with this wolf by creating a new wolf in a free neighbouring cell
-        Wolf newbornWolf = new Wolf(20, wolf.getGrid(), wolf.getRng());
+        Wolf newbornWolf = new Wolf(20, wolf.getGrid(), wolf.getRng(), model.getReproductionDelay());
 
         System.out.println(newbornWolf.getClass().getSimpleName() + ": " + newbornWolf.getId() + " was born!\n");
 
@@ -96,7 +98,10 @@ public class ReproduceWolf extends GeneralAction
 
         Model model = (Model) state;
 
-        // check fertility rate
+        // check if agent is able to reproduce
+        boolean canReproduce = agent.getCanReproduceAgain();
+
+        // check if reproduction would be successful
         boolean reproductionSuccessful = (1 - model.getSheepFertilityRate()) < model.random.nextFloat(false, true);
 
         for (Cell cell : neighbourhood.getAllNeighbours())
@@ -115,6 +120,6 @@ public class ReproduceWolf extends GeneralAction
             }
             // else nothing
         }
-        return hasWolf && hasGrassCell && reproductionSuccessful;
+        return hasWolf && hasGrassCell && canReproduce && reproductionSuccessful;
     }    
 }
