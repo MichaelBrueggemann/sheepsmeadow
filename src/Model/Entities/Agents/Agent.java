@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import Model.Model;
 import Model.Entities.*;
 import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Objects.Grass;
@@ -69,10 +70,19 @@ public abstract class Agent extends Entity
 
     public void step(SimState state)
     {        
+
+        System.out.println("Currently stepping: '" + this.getClass().getSimpleName() + ": " + this.getId() + "'\n");
+
+        Model model = (Model) state;
+
         try 
         {
             // update if the agent can reproduce again
-            this.checkReproducibility();
+            this.checkReproducibility(model);
+
+            System.out.println("Current Reproduction Delay: " + this.reproductionDelayCounter + "\n");
+
+            System.out.println("Agent can reproduce this step: " + this.canReproduceAgain);
         } 
         catch (Exception e) 
         {
@@ -99,7 +109,7 @@ public abstract class Agent extends Entity
         // change state of the agent
         this.alive = false;
 
-        System.out.println("Agent: '" + this.getClass().getSimpleName() + ": " + this.getId() + "' energy is " + this.getEnergy() + ". Agent has died!");
+        System.out.println("Agent: '" + this.getClass().getSimpleName() + ": " + this.getId() + "' energy is " + this.getEnergy() + ". Agent has died!\n");
 
         // remove agent from the schedule
         this.scheduleStopper.stop();
@@ -111,7 +121,7 @@ public abstract class Agent extends Entity
      * Checks whether this agent can reproduce in the current step. 
      * @throws Exception 
      */
-    public void checkReproducibility() throws Exception
+    public void checkReproducibility(Model modelState) throws Exception
     {
         if (this.canReproduceAgain)
         {
@@ -125,11 +135,12 @@ public abstract class Agent extends Entity
             }
             else
             {
-                this.reproductionDelayCounter--;
+                if (reproductionDelayCounter != 0) this.reproductionDelayCounter--;
 
                 if (reproductionDelayCounter == 0)
                 {
                     this.canReproduceAgain = true;
+                    reproductionDelayCounter = modelState.getReproductionDelay();
                 }
             }
             

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import Model.Model;
 import Model.Entities.Agents.Agent;
-import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
@@ -27,7 +26,7 @@ public class ReproduceWolf extends GeneralAction
     @Override
     public void execute(Agent agent, Neighbourhood neighbourhood, SimState state)
     {
-        if (!(agent instanceof Wolf || agent instanceof Sheep))
+        if (!(agent instanceof Wolf))
         {
             throw new IllegalArgumentException("The Agent executing this Action has to be of type " + Wolf.class + ", but is " + agent.getClass() + " instead!");
         }
@@ -111,7 +110,7 @@ public class ReproduceWolf extends GeneralAction
         boolean canReproduce = agent.getCanReproduceAgain();
 
         // check if reproduction would be successful
-        boolean reproductionSuccessful = (1 - model.getSheepFertilityRate()) < model.random.nextFloat(false, true);
+        boolean reproductionSuccessful = (1 - model.getWolfFertilityRate()) < model.random.nextFloat(false, true);
 
         for (Cell cell : neighbourhood.getAllNeighbours())
         {
