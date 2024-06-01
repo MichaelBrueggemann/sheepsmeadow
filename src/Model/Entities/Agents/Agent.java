@@ -43,6 +43,9 @@ public abstract class Agent extends Entity
     // Grass object at the location this agent is currently placed on the grid
     protected Grass grasscell;
 
+    // indicates whether an agent can reproduce again, after having produced an offspring
+    protected boolean canReproduceAgain;
+
 
 
     // ===== CONSTRUCTORS =====
