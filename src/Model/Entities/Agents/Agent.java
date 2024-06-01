@@ -195,7 +195,7 @@ public abstract class Agent extends Entity
             System.out.println("Action Name: " + action.getName());
 
             // check if "action" can be executed on any of the neighbours
-            if (action.checkCondition(neighbourhood))
+            if (action.checkCondition(this, neighbourhood, state))
             {
                 System.out.println("\nCondition was fullfilled!");
 
