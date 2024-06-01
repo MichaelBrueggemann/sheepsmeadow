@@ -52,24 +52,50 @@ public class MeadowDisplay
                             {
                                 Agent agent = (Agent) entity;
 
-                                // draw the label
-                                String label = Integer.toString(agent.getEnergy());
+                                if (agent.isAlive())
+                                {
+                                    // draw the label
+                                    String label = Integer.toString(agent.getEnergy());
 
-                                // set Font of the label
-                                Font font = new Font("Calibri", 1, 18);
-                                graphics.setFont(font);
+                                    // set Font of the label
+                                    Font font = new Font("Calibri", 1, 18);
+                                    graphics.setFont(font);
 
-                                // get width of the string and height of the font to correct the position of the label
-                                FontMetrics fm = graphics.getFontMetrics();
-                                int textWidth = fm.stringWidth(label);
-                                int textHeight = fm.getHeight();
+                                    // get width of the string and height of the font to correct the position of the label
+                                    FontMetrics fm = graphics.getFontMetrics();
+                                    int textWidth = fm.stringWidth(label);
+                                    int textHeight = fm.getHeight();
 
-                                // info.draw.<coord> indicates the center of the rectangle that should be drawn
-                                int centerX = (int) info.draw.x - textWidth / 2;
-                                int centerY = (int) info.draw.y + textHeight / 2;
+                                    // info.draw.<coord> indicates the center of the rectangle that should be drawn
+                                    int centerX = (int) info.draw.x - textWidth / 2;
+                                    int centerY = (int) info.draw.y + textHeight / 2;
 
-                                graphics.setColor(Color.WHITE);
-                                graphics.drawString(label, centerX, centerY);
+                                    graphics.setColor(Color.WHITE);
+                                    graphics.drawString(label, centerX, centerY);
+                                }
+                                else
+                                {
+                                    // draw the label
+                                    String label = "X";
+
+                                    // set Font of the label
+                                    Font font = new Font("Calibri", 1, 18);
+                                    graphics.setFont(font);
+
+                                    // get width of the string and height of the font to correct the position of the label
+                                    FontMetrics fm = graphics.getFontMetrics();
+                                    int textWidth = fm.stringWidth(label);
+                                    int textHeight = fm.getHeight();
+
+                                    // info.draw.<coord> indicates the center of the rectangle that should be drawn
+                                    int centerX = (int) info.draw.x - textWidth / 2;
+                                    int centerY = (int) info.draw.y + textHeight / 2;
+
+                                    graphics.setColor(Color.WHITE);
+                                    graphics.drawString(label, centerX, centerY);
+                                }
+
+                                
                             }
 
                             // only draw labels for grass cells if they are "regrowing"
@@ -79,7 +105,7 @@ public class MeadowDisplay
 
                                 // draw the label
                                 String label = Integer.toString(grass.getRegrowthCounter());
-                                
+
                                 // set Font of the label
                                 Font font = new Font("Calibri", 1, 18);
                                 graphics.setFont(font);
