@@ -171,33 +171,6 @@ public abstract class Agent extends Entity
         
         // add all Neighbours to a Neighbourhood
         Neighbourhood neighbourhood = new Neighbourhood(topNeighbour, rightNeighbour, bottomNeighbour, leftNeighbour);
-
-        // System.out.println("\n");
-        
-        // int entries = 0;
-        // int i = 1;
-        // // for debugging
-        // for (Cell n : neighbourhood.getAllNeighbours())
-        // {
-            
-        //     if (n != null) 
-        //     {
-        //         System.out.println("Neighbour: " + n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(n.getEntity().getClass()));
-        //         System.out.println("ID: " + n.getEntity().getId());
-        //         System.out.println("Position: " + i);
-        //     }
-        //     else
-        //     {
-        //         System.out.println("Neighbour: null");
-        //         System.out.println("Position: " + i);
-        //     }
-        //     i++;
-        //     entries++;
-        // }
-
-        // System.out.println("Current Agent: " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()) + "\n");
-
-        // System.out.println("Entries in neighbours: " + entries + " \n");
             
         return neighbourhood;
     }
