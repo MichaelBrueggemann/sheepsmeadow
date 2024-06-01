@@ -91,7 +91,7 @@ public class ReproduceSheep extends GeneralAction
     }
 
     @Override
-    public boolean checkCondition(Neighbourhood neighbourhood)
+    public boolean checkCondition(Neighbourhood neighbourhood, SimState state)
     {
         boolean hasSheep = false;
         boolean hasGrassCell = false;

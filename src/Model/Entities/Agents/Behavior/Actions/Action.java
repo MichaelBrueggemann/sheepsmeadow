@@ -19,5 +19,5 @@ public interface Action {
      * @param neighbourhood Object containing information about the neighbourhood
      * @return true if condition is fullfilled, else false
      */
-    public boolean checkCondition(Neighbourhood neighbourhood);
+    public boolean checkCondition(Neighbourhood neighbourhood, SimState state);
 }

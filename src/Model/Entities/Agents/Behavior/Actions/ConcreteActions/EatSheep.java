@@ -81,7 +81,7 @@ public class EatSheep extends GeneralAction
     }
 
     @Override
-    public boolean checkCondition(Neighbourhood neighbourhood)
+    public boolean checkCondition(Neighbourhood neighbourhood, SimState state)
     {
         boolean conditionFullfilled = false;
 
