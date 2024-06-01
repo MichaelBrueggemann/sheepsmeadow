@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Model.Model;
 import Model.Entities.Agents.Agent;
 import Model.Entities.Agents.Sheep;
+import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.*;
@@ -66,7 +67,16 @@ public class ReproduceSheep extends GeneralAction
         // could be used to have some information to use in creating a new agent
         Cell agentCell = sheepCells.get(sheepIndex);
 
-        Cell grassCell = grassCells.get(grassIndex);
+        // get mating partner
+        Sheep matingPartner = (Sheep) agentCell.getEntity();
+
+        // change mating partners reproducibility status
+        matingPartner.setCanReproduceAgain(false);
+
+        // change reproducibility status of the agent performing this action
+        sheep.setCanReproduceAgain(false);
+
+        Cell freeGrassCell = grassCells.get(grassIndex);
 
         // TODO: make energy of new agent dependent on something (Distribution, Energy of parents)
 
@@ -78,7 +88,7 @@ public class ReproduceSheep extends GeneralAction
         try 
         {
             // place new sheep in a free neighbouting cell
-            newbornSheep.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+            newbornSheep.updateGridLocationTo(freeGrassCell.getLocation().getX(), freeGrassCell.getLocation().getY(), false);
 
             // add newbornSheep to the schedule
             Stoppable scheduleStopper = state.schedule.scheduleRepeating(newbornSheep);

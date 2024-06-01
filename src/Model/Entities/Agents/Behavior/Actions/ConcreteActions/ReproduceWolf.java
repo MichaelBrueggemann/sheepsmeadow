@@ -67,7 +67,16 @@ public class ReproduceWolf extends GeneralAction
         // could be used to have some information to use in creating a new agent
         Cell agentCell = wolfCells.get(wolfIndex);
 
-        Cell grassCell = grassCells.get(grassIndex);
+        // get mating partner
+        Wolf matingPartner = (Wolf) agentCell.getEntity();
+
+        // change mating partners reproducibility status
+        matingPartner.setCanReproduceAgain(false);
+
+        // change reproducibility status of the agent performing this action
+        wolf.setCanReproduceAgain(false);
+
+        Cell freeGrassCell = grassCells.get(grassIndex);
 
         // reproduce with this wolf by creating a new wolf in a free neighbouring cell
         Wolf newbornWolf = new Wolf(20, wolf.getGrid(), wolf.getRng(), model.getReproductionDelay());
@@ -77,7 +86,7 @@ public class ReproduceWolf extends GeneralAction
         // place new wolf in a free neighbouting cell
         try 
         {
-            newbornWolf.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+            newbornWolf.updateGridLocationTo(freeGrassCell.getLocation().getX(), freeGrassCell.getLocation().getY(), false);
 
             // add nwebornWolf to the schedule
             Stoppable scheduleStopper = state.schedule.scheduleRepeating(newbornWolf);
