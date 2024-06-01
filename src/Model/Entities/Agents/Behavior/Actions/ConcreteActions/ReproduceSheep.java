@@ -2,6 +2,7 @@ package Model.Entities.Agents.Behavior.Actions.ConcreteActions;
 
 import java.util.ArrayList;
 
+import Model.Model;
 import Model.Entities.Agents.Agent;
 import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
@@ -91,10 +92,15 @@ public class ReproduceSheep extends GeneralAction
     }
 
     @Override
-    public boolean checkCondition(Neighbourhood neighbourhood, SimState state)
+    public boolean checkCondition(Agent agent, Neighbourhood neighbourhood, SimState state)
     {
         boolean hasSheep = false;
         boolean hasGrassCell = false;
+
+        Model model = (Model) state;
+
+        // check fertility rate
+        boolean reproductionSuccessful = (1 - model.getSheepFertilityRate()) < model.random.nextFloat(false, true);
 
         for (Cell cell : neighbourhood.getAllNeighbours())
         {
@@ -112,6 +118,6 @@ public class ReproduceSheep extends GeneralAction
             }
             // else nothing
         }
-        return hasSheep && hasGrassCell;
+        return hasSheep && hasGrassCell && reproductionSuccessful;
     }    
 }

@@ -97,7 +97,7 @@ public class EatGrass extends GeneralAction
     /**
      * Checks if this Action can be executed on the Neighbourhood.
      */
-    public boolean checkCondition(Neighbourhood neighbourhood, SimState state) 
+    public boolean checkCondition(Agent agent, Neighbourhood neighbourhood, SimState state) 
     {
         boolean conditionFullfilled = false;
 

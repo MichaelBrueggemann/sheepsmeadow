@@ -26,7 +26,7 @@ public class LoseEnergy extends GeneralAction
     }
 
     @Override
-    public boolean checkCondition(Neighbourhood neighbourhood, SimState state)
+    public boolean checkCondition(Agent agent, Neighbourhood neighbourhood, SimState state)
     {
         // this condition is always fullfilled as it is used as a fallback, whenn no other condition was fullfilled.
         return true;
