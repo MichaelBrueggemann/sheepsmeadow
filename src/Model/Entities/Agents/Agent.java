@@ -69,6 +69,16 @@ public abstract class Agent extends Entity
 
     public void step(SimState state)
     {        
+        try 
+        {
+            // update if the agent can reproduce again
+            this.checkReproducibility();
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+
         // get the Neighbourhood of this agent
         Neighbourhood neighbourhood = this.checkNeighbours();
 
@@ -99,18 +109,32 @@ public abstract class Agent extends Entity
 
     /**
      * Checks whether this agent can reproduce in the current step. 
+     * @throws Exception 
      */
-    public void checkReproducibility()
+    public void checkReproducibility() throws Exception
     {
-        if (!this.canReproduceAgain)
+        if (this.canReproduceAgain)
         {
-            this.reproductionDelayCounter--;
-
-            if (reproductionDelayCounter == 0)
-            {
-                this.canReproduceAgain = true;
-            }
+            return;
         }
+        else
+        {
+            if (reproductionDelayCounter < 0)
+            {
+                throw new Exception("Error in reproductionDelayCounter!");
+            }
+            else
+            {
+                this.reproductionDelayCounter--;
+
+                if (reproductionDelayCounter == 0)
+                {
+                    this.canReproduceAgain = true;
+                }
+            }
+            
+        }
+        
     }
 
 
