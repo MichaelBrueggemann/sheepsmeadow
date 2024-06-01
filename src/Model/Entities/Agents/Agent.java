@@ -23,8 +23,6 @@ import Model.Neighbourhood.Neighbourhood;
 public abstract class Agent extends Entity
 {
     // ===== ATTRIBUTES =====
-
-
     protected int id;
 
     // determines the "lifetime" of an agent
@@ -308,6 +306,11 @@ public abstract class Agent extends Entity
     }
 
     // ===== GETTER & SETTER =====
+
+    public boolean isAlive()
+    {
+        return alive;
+    }
 
     public Int2D getLocation() 
     {
