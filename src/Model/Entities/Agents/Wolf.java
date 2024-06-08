@@ -17,7 +17,7 @@ public class Wolf extends Agent
 {
 
     // class based ID to autoincrement when creating a new agent
-    protected static int idCount = 0;
+    public static int idCount = 0;
 
     public Wolf(int energy, ObjectGrid2D grid, MersenneTwisterFast rng, int reproductionDelay)
     {

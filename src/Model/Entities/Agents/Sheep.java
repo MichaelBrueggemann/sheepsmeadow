@@ -17,7 +17,7 @@ import sim.field.grid.ObjectGrid2D;
 public class Sheep extends Agent
 {
     // class based ID to autoincrement when creating a new agent
-    protected static int idCount = 0;
+    public static int idCount = 0;
 
     public Sheep(int energy, ObjectGrid2D grid, MersenneTwisterFast rng, int reproductionDelay)
     {
