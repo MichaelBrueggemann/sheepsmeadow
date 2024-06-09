@@ -143,4 +143,10 @@ Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class Model
 In this simulation on the other hand, all agent have a finite order, so an agent that would be out-of-reach for another agent (because it isn't placed in an adjacent grid cell) could move into a grid cell adjacent to another agent. This agent then checks it's "new" neighbourhood.
 - This has to be kept in mind, when students try performing simulations with "Sheepsmeadow".
 
+## 09.06.2024
+- I added a makefile-script to automatically compile, run, build and deploy the application. This makes the development process a lot easier, as i can use the modular `make` commands to create the different artifacts
+  - i also added placeholders inside of the makefile to make editing this file easier for the future
+- The idea behind creating "deployments" for this application is, that i can deploy executables for different plattform, so that users can just download it and run it, without needing to compile everything from source. This makes this project much more accessible for others.
+- to achieve deploying this app for "windows" i will use a virtual machine on my linux machine, so that i have the needed `jpackage` dependencies to create a `.exe` file. But this is still work in progress. 
+
 
