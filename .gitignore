@@ -3,4 +3,5 @@
 
 # JAVA
 bin/
+build/
 Localtest.java
