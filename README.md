@@ -7,16 +7,15 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 
 # How to run a simulation?
 
+## Prerequiesites
+- you need to install `make` on your machine [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
+
+
+
+### With GUI
 1. Change to this projects root directory `sheepsmeadow/`
-2. Compile the java source files with `javac -d bin -sourcepath src -cp ".:libs/*" <Sourcefile>`
-    - execute this command for each `<Sourcefile>` seperately (it's possible to do it in one line)
-
-## In the Terminal
-- Run the simulation with `java -cp "bin:libs/*" Model.Model <MASON flags>?`
-    - with `<MASON flags>` you can pass options for the simulation, see the [manual](manual.pdf).
-
-## With GUI
-- Run the simulation with `java -cp "bin:libs/*" Controller.ModelWithUI`
+2. Enter `make run` in the console
+    - this will open the GUI to start a simulation
 
 ## Run tests
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
@@ -27,16 +26,12 @@ To run a test locally, execute: `bash test.sh`
 
 ```json
 .
-├── bin // Project binaries
 ├── libs // Project libraries
 |   src // Source Files
 |   ├── Controller
 |   │   └── ModelWithUI.java // GUI and Control elements
 |   ├── Model // Simulation logic
 |   │   ├── Agents
-|   │   │   ├── Agent.java // General Agent behavior
-|   │   │   ├── Sheep.java
-|   │   │   └── Wolve.java
 |   │   └── Model.java // Main File
 |   └── View
 |       └── MeadowDisplay.java // Field & Agent Display
