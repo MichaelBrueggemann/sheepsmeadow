@@ -7,6 +7,8 @@ BUILD_DIR = bin
 JAR_DIR = build/jar
 # dependencies of the project
 LIB_DIR = libs
+# directory for the binaries
+DEPLOYMENT_DIR=deployments
 # entry point in the program
 MAIN_CLASS = Controller.ModelWithUI
 # name of the output .jar-file
@@ -38,22 +40,22 @@ $(JAR_FILE): compile unzip-dependencies
 
 # Clean build artifacts
 clean:
-	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE)
+	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) $(DEPLOYMENT_DIR)/*
 
 deploy-windows: $(JAR_FILE)
 	# create .exe
-	mkdir -p ./deployments/windows/
-	#jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class bin.Controller.ModelWithUI --type exe --dest ./deployments/windows/
+	mkdir -p ./$(DEPLOYMENT_DIR)/windows/
+	#jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class bin.Controller.ModelWithUI --type exe --dest $(DEPLOYMENT_DIR)/windows/
 
 deploy-linux: $(JAR_FILE)
 	# create .deb
-	mkdir -p ./deployments/linux-deb/
-	jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest deployments/linux-deb/
+	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
+	jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
 install-linux:
 	# copy .deb to /tmp
 	mkdir -p /tmp/sheepsmeadow
-	cp deployments/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
+	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
 
 .PHONY: all compile unzip-dependencies clean run deploy
