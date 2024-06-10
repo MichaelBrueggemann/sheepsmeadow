@@ -7,16 +7,15 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 
 # How to run a simulation?
 
+## Prerequiesites
+- you need to install `make` on your machine [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
+
+
+
+### With GUI
 1. Change to this projects root directory `sheepsmeadow/`
-2. Compile the java source files with `javac -d bin -sourcepath src -cp ".:libs/*" <Sourcefile>`
-    - execute this command for each `<Sourcefile>` seperately (it's possible to do it in one line)
-
-## In the Terminal
-- Run the simulation with `java -cp "bin:libs/*" Model.Model <MASON flags>?`
-    - with `<MASON flags>` you can pass options for the simulation, see the [manual](manual.pdf).
-
-## With GUI
-- Run the simulation with `java -cp "bin:libs/*" Controller.ModelWithUI`
+2. Enter `make run` in the console
+    - this will open the GUI to start a simulation
 
 ## Run tests
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
@@ -27,16 +26,12 @@ To run a test locally, execute: `bash test.sh`
 
 ```json
 .
-├── bin // Project binaries
 ├── libs // Project libraries
 |   src // Source Files
 |   ├── Controller
 |   │   └── ModelWithUI.java // GUI and Control elements
 |   ├── Model // Simulation logic
 |   │   ├── Agents
-|   │   │   ├── Agent.java // General Agent behavior
-|   │   │   ├── Sheep.java
-|   │   │   └── Wolve.java
 |   │   └── Model.java // Main File
 |   └── View
 |       └── MeadowDisplay.java // Field & Agent Display
@@ -142,5 +137,11 @@ Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class Model
 - In the lecture example, each agents step is evaluated whilst "freezing" every other agent in their position. This means that a new position of an agent (which was previously "stepped") is not known to the other agents.
 In this simulation on the other hand, all agent have a finite order, so an agent that would be out-of-reach for another agent (because it isn't placed in an adjacent grid cell) could move into a grid cell adjacent to another agent. This agent then checks it's "new" neighbourhood.
 - This has to be kept in mind, when students try performing simulations with "Sheepsmeadow".
+
+## 09.06.2024
+- I added a makefile-script to automatically compile, run, build and deploy the application. This makes the development process a lot easier, as i can use the modular `make` commands to create the different artifacts
+  - i also added placeholders inside of the makefile to make editing this file easier for the future
+- The idea behind creating "deployments" for this application is, that i can deploy executables for different plattform, so that users can just download it and run it, without needing to compile everything from source. This makes this project much more accessible for others.
+- to achieve deploying this app for "windows" i will use a virtual machine on my linux machine, so that i have the needed `jpackage` dependencies to create a `.exe` file. But this is still work in progress. 
 
 

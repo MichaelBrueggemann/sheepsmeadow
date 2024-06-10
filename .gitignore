@@ -3,4 +3,6 @@
 
 # JAVA
 bin/
+build/
+deployments/
 Localtest.java
