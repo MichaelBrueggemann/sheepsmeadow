@@ -8,8 +8,9 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 # How to run a simulation?
 
 ## Prerequiesites
-- you need to install `make` on your machine [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
-
+- you need to install `make` on your machine 
+    - **Windows**: [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
+    - **Linux**: Install via your favorite package manager
 
 
 ### With GUI
@@ -21,6 +22,26 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
 
 To run a test locally, execute: `bash test.sh`
+
+# Deploy Sheepsmeadow
+To deploy **Sheepsmeadow** on different systems, please follow these steps:
+
+## Windows
+
+## Debian based Linux
+1. Create a `.jar` file of **Sheepsmeadow**
+```Bash
+make sheepsmeadow.jar
+```
+2. Run `make deploy-linux`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`.
+```bash
+make deploy-linux
+```
+3. Install the `.deb` file. You can use `make install-linux-deb`. This creates a tempory directory in `/tmp/sheepsmeadow` and installs the application using `apt`. The `.deb` file **must** be stored like this: `/tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb`!!
+You will need to enter your `sudo` password.
+```bash
+make install-linux-deb
+```
 
 # Structure of this project
 
