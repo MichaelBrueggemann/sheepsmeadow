@@ -5,7 +5,7 @@ Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (
 
 Advanced model statistics will be provided via python scripts for the sake of easier manipulation.
 
-# How to run a simulation?
+# How to start 'Sheepsmeadow'?
 
 ## Prerequiesites
 - you need to install `make` on your machine 
@@ -18,7 +18,19 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 2. Enter `make run` in the console
     - this will open the GUI to start a simulation
 
-### 
+### Executable based
+- **Windows**: Simply double-click the `.exe` in `executables/windows/`
+- **Linux-Debian**: 
+    1. Deploy 'Sheepsmeadow' for Linux-Debian
+    2. Install 'Sheepsmeadow' for Linux-Debian
+    3. Add `Sheepsmeadow` to `$PATH`
+    ```
+    export PATH=/opt/sheepsmeadow/bin:$PATH
+    ``` 
+    4. Run: 
+    ```bash
+    Sheepsmeadow
+    ```
 
 ## Run tests
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
@@ -29,15 +41,19 @@ To run a test locally, execute: `bash test.sh`
 To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
 ### Prerequisites
-- **Windows**: You need to install `Launch4j`. You can download it here: [Launch4J](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
+- **Windows**: You need to install `Launch4j` **Version 3.50** or higher. You can download it here: [Launch4j](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
 - **Linux-Debian**: No Prerequisites to deploy.
 
 ## Windows
 1. Open `Launch4J`
-2. Create `.exe` ![instructions](images/instructions_to_build_exe.png) You don't need to provide any further information.
+2. Create `.exe` ![instructions](images/instructions_to_build_exe.png) 
+    - **Output file**: `path/to/sheepsmeadow/executables/windows`
+    - **Jar**: `path/to/sheepsmeadow/deployments/jar/sheepsmeadow.jar`
+
+You don't need to provide any further information.
 
 
-## Debian based Linux
+## Linux-Debian
 1. Create a `.jar` file of **Sheepsmeadow**
 ```Bash
 make sheepsmeadow.jar
@@ -52,6 +68,7 @@ You will need to enter your `sudo` password.
 ```bash
 make install-linux-deb
 ```
+The binary will be stored in `/opt/sheepsmeadow/bin/`.
 
 # Structure of this project
 
