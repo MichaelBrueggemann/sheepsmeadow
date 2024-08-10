@@ -40,7 +40,7 @@ $(JAR_FILE): compile unzip-dependencies
 
 # Clean build artifacts
 clean:
-	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) $(DEPLOYMENT_DIR)/*
+	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) 
 
 
 deploy-linux: $(JAR_FILE)
