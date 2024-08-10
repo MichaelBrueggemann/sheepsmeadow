@@ -13,10 +13,12 @@ Advanced model statistics will be provided via python scripts for the sake of ea
     - **Linux**: Install via your favorite package manager
 
 
-### With GUI
+### Terminal based
 1. Change to this projects root directory `sheepsmeadow/`
 2. Enter `make run` in the console
     - this will open the GUI to start a simulation
+
+### 
 
 ## Run tests
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
@@ -26,13 +28,21 @@ To run a test locally, execute: `bash test.sh`
 # Deploy Sheepsmeadow
 To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
+### Prerequisites
+- **Windows**: You need to install `Launch4j`. You can download it here: [Launch4J](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
+- **Linux-Debian**: No Prerequisites to deploy.
+
 ## Windows
+1. Open `Launch4J`
+2. Create `.exe` ![instructions](images/instructions_to_build_exe.png) You don't need to provide any further information.
+
 
 ## Debian based Linux
 1. Create a `.jar` file of **Sheepsmeadow**
 ```Bash
 make sheepsmeadow.jar
 ```
+Alternatively you can use the `.jar` provided in `deployments/jar`.
 2. Run `make deploy-linux`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`.
 ```bash
 make deploy-linux
