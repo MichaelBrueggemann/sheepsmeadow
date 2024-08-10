@@ -8,7 +8,7 @@ JAR_DIR = build/jar
 # dependencies of the project
 LIB_DIR = libs
 # directory for the binaries
-DEPLOYMENT_DIR=deployments
+DEPLOYMENT_DIR = deployments
 # entry point in the program
 MAIN_CLASS = Controller.ModelWithUI
 # name of the output .jar-file
