@@ -46,7 +46,7 @@ clean:
 deploy-linux: $(JAR_FILE)
 	# create .deb
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
-	jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
+	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
 install-linux:
 	# copy .deb to /tmp
