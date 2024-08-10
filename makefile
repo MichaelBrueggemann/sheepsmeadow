@@ -42,10 +42,6 @@ $(JAR_FILE): compile unzip-dependencies
 clean:
 	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) $(DEPLOYMENT_DIR)/*
 
-deploy-windows: $(JAR_FILE)
-	# create .exe
-	mkdir -p ./$(DEPLOYMENT_DIR)/windows/
-	#jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class bin.Controller.ModelWithUI --type exe --dest $(DEPLOYMENT_DIR)/windows/
 
 deploy-linux: $(JAR_FILE)
 	# create .deb
