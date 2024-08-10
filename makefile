@@ -36,7 +36,7 @@ unzip-dependencies:
 
 # Create the JAR file with dependencies
 $(JAR_FILE): compile unzip-dependencies
-	jar cfe $(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) .
+	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) .
 
 # Clean build artifacts
 clean:
