@@ -34,7 +34,7 @@ public class AgentTest
         this.grid = new ObjectGrid2D(10, 10);
 
         // Initialize the agent instance before each test
-        agent = new Wolf(20, grid, rng); 
+        agent = new Wolf(20, grid, rng, 0); 
     }
 
     @Test
@@ -47,10 +47,10 @@ public class AgentTest
     {
         TestUtils.addGrassToGrid(this.grid);
 
-        Wolf w2 = new Wolf(20, this.grid, null);
-        Sheep s1 = new Sheep(20, this.grid, null);
-        Wolf w3 = new Wolf(20, this.grid, null);
-        Sheep s2 = new Sheep(20, this.grid, null);
+        Wolf w2 = new Wolf(20, this.grid, null, 0);
+        Sheep s1 = new Sheep(20, this.grid, null, 0);
+        Wolf w3 = new Wolf(20, this.grid, null, 0);
+        Sheep s2 = new Sheep(20, this.grid, null, 0);
         
         Int2D middle = new Int2D(1, 1);
         Int2D left = new Int2D(0, 1);

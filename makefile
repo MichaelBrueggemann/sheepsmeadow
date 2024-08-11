@@ -8,7 +8,7 @@ JAR_DIR = build/jar
 # dependencies of the project
 LIB_DIR = libs
 # directory for the binaries
-DEPLOYMENT_DIR=deployments
+DEPLOYMENT_DIR = deployments
 # entry point in the program
 MAIN_CLASS = Controller.ModelWithUI
 # name of the output .jar-file
@@ -19,13 +19,19 @@ JAR_FILE = sheepsmeadow.jar
 all: $(JAR_FILE) deploy clean
 
 # Compile Java classes
-compile:
+compile-source:
 	mkdir -p $(BUILD_DIR)
 	'javac' -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*" src/Controller/ModelWithUI.java
 
 # compile and run the application
-run: compile
+run: compile-source
 	'java' -cp "bin:libs/*" $(MAIN_CLASS)
+
+compile-tests:
+	find tests -name '*.java' -print0 | xargs -0 javac -cp "src:bin:libs/*" -d bin
+
+test: compile-tests
+	java --enable-preview -cp bin:libs/* org.junit.runner.JUnitCore $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
 # Unzip all project dependencies
 unzip-dependencies:
@@ -35,27 +41,25 @@ unzip-dependencies:
 	done
 
 # Create the JAR file with dependencies
-$(JAR_FILE): compile unzip-dependencies
-	jar cfe $(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) .
+$(JAR_FILE): compile-source unzip-dependencies
+	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) .
 
 # Clean build artifacts
 clean:
-	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) $(DEPLOYMENT_DIR)/*
+	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) 
 
-deploy-windows: $(JAR_FILE)
-	# create .exe
-	mkdir -p ./$(DEPLOYMENT_DIR)/windows/
-	#jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class bin.Controller.ModelWithUI --type exe --dest $(DEPLOYMENT_DIR)/windows/
 
 deploy-linux: $(JAR_FILE)
 	# create .deb
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
-	jpackage --name Sheepsmeadow --input . --main-jar sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
+	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
-install-linux:
+install-linux-deb: deploy-linux
 	# copy .deb to /tmp
 	mkdir -p /tmp/sheepsmeadow
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
 
-.PHONY: all compile unzip-dependencies clean run deploy
+
+# declare "phony-targets" to prevent conflicts with files that have the same name as the "phony-target"
+.PHONY: all compile-source compile-tests unzip-dependencies clean run deploy-linux install-linux-deb
