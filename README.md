@@ -21,7 +21,7 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 ### Executable based
 - **Windows**: Simply double-click the `.exe` in `executables/windows/`
 - **Linux-Debian**: 
-    1. Deploy 'Sheepsmeadow' for Linux-Debian
+    1. [Deploy](#deploy-linux-debian) 'Sheepsmeadow' for Linux-Debian
     2. Install 'Sheepsmeadow' for Linux-Debian
     3. Add `Sheepsmeadow` to `$PATH`
     ```
@@ -44,7 +44,7 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 - **Windows**: You need to install `Launch4j` **Version 3.50** or higher. You can download it here: [Launch4j](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
 - **Linux-Debian**: No Prerequisites to deploy.
 
-## Windows
+## Deploy Windows
 1. Open `Launch4J`
 2. Create `.exe` ![instructions](images/instructions_to_build_exe.png) 
     - **Output file**: `path/to/sheepsmeadow/executables/windows`
@@ -53,7 +53,7 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 You don't need to provide any further information.
 
 
-## Linux-Debian
+##  Deploy Linux-Debian
 1. Create a `.jar` file of **Sheepsmeadow**
 ```Bash
 make sheepsmeadow.jar
