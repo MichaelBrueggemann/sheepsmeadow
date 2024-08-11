@@ -29,7 +29,7 @@ public class EatGrassTest {
         this.testModel = new TestModel();
 
         // create a lonely sheep agent
-        this.sheep = new Sheep(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
+        this.sheep = new Sheep(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random, 0);
 
         // add sheep to the model schedule
         Stoppable scheduleStopper = testModel.modelInstance.schedule.scheduleRepeating(sheep);
@@ -101,8 +101,8 @@ public class EatGrassTest {
         this.sheep.updateGridLocationTo(0, 0, false);
 
         // occupy the neighbouring cells
-        Wolf w1 = new Wolf(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
-        Wolf w2 = new Wolf(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random);
+        Wolf w1 = new Wolf(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random, 0);
+        Wolf w2 = new Wolf(20, this.testModel.modelInstance.returnMeadow(), this.testModel.modelInstance.random, 0);
 
         w1.updateGridLocationTo(0, 1, false);
         w2.updateGridLocationTo(1, 0, false);
