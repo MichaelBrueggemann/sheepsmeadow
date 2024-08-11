@@ -7,7 +7,7 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 
 # How to start 'Sheepsmeadow'?
 
-## Prerequiesites
+## Prerequisites
 - you need to install `make` on your machine 
     - **Windows**: [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
     - **Linux**: Install via your favorite package manager
