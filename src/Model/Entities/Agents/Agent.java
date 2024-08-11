@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import Model.Model;
 import Model.Entities.*;
 import Model.Entities.Agents.Behavior.Actions.*;
 import Model.Entities.Objects.Grass;
@@ -43,10 +44,16 @@ public abstract class Agent extends Entity
     // Grass object at the location this agent is currently placed on the grid
     protected Grass grasscell;
 
+    // indicates whether an agent can reproduce again, after having produced an offspring
+    protected boolean canReproduceAgain;
+
+    // indicates how many steps this agent has to wait until it can reproduce again
+    protected int reproductionDelayCounter;
+
 
 
     // ===== CONSTRUCTORS =====
-    public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng)
+    public Agent(Color color, int energy, ObjectGrid2D grid, MersenneTwisterFast rng, int reproductionDelay)
     {
         super(color, rng);
 
@@ -54,6 +61,8 @@ public abstract class Agent extends Entity
         this.location = null; // will be set on model setup
         this.grid = grid;
         this.alive = true;
+        this.canReproduceAgain = true;
+        this.reproductionDelayCounter = reproductionDelay;
     }
     
     // ===== METHODS =====
@@ -61,6 +70,25 @@ public abstract class Agent extends Entity
 
     public void step(SimState state)
     {        
+
+        System.out.println("Currently stepping: '" + this.getClass().getSimpleName() + ": " + this.getId() + "'\n");
+
+        Model model = (Model) state;
+
+        try 
+        {
+            // update if the agent can reproduce again
+            this.checkReproducibility(model);
+
+            System.out.println("Current Reproduction Delay: " + this.reproductionDelayCounter + "\n");
+
+            System.out.println("Agent can reproduce this step: " + this.canReproduceAgain);
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+
         // get the Neighbourhood of this agent
         Neighbourhood neighbourhood = this.checkNeighbours();
 
@@ -81,13 +109,45 @@ public abstract class Agent extends Entity
         // change state of the agent
         this.alive = false;
 
-        System.out.println("Agent: '" + this.getClass().getSimpleName() + ": " + this.getId() + "' energy is " + this.getEnergy() + ". Agent has died!");
+        System.out.println("Agent: '" + this.getClass().getSimpleName() + ": " + this.getId() + "' energy is " + this.getEnergy() + ". Agent has died!\n");
 
         // remove agent from the schedule
         this.scheduleStopper.stop();
 
 
     }
+
+    /**
+     * Checks whether this agent can reproduce in the current step. 
+     * @throws Exception 
+     */
+    public void checkReproducibility(Model modelState) throws Exception
+    {
+        if (this.canReproduceAgain)
+        {
+            return;
+        }
+        else
+        {
+            if (reproductionDelayCounter < 0)
+            {
+                throw new Exception("Error in reproductionDelayCounter!");
+            }
+            else
+            {
+                if (reproductionDelayCounter != 0) this.reproductionDelayCounter--;
+
+                if (reproductionDelayCounter == 0)
+                {
+                    this.canReproduceAgain = true;
+                    reproductionDelayCounter = modelState.getReproductionDelay();
+                }
+            }
+            
+        }
+        
+    }
+
 
     /**
      * Neighbourhood is defined as all adjacent cells in each main direction. If no neighbour is present, null is inserted instead.
@@ -171,33 +231,6 @@ public abstract class Agent extends Entity
         
         // add all Neighbours to a Neighbourhood
         Neighbourhood neighbourhood = new Neighbourhood(topNeighbour, rightNeighbour, bottomNeighbour, leftNeighbour);
-
-        // System.out.println("\n");
-        
-        // int entries = 0;
-        // int i = 1;
-        // // for debugging
-        // for (Cell n : neighbourhood.getAllNeighbours())
-        // {
-            
-        //     if (n != null) 
-        //     {
-        //         System.out.println("Neighbour: " + n.getEntity().getClass().getSimpleName() + "@" + System.identityHashCode(n.getEntity().getClass()));
-        //         System.out.println("ID: " + n.getEntity().getId());
-        //         System.out.println("Position: " + i);
-        //     }
-        //     else
-        //     {
-        //         System.out.println("Neighbour: null");
-        //         System.out.println("Position: " + i);
-        //     }
-        //     i++;
-        //     entries++;
-        // }
-
-        // System.out.println("Current Agent: " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this.getClass()) + "\n");
-
-        // System.out.println("Entries in neighbours: " + entries + " \n");
             
         return neighbourhood;
     }
@@ -222,7 +255,7 @@ public abstract class Agent extends Entity
             System.out.println("Action Name: " + action.getName());
 
             // check if "action" can be executed on any of the neighbours
-            if (action.checkCondition(neighbourhood))
+            if (action.checkCondition(this, neighbourhood, state))
             {
                 System.out.println("\nCondition was fullfilled!");
 
@@ -359,4 +392,23 @@ public abstract class Agent extends Entity
         return this.id;
     }
 
+    public boolean getCanReproduceAgain() 
+    {
+        return this.canReproduceAgain;
+    }
+    
+    public void setCanReproduceAgain(boolean value) 
+    {
+        this.canReproduceAgain = value;
+    }
+
+    public int getReproductionDelayCounter() 
+    {
+      return this.reproductionDelayCounter;
+    }
+
+    public void setReproductionDelayCounter(int value) 
+    {
+      this.reproductionDelayCounter = value;
+    }   
 }

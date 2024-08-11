@@ -2,8 +2,10 @@ package Model.Entities.Agents.Behavior.Actions.ConcreteActions;
 
 import java.util.ArrayList;
 
+import Model.Model;
 import Model.Entities.Agents.Agent;
 import Model.Entities.Agents.Sheep;
+import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.*;
@@ -30,6 +32,8 @@ public class ReproduceSheep extends GeneralAction
         }
 
         Sheep sheep = (Sheep) agent;
+
+        Model model = (Model) state;
 
         // storage for each type of neighbour
         ArrayList<Cell> sheepCells = new ArrayList<>();
@@ -63,19 +67,28 @@ public class ReproduceSheep extends GeneralAction
         // could be used to have some information to use in creating a new agent
         Cell agentCell = sheepCells.get(sheepIndex);
 
-        Cell grassCell = grassCells.get(grassIndex);
+        // get mating partner
+        Sheep matingPartner = (Sheep) agentCell.getEntity();
+
+        // change mating partners reproducibility status
+        matingPartner.setCanReproduceAgain(false);
+
+        // change reproducibility status of the agent performing this action
+        sheep.setCanReproduceAgain(false);
+
+        Cell freeGrassCell = grassCells.get(grassIndex);
 
         // TODO: make energy of new agent dependent on something (Distribution, Energy of parents)
 
         // reproduce with this sheep by creating a new sheep in a free neighbouring cell
-        Sheep newbornSheep = new Sheep(20, sheep.getGrid(), sheep.getRng());
+        Sheep newbornSheep = new Sheep(20, sheep.getGrid(), sheep.getRng(), model.getReproductionDelay());
 
         System.out.println(newbornSheep.getClass().getSimpleName() + ": " + newbornSheep.getId() + " was born!\n");
 
         try 
         {
             // place new sheep in a free neighbouting cell
-            newbornSheep.updateGridLocationTo(grassCell.getLocation().getX(), grassCell.getLocation().getY(), false);
+            newbornSheep.updateGridLocationTo(freeGrassCell.getLocation().getX(), freeGrassCell.getLocation().getY(), false);
 
             // add newbornSheep to the schedule
             Stoppable scheduleStopper = state.schedule.scheduleRepeating(newbornSheep);
@@ -91,10 +104,18 @@ public class ReproduceSheep extends GeneralAction
     }
 
     @Override
-    public boolean checkCondition(Neighbourhood neighbourhood)
+    public boolean checkCondition(Agent agent, Neighbourhood neighbourhood, SimState state)
     {
         boolean hasSheep = false;
         boolean hasGrassCell = false;
+
+        Model model = (Model) state;
+
+        // check if agent is able to reproduce
+        boolean canReproduce = agent.getCanReproduceAgain();
+
+        // check if reproduction would be successful
+        boolean reproductionSuccessful = (1 - model.getSheepFertilityRate()) < model.random.nextFloat(false, true);
 
         for (Cell cell : neighbourhood.getAllNeighbours())
         {
@@ -112,6 +133,6 @@ public class ReproduceSheep extends GeneralAction
             }
             // else nothing
         }
-        return hasSheep && hasGrassCell;
+        return hasSheep && hasGrassCell && canReproduce && reproductionSuccessful;
     }    
 }
