@@ -59,7 +59,7 @@ public class DefaultMoveTest {
         System.out.println("Neighbourhood without free cells: " + neighbourhood.toString());
 
         // TEST: condition isn't fullfilled (no free neighbouring cells)
-        assertTrue(!this.defaultMove.checkCondition(neighbourhood));
+        assertTrue(!this.defaultMove.checkCondition(this.sheep, neighbourhood, this.testModel.modelInstance));
 
         // remove neighbours
         w1.getGrasscell().addToLocation(this.testModel.modelInstance.returnMeadow(), 0, 1);
@@ -71,6 +71,6 @@ public class DefaultMoveTest {
         System.out.println("Neighbourhood with free cells: " + neighbourhood.toString());
 
         // TEST: condition is fullfilled
-        assertTrue(this.defaultMove.checkCondition(neighbourhood));
+        assertTrue(this.defaultMove.checkCondition(this.sheep, neighbourhood, this.testModel.modelInstance));
     }
 }

@@ -113,7 +113,7 @@ public class EatGrassTest {
         System.out.println("Neighbourhood: " + neighbourhood.toString());
 
         // TEST: condition isn't fullfilled (no neighbouring  grass cells)
-        assertTrue(!this.eatGrass.checkCondition(neighbourhood));
+        assertTrue(!this.eatGrass.checkCondition(this.sheep, neighbourhood, this.testModel.modelInstance));
 
         // remove neighbours
         w1.getGrasscell().addToLocation(this.testModel.modelInstance.returnMeadow(), 0, 1);
@@ -125,6 +125,6 @@ public class EatGrassTest {
         System.out.println("Neighbourhood: " + neighbourhood.toString());
 
         // TEST: condition is fullfilled
-        assertTrue(this.eatGrass.checkCondition(neighbourhood));
+        assertTrue(this.eatGrass.checkCondition(this.sheep, neighbourhood, this.testModel.modelInstance));
     }
 }
