@@ -180,3 +180,4 @@ In this simulation on the other hand, all agent have a finite order, so an agent
 ## 11.08.2024
 - Now i provided a way to compile and deploy 'Sheepsmeadow' also as an `.exe`-file. My Intention was, that also students with limited programming knowledge will use this simulation program, so it is crucial to provide an easy experience. This ensures that also those students can enjoy the beauty of this program, without having to build it from source.
 - This also removes accessibilty barriers from this project, which makes this even more appealing.
+- Compiling and Deploying this project on Linux-Debian was already possible
