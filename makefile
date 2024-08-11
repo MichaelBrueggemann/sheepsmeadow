@@ -48,10 +48,11 @@ deploy-linux: $(JAR_FILE)
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
-install-linux-deb:
+install-linux-deb: deploy-linux
 	# copy .deb to /tmp
 	mkdir -p /tmp/sheepsmeadow
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
 
-.PHONY: all compile unzip-dependencies clean run deploy
+# declare "phony-targets" to prevent conflicts with files that have the same name as the "phony-target"
+.PHONY: all compile unzip-dependencies clean run deploy-linux install-linux-deb
