@@ -31,7 +31,7 @@ public class Model extends SimState
 
     private double sheepFertilityRate;
 
-    // defines, how many steps an agent hast to wait, until it can reproduce again
+    // defines, how many steps an agent has to wait, until it can reproduce again
     private int reproductionDelay;
 
     public Model(long seed)
