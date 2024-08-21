@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Model.Model;
 import Model.Entities.Agents.Agent;
+import Model.Entities.Agents.Sheep;
 import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
@@ -93,7 +94,6 @@ public class ReproduceWolf extends GeneralAction
         } 
         catch (GridLocationOccupiedException e) 
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -103,6 +103,7 @@ public class ReproduceWolf extends GeneralAction
     {
         boolean hasWolf = false;
         boolean hasGrassCell = false;
+        boolean hasFertileTargetAgent = false;
 
         Model model = (Model) state;
 
@@ -121,6 +122,14 @@ public class ReproduceWolf extends GeneralAction
             else if (cell.getEntity() instanceof Wolf)
             {
                 hasWolf = true;
+
+                Wolf targetAgent = (Wolf) cell.getEntity();
+
+                // check if any target wolf agent could reproduce this step
+                if (targetAgent.getCanReproduceAgain())
+                {
+                    hasFertileTargetAgent = true;
+                }
             }
             else if (cell.getEntity() instanceof Grass)
             {
@@ -128,6 +137,6 @@ public class ReproduceWolf extends GeneralAction
             }
             // else nothing
         }
-        return hasWolf && hasGrassCell && canReproduce && reproductionSuccessful;
+        return hasWolf && hasGrassCell && canReproduce && reproductionSuccessful && hasFertileTargetAgent;
     }    
 }
