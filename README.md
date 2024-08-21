@@ -52,7 +52,6 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
 You don't need to provide any further information.
 
-
 ##  Deploy Linux-Debian
 1. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
 ```Bash
@@ -171,11 +170,10 @@ In this simulation on the other hand, all agent have a finite order, so an agent
 - This has to be kept in mind, when students try performing simulations with "Sheepsmeadow".
 
 ## 09.06.2024
-- I added a makefile-script to automatically compile, run, build and deploy the application. This makes the development process a lot easier, as i can use the modular `make` commands to create the different artifacts.
-  - i also added placeholders inside of the makefile to make editing this file easier for the future.
+- I added a makefile-script to automatically compile, run, build and deploy the application. This makes the development process a lot easier, as i can use the modular `make` commands to create the different artifacts
+  - i also added placeholders inside of the makefile to make editing this file easier for the future
 - The idea behind creating "deployments" for this application is, that i can deploy executables for different plattform, so that users can just download it and run it, without needing to compile everything from source. This makes this project much more accessible for others.
 - to achieve deploying this app for "windows" i will use a virtual machine on my linux machine, so that i have the needed `jpackage` dependencies to create a `.exe` file. But this is still work in progress. 
-
 
 ## 11.08.2024
 - Now i provided a way to compile and deploy 'Sheepsmeadow' also as an `.exe`-file. My Intention was, that also students with limited programming knowledge will use this simulation program, so it is crucial to provide an easy experience. This ensures that also those students can enjoy the beauty of this program, without having to build it from source.

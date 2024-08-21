@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import Model.Model;
 import Model.Entities.Agents.Agent;
 import Model.Entities.Agents.Sheep;
-import Model.Entities.Agents.Wolf;
 import Model.Entities.Agents.Behavior.Actions.GeneralAction;
 import Model.Entities.Objects.Grass;
 import Model.Neighbourhood.*;
+
 import sim.engine.SimState;
 import sim.engine.Stoppable;
 
@@ -108,6 +108,7 @@ public class ReproduceSheep extends GeneralAction
     {
         boolean hasSheep = false;
         boolean hasGrassCell = false;
+        boolean hasFertileTargetAgent = false;
 
         Model model = (Model) state;
 
@@ -126,6 +127,14 @@ public class ReproduceSheep extends GeneralAction
             else if (cell.getEntity() instanceof Sheep)
             {
                 hasSheep = true;
+
+                Sheep targetAgent = (Sheep) cell.getEntity();
+
+                // check if any target sheep agent could reproduce this step
+                if (targetAgent.getCanReproduceAgain())
+                {
+                    hasFertileTargetAgent = true;
+                }
             }
             else if (cell.getEntity() instanceof Grass)
             {
@@ -133,6 +142,6 @@ public class ReproduceSheep extends GeneralAction
             }
             // else nothing
         }
-        return hasSheep && hasGrassCell && canReproduce && reproductionSuccessful;
+        return hasSheep && hasGrassCell && canReproduce && reproductionSuccessful && hasFertileTargetAgent;
     }    
 }
