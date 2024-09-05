@@ -2,7 +2,7 @@ package Model;
 
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
-
+import sim.util.Interval;
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
@@ -16,7 +16,7 @@ public class Model extends SimState
     // ===== ATTRIBUTES =====
 
     // create spatial representation for the model (a "field"). This is where all agents "live"
-    private ObjectGrid2D meadow = new ObjectGrid2D(7, 7);
+    private ObjectGrid2D meadow = new ObjectGrid2D(1, 1);
 
     // sets number of sheeps in this simulation
     private int sheeps;
@@ -30,6 +30,9 @@ public class Model extends SimState
     private double wolfFertilityRate;
 
     private double sheepFertilityRate;
+
+    // size of the ObjectGrid2D. The grid will always have the same width and height
+    private int gridSize = 1;
 
     // defines, how many steps an agent has to wait, until it can reproduce again
     private int reproductionDelay;
@@ -277,6 +280,22 @@ public class Model extends SimState
       this.reproductionDelay = value;
     }
 
+    public int getGridSize()
+    {
+        return this.gridSize;
+    }
+
+    public void setGridSize(int value) 
+    {
+        this.gridSize = value;
+
+        // transform the grid
+        this.meadow.reshape(value, value);
+
+        // update MAX_INDIVIDUALS
+        this.MAX_INDIVIDUALS = this.meadow.getWidth() * this.meadow.getHeight();
+    }
+
     // ===== MAIN =====
 
     public static void main(String[] args)
@@ -287,4 +306,6 @@ public class Model extends SimState
         // exit main process to ensure all threads have stopped
         System.exit(0); 
     }
+
+    
 }
