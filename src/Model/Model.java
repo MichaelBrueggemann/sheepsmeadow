@@ -195,11 +195,6 @@ public class Model extends SimState
         this.sheeps = value;
     }
 
-    public Object domSheeps()
-    {
-        return new sim.util.Interval(0, MAX_INDIVIDUALS);
-    }
-
     public int getWolves() 
     {
         return this.wolves;
@@ -214,17 +209,6 @@ public class Model extends SimState
 
         this.wolves = value;
     }
-
-
-    /**
-     * Create a domain (interval) of values acceptable for the attribute WOLVES
-     * @return 
-     */
-    public Object domWolves()
-    {
-        return new sim.util.Interval(0, MAX_INDIVIDUALS);
-    }
-
 
     /** 
      * This getter has to be named breaking the convention, to prevent the Model Inspector from "MeadowDisplay.java" to draw it in the "Model" tab
