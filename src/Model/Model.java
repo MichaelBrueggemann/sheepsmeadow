@@ -276,6 +276,10 @@ public class Model extends SimState
         // transform the grid
         this.meadow.reshape(value, value);
 
+        // reset wolves and sheep
+        this.wolves = 0;
+        this.sheeps = 0;
+
         // update MAX_INDIVIDUALS
         this.MAX_INDIVIDUALS = this.meadow.getWidth() * this.meadow.getHeight();
     }
