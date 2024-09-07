@@ -15,6 +15,9 @@ public class TestModel {
     {
         this.modelInstance = new Model(1);
 
+        // set fixed gridsize for the test. All Tests assume this gridsize
+        this.modelInstance.returnMeadow().reshape(7, 7);
+
         modelInstance.addGrassToGrid();
 
         // Wolfs and Sheeps can definitely reproduce 

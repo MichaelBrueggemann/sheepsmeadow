@@ -98,6 +98,21 @@ public class ModelWithUI extends GUIState {
         Inspector i = super.getInspector();
         i.setVolatile(false);
 
+        Model model = (Model) state;
+
+        // Add a listener to update GUI components
+        // an "evt" is a change in a property of the "Model" class. Currently supported events:
+        // - "wolves": the number of wolves stored in the model is updated
+        // - "sheeps": the number of sheeps stored in the model is updated
+        model.addPropertyChangeListener(evt -> 
+        {
+            if ("wolves".equals(evt.getPropertyName()) || "sheeps".equals(evt.getPropertyName())) 
+            {
+                // update the inspector to represent the current state of the property in the model
+                i.updateInspector();
+            }
+        });
+
         return i;
     }
 

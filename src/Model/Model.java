@@ -6,17 +6,20 @@ import sim.field.grid.ObjectGrid2D;
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
-
 import Model.Exceptions.GridLocationOccupiedException;
 
-
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
 public class Model extends SimState 
 {
     // ===== ATTRIBUTES =====
 
+    // field enable adding listeners to the other model fields
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
     // create spatial representation for the model (a "field"). This is where all agents "live"
-    private ObjectGrid2D meadow = new ObjectGrid2D(7, 7);
+    private ObjectGrid2D meadow = new ObjectGrid2D(1, 1);
 
     // sets number of sheeps in this simulation
     private int sheeps;
@@ -30,6 +33,9 @@ public class Model extends SimState
     private double wolfFertilityRate;
 
     private double sheepFertilityRate;
+
+    // size of the ObjectGrid2D. The grid will always have the same width and height
+    private int gridSize = 1;
 
     // defines, how many steps an agent has to wait, until it can reproduce again
     private int reproductionDelay;
@@ -192,11 +198,6 @@ public class Model extends SimState
         this.sheeps = value;
     }
 
-    public Object domSheeps()
-    {
-        return new sim.util.Interval(0, MAX_INDIVIDUALS);
-    }
-
     public int getWolves() 
     {
         return this.wolves;
@@ -211,17 +212,6 @@ public class Model extends SimState
 
         this.wolves = value;
     }
-
-
-    /**
-     * Create a domain (interval) of values acceptable for the attribute WOLVES
-     * @return 
-     */
-    public Object domWolves()
-    {
-        return new sim.util.Interval(0, MAX_INDIVIDUALS);
-    }
-
 
     /** 
      * This getter has to be named breaking the convention, to prevent the Model Inspector from "MeadowDisplay.java" to draw it in the "Model" tab
@@ -277,6 +267,40 @@ public class Model extends SimState
       this.reproductionDelay = value;
     }
 
+    public int getGridSize()
+    {
+        return this.gridSize;
+    }
+
+    public void setGridSize(int value) 
+    {
+        this.gridSize = value;
+
+        // transform the grid
+        this.meadow.reshape(value, value);
+
+        // reset wolves and sheep
+        int oldWolves = this.wolves;
+        int oldSheeps = this.sheeps;
+        this.wolves = 0;
+        this.sheeps = 0;
+
+        // update MAX_INDIVIDUALS
+        this.MAX_INDIVIDUALS = this.meadow.getWidth() * this.meadow.getHeight();
+    
+        propertyChangeSupport.firePropertyChange("wolves", oldWolves, this.wolves);
+        propertyChangeSupport.firePropertyChange("sheeps", oldSheeps, this.sheeps);
+    }
+
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
     // ===== MAIN =====
 
     public static void main(String[] args)
@@ -287,4 +311,6 @@ public class Model extends SimState
         // exit main process to ensure all threads have stopped
         System.exit(0); 
     }
+
+    
 }
