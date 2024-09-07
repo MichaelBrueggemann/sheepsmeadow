@@ -6,14 +6,17 @@ import sim.field.grid.ObjectGrid2D;
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
-
 import Model.Exceptions.GridLocationOccupiedException;
 
-
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
 public class Model extends SimState 
 {
     // ===== ATTRIBUTES =====
+
+    // field enable adding listeners to the other model fields
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     // create spatial representation for the model (a "field"). This is where all agents "live"
     private ObjectGrid2D meadow = new ObjectGrid2D(1, 1);
@@ -277,11 +280,25 @@ public class Model extends SimState
         this.meadow.reshape(value, value);
 
         // reset wolves and sheep
+        int oldWolves = this.wolves;
+        int oldSheeps = this.sheeps;
         this.wolves = 0;
         this.sheeps = 0;
 
         // update MAX_INDIVIDUALS
         this.MAX_INDIVIDUALS = this.meadow.getWidth() * this.meadow.getHeight();
+    
+        propertyChangeSupport.firePropertyChange("wolves", oldWolves, this.wolves);
+        propertyChangeSupport.firePropertyChange("sheeps", oldSheeps, this.sheeps);
+    }
+
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     // ===== MAIN =====
