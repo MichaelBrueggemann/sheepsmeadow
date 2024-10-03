@@ -1,3 +1,7 @@
+
+
+![icon](./images/sheepsmeadow256x256.png) 
+
 # Sheepsmeadow
 **Sheepsmeadow** is a simulation program designed and distributed with the [MASON Framework](https://cs.gmu.edu/~eclab/projects/mason/). It fascilliates options to create a number of Sheeps and Wolves on a Meadow and observe their interaction over time. 
 
