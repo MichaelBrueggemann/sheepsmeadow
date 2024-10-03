@@ -96,7 +96,7 @@ public class ModelWithUI extends GUIState {
     public Inspector getInspector()
     {
         Inspector i = super.getInspector();
-        i.setVolatile(false);
+        i.setVolatile(true);
 
         Model model = (Model) state;
 

@@ -2,13 +2,14 @@ package Model;
 
 import sim.engine.*;
 import sim.field.grid.ObjectGrid2D;
-
+import sim.util.Bag;
 import Model.Entities.*;
 import Model.Entities.Agents.*;
 import Model.Entities.Objects.Grass;
 import Model.Exceptions.GridLocationOccupiedException;
 
 import java.beans.PropertyChangeSupport;
+import java.util.stream.Stream;
 import java.beans.PropertyChangeListener;
 
 public class Model extends SimState 
@@ -211,6 +212,46 @@ public class Model extends SimState
         if (this.sheeps + value > this.MAX_INDIVIDUALS) throw new Exception("Too much agents");
 
         this.wolves = value;
+    }
+
+    public int[] getSheepEnergyDistribution()
+    {
+
+        // get all sheeps currently on the Meadow
+        Stream<Object> stream = this.meadow.elements().stream();
+
+        Object[] sheeps = stream.filter(obj -> obj instanceof Sheep).toArray();
+
+        int num_sheeps = sheeps.length;
+
+        int[] sheepEnergyDistribution = new int[num_sheeps];
+
+        for (int i = 0; i < num_sheeps; ++i)
+        {
+            sheepEnergyDistribution[i] = ((Sheep) sheeps[i]).getEnergy();
+        }
+
+        return sheepEnergyDistribution;
+    }
+
+    public int[] getWolfEnergyDistribution()
+    {
+
+        // get all sheeps currently on the Meadow
+        Stream<Object> stream = this.meadow.elements().stream();
+
+        Object[] wolves = stream.filter(obj -> obj instanceof Wolf).toArray();
+
+        int num_wolves = wolves.length;
+
+        int[] wolfEnergyDistribution = new int[num_wolves];
+
+        for (int i = 0; i < num_wolves; ++i)
+        {
+            wolfEnergyDistribution[i] = ((Wolf) wolves[i]).getEnergy();
+        }
+
+        return wolfEnergyDistribution;
     }
 
     /** 
