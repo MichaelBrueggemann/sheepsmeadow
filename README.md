@@ -1,5 +1,3 @@
-
-
 ![icon](./images/sheepsmeadow256x256.png) 
 
 # Sheepsmeadow
