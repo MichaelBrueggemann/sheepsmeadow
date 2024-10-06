@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body>
+<table border=0 cellspacing=0 cellpadding=6>
+<tr>
+<td valign=top>
+<img src="../../images/sheepsmeadow128x128.png">
+<td valign=top>
+<h2>Sheepsmeadow</h2>
+<b>By Michael Brüggemann</b> <br> <br>
+<b>Version: 1.0.0</b>
+</table>
+<p>
+
+<h2>
+    Introduction
+</h2>
+<strong>Sheepsmeadow</strong> is a simple simlation program, based on the Lecture "Einführung in die Geoinformatik" held by Prof. Dr. Christian Kray at University Münster, Germany.
+This program aims to give an easy introduction to "grid-based Agent Based Simulations".
+
+<br>
+<br>
+
+<strong>Sheepsmeadow</strong> let's you choose a gridsize for the "Meadow", define the number of Sheeps and Wolves to place on the Meadow. It let's you also define a probability how likely it is, that agents can create offsprings.
+At last, you are able to look at distributions of the energy level of all agents, calculated at each timestep.
+
+<h2>Model Parameters</h2>
+
+<strong>Sheepsmeadow</strong> provides some parameters for you to edit. Those parameters change the behavior of the simulation (like gridsize, reproducibility of agents, etc.).
+<strong>Sheepsmeadow</strong> also provides "read-only" parameters like <i>WolfEnergyDistribution</i> and <i>SheepEnergyDistribution</i>.
+
+<h3>GridSize</h3>
+
+The <i>GridSize</i> defines the area of the "Meadow". This is a raster of size N x N. The Gridsize is a threshold for how many agents can be placed on the "Meadow" (e.g. with a Gridsize of 5, only 5*5=25 agents can be placed).
+
+<h3>ReproductionDelay</h3>
+
+The <i>ReproductionDelay</i> defines the number of simulation steps, an agent that has been part of a reproduction event needs to wait, until it can reproduce again.
+
+<h3>SheepEnergyDistribution</h3>
+
+Using the small "magnifying lens" next to this parameter in the "Model"-Tab, you can find the option "Make Histogram". Click this, and a window with the corresponding histogram will pop up.
+
+<h3>SheepFertillityRate</h3>
+
+The <i>SheepFertillityRate</i> defines how likely it is, that two sheeps produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two sheep can't reproduce.
+
+<h3>Wolves</h3>
+
+<i>Wolves</i> defines, how many wolves should be placed on the "Meadow". You can only places as many wolves, as the the gridsize allows.
+
+<h3>WolfEnergyDistribution</h3>
+
+Using the small "magnifying lens" next to this parameter in the "Model"-Tab, you can find the option "Make Histogram". Click this, and a window with the corresponding histogram will pop up.
+
+<h3>WolfFertilityRate</h3>
+
+The <i>WolfFertillityRate</i> defines how likely it is, that two wolves produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two wolve can't reproduce.
+
+<h3>Sheep</h3>
+
+<i>Sheep</i> defines, how many sheep should be placed on the "Meadow". You can only places as many sheep, as the the gridsize allows.
+</body>
+</html>
