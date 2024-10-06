@@ -63,9 +63,9 @@ make sheepsmeadow.jar
 ```
 Alternatively you can use the `.jar` provided in `deployments/jar`
 
-2. Run `make deploy-linux`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`
+2. Run `make deploy-linux-deb`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`
 ```bash
-make deploy-linux
+make deploy-linux-deb
 ```
 3. Install the `.deb` file. You can use `make install-linux-deb`. This creates a tempory directory in `/tmp/sheepsmeadow` and installs the application using `apt`. The `.deb` file **must** be stored like this: `/tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb`!!
 You will need to enter your `sudo` password
