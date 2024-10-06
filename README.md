@@ -37,7 +37,10 @@ Advanced model statistics will be provided via python scripts for the sake of ea
 ## Run tests
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
 
-To run a test locally, execute: `bash test.sh`
+To run a test locally, execute: 
+```Bash
+make test
+```
 
 # Deploy Sheepsmeadow
 To deploy **Sheepsmeadow** on different systems, please follow these steps:
