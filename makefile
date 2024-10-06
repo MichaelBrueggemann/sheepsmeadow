@@ -22,6 +22,8 @@ all: $(JAR_FILE) deploy clean
 compile-source:
 	mkdir -p $(BUILD_DIR)
 	'javac' -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*" src/Controller/ModelWithUI.java
+	cp ./$(SRC_DIR)/Controller/index.html ./$(BUILD_DIR)/Controller/
+
 
 # compile and run the application
 run: compile-source
