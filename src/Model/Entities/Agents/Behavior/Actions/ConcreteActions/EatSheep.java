@@ -58,7 +58,7 @@ public class EatSheep extends GeneralAction
         try 
         {
             // remove sheep from the schedule
-            sheep.getScheduleStopper().stop();
+            sheep.die();
 
             // place the grass cell assigned to the sheep back on the grid & remove sheep agent from it's grid location
             sheep.getGrid().set(sheepCell.getLocation().getX(), sheepCell.getLocation().getY(), sheep.getGrasscell());
@@ -77,7 +77,6 @@ public class EatSheep extends GeneralAction
         {
 
         }
- 
     }
 
     @Override
@@ -93,7 +92,12 @@ public class EatSheep extends GeneralAction
             }
             else if (cell.getEntity() instanceof Sheep)
             {
-                conditionFullfilled = true;
+                Sheep sheep = (Sheep) cell.getEntity();
+
+                if (sheep.isAlive())
+                {
+                    conditionFullfilled = true;
+                }
             }
             // else nothing
         }
