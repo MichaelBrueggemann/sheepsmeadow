@@ -12,35 +12,49 @@
 <b>By Michael Brüggemann</b> <br> <br>
 <b>Version: 1.0.0</b>
 </table>
-<p>
 
-<h2>
-    Introduction
-</h2>
-<strong>Sheepsmeadow</strong> is a simple simlation program, based on the Lecture "Einführung in die Geoinformatik" held by Prof. Dr. Christian Kray at University Münster, Germany.
-This program aims to give an easy introduction to "grid-based Agent Based Simulations".
+<h2>Introduction</h2>
+
+<strong>Sheepsmeadow</strong> is a simple simulation program, based on the Lecture "Einführung in die Geoinformatik" held by Prof. Dr. Christian Kray at University Münster, Germany.
+This application aims to give an easy introduction to "grid-based Agent Based Simulations".
 
 <br>
 <br>
 
-<strong>Sheepsmeadow</strong> let's you choose a gridsize for the "Meadow", define the number of Sheeps and Wolves to place on the Meadow. It let's you also define a probability how likely it is, that agents can create offsprings.
-At last, you are able to look at distributions of the energy level of all agents, calculated at each timestep.
+<strong>Sheepsmeadow</strong> is a Simulation of Wolves and Sheeps living on a Meadow. 
+<br>
+The Meadow is where all action happens. Sheep eat grass, reproduce or get eaten by wolves. Wolves stroll around on the hunt for lonely sheep or try to keep their population alive by producing more wolves.
 
-<h2>How to use this program</h2>
+<h2>How to use this application</h2>
 
-<strong>Sheepsmeadow</strong> provides different "Tabs" with options:
+<strong>Sheepsmeadow</strong> provides different "Tabs":
+<br>
+<img src="../../images/tabs.png">
 
 <h3>Console</h3>
 
 The "Console"-Tab let's you change basic simulation properties like the <i>Seed</i>, <i>Step-Delay</i> and <i>Stop/Pause-Criteria</i>. 
-If you want to run the same simulation over and over again, you have to use the same <i>Seed</i> every time and also uncheck the option "Increment Seed on Stop".
 <br>
-The <i>Step-Delay</i> defines how many seconds it takes to perform a step of the simulation. The larger this number gets, the more time it takes to perform a simulation step.
+If you want to run the same simulation over and over again, you have to use the same <i>Seed</i> every time and also uncheck the option <i>Increment Seed on Stop</i>.
+<br>
+<br>
+The <i>Step-Delay</i> defines how many seconds it takes to perform a <i>step</i> of the simulation. A <i>step</i> is just number that gets increment every time every agent in the simulation has performed their action. The larger <i>Step-Delay</i> gets, the more time it takes to perform a <i>step</i>.
+<br>
+<br>
+The <i>Stop/Pause-Criteria</i> defines, on what condition the simulation run should be ended/paused. You have the option to either give a specific <i>step</i> (e.g. by giving "10", the simulation run will end/stop at Step 10). 
+<br>
+<br>
+Another option is to set a specific <i>time</i> as a <i>Stop/Pause-Criteria</i>. <i>Time</i> means the "simulation time" not the normal clock-time. This is a bit complicated to explain, so just ignore it.
+<br>
+<br>
+If the <i>Stop/Pause-Criteria</i> can be applied, depends on the current <i>Simulation Mode</i>. You can change it in the bottom right corner of this window with this dropdown-menu. To make things easier, please only use the mode <i>Steps</i>.
+<br>
+<img src="../../images/simulation_mode_dropdown.png">
 
 <h3>Displays</h3>
 
-THe "Displays"-Tab lists all "Displays" provided by <strong>Sheepsmeadow</strong>. 
-A "Display" is a Window where graphical elements of the simulation (like the "Meadow") are stored. Here you have the option to "show" or "hide" those Displays.
+The "Displays"-Tab lists all "Displays" provided by <strong>Sheepsmeadow</strong>. 
+A "Display" is a Window where graphical elements of the simulation (like the "Meadow" where you can see all the Sheep and Wolves) are stored. Here you have the option to "show" or "hide" those Displays.
 
 <h3>Inspectors</h3>
 
@@ -48,7 +62,21 @@ Currently not supported.
 
 <h3>Model</h3>
 
-The "Model"-Tab provides options to change the "Model Parameters". Detailed information about the "Model Parameters" are provided in <strong>Model Parameters</strong>.
+The "Model"-Tab provides options to change the "Model Parameters". These change how the simulation behaves.
+
+
+<h2>How to start a simulation</h2>
+
+To start a simulation run using <strong>Sheepsmeadow</strong>, you first need to set the <i>Model Parameters</i> (those are described in detail below).
+<br>
+<br>
+After you've set all desired parameters, you can start the simulation using the <i>Start Button</i>  <img src="../../images/start_button.png" width="18" height="18"> placed in the bottom left corner of this window. When the simulation run is started, you can pause it any time using the <i>Pause Button</i> <img src="../../images/pause_button.png" width="18" height="18">. 
+<br>
+<br>
+After pausing, the button changes to the <i>Resume Button</i> <img src="../../images/resume_button.png" width="18" height="18">. With this button you can increment the simulation step by one, each time you press this button. If you press the <i>Pause Button</i> again, the simulation will continue to run automatically.
+<br>
+<br>
+To end the simulation run prematurely, you can use the <i>End Button</i> <img src="../../images/end_button.png" width="18" height="18">.
 
 <h2>Model Parameters</h2>
 
@@ -61,30 +89,38 @@ The <i>GridSize</i> defines the area of the "Meadow". This is a raster of size N
 
 <h3>ReproductionDelay</h3>
 
-The <i>ReproductionDelay</i> defines the number of simulation steps, an agent that has been part of a reproduction event needs to wait, until it can reproduce again.
+The <i>ReproductionDelay</i> defines the number of simulation steps, an agent that has been part of a reproduction event needs to wait until it can reproduce again.
 
 <h3>SheepEnergyDistribution</h3>
 
-Using the small "magnifying lens" next to this parameter in the "Model"-Tab, you can find the option "Make Histogram". Click this, and a window with the corresponding histogram will pop up.
+Using the small "magnifying lens"  <img src="../../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <i>Make Histogram</i>. 
+<br>
+Click this, and a window with the corresponding histogram will pop up. Please note, that you have to start the simulation, before you can create a histogram. Otherwise the histogram window automatically will be closed.
 
 <h3>SheepFertillityRate</h3>
 
 The <i>SheepFertillityRate</i> defines how likely it is, that two sheeps produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two sheep can't reproduce.
+<br>
+<strong>!! This parameter can be changed during the simulation run !!</strong>
 
 <h3>Wolves</h3>
 
-<i>Wolves</i> defines, how many wolves should be placed on the "Meadow". You can only places as many wolves, as the the gridsize allows.
+<i>Wolves</i> defines, how many wolves should be placed on the "Meadow". You can only place as many wolves, as the the gridsize allows.
 
 <h3>WolfEnergyDistribution</h3>
 
-Using the small "magnifying lens" next to this parameter in the "Model"-Tab, you can find the option "Make Histogram". Click this, and a window with the corresponding histogram will pop up.
+Using the small "magnifying lens"  <img src="../../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <i>Make Histogram</i>. 
+<br>
+Click this, and a window with the corresponding histogram will pop up. Please note, that you have to start the simulation, before you can create a histogram. Otherwise the histogram window automatically will be closed.
 
 <h3>WolfFertilityRate</h3>
 
 The <i>WolfFertillityRate</i> defines how likely it is, that two wolves produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two wolve can't reproduce.
+<br>
+<strong>!! This parameter can be changed during the simulation run !!</strong>
 
 <h3>Sheep</h3>
 
-<i>Sheep</i> defines, how many sheep should be placed on the "Meadow". You can only places as many sheep, as the the gridsize allows.
+<i>Sheep</i> defines, how many sheep should be placed on the "Meadow". You can only place as many sheep, as the the gridsize allows.
 </body>
 </html>
