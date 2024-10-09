@@ -126,7 +126,7 @@ public class ReproduceWolf extends GeneralAction
                 Wolf targetAgent = (Wolf) cell.getEntity();
 
                 // check if any target wolf agent could reproduce this step
-                if (targetAgent.getCanReproduceAgain())
+                if (targetAgent.getCanReproduceAgain() && targetAgent.isAlive())
                 {
                     hasFertileTargetAgent = true;
                 }

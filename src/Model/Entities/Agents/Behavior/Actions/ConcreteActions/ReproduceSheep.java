@@ -131,7 +131,7 @@ public class ReproduceSheep extends GeneralAction
                 Sheep targetAgent = (Sheep) cell.getEntity();
 
                 // check if any target sheep agent could reproduce this step
-                if (targetAgent.getCanReproduceAgain())
+                if (targetAgent.getCanReproduceAgain() && targetAgent.isAlive())
                 {
                     hasFertileTargetAgent = true;
                 }

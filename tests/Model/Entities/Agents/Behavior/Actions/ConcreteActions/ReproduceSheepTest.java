@@ -134,5 +134,10 @@ public class ReproduceSheepTest {
         // TEST: reproduction should fail (targetAgent isn't fertile)
         assertTrue(!this.reproduceSheep.checkCondition(this.currentAgent, neighbourhood, this.testModel.modelInstance));
 
+        // un-alive targetAgent
+        targetAgent.die();
+
+        // TEST: reproduction should fail, as the target agent is dead
+        assertTrue(!this.reproduceSheep.checkCondition(this.currentAgent, neighbourhood, this.testModel.modelInstance));
     }
 }
