@@ -42,7 +42,13 @@ public class EatSheep extends GeneralAction
             }
             else if (cell.getEntity() instanceof Sheep)
             {
-                sheepCells.add(cell);
+                Sheep sheep = (Sheep) cell.getEntity();
+
+                // only sheeps that are alive should be considered for eating
+                if (sheep.isAlive())
+                {
+                    sheepCells.add(cell);
+                }
             }
             // else nothing
         }
