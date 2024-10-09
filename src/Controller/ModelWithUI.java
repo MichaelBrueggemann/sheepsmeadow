@@ -5,6 +5,7 @@ import sim.portrayal.*;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.display.*;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +96,11 @@ public class ModelWithUI extends GUIState {
         // create GUI console
         Console console = new Console(simulation);
 
+        // change size of the Console
+        console.setPreferredSize(new Dimension(600,600));
+        // apply changes
+        console.pack();
+        
         try 
         {
             BufferedImage icon = ImageIO.read(new File("/home/mbrue/Repositories/sheepsmeadow/images/sheepsmeadow32x32.png")); 
