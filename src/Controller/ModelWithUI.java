@@ -5,6 +5,12 @@ import sim.portrayal.*;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.display.*;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Model.Model;
@@ -35,6 +41,19 @@ public class ModelWithUI extends GUIState {
 
         displayFrame = display.createFrame();
         displayFrame.setTitle("Sheepsmeadow Display");
+
+        try 
+        {
+            BufferedImage icon = ImageIO.read(new File("/home/mbrue/Repositories/sheepsmeadow/images/sheepsmeadow32x32.png")); 
+            
+            // set icon for the meadow display
+            displayFrame.setIconImage(icon);
+
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace(); // Handle exception if the icon file is not found
+        }
 
         c.registerFrame(displayFrame); // so the frame appears in the "Display" list
         displayFrame.setVisible(true);
@@ -76,6 +95,25 @@ public class ModelWithUI extends GUIState {
         
         // create GUI console
         Console console = new Console(simulation);
+
+        // change size of the Console
+        console.setPreferredSize(new Dimension(600,600));
+        // apply changes
+        console.pack();
+        
+        try 
+        {
+            BufferedImage icon = ImageIO.read(new File("/home/mbrue/Repositories/sheepsmeadow/images/sheepsmeadow32x32.png")); 
+            
+            // set icon for the console
+            console.setIconImage(icon);
+
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace(); // Handle exception if the icon file is not found
+        }
+
         console.setVisible(true);
 
         // set some defaults for the console

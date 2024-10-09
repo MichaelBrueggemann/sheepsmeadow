@@ -22,6 +22,8 @@ all: $(JAR_FILE) deploy clean
 compile-source:
 	mkdir -p $(BUILD_DIR)
 	'javac' -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*" src/Controller/ModelWithUI.java
+	cp ./$(SRC_DIR)/Controller/index.html ./$(BUILD_DIR)/Controller/
+
 
 # compile and run the application
 run: compile-source
@@ -49,12 +51,12 @@ clean:
 	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) 
 
 
-deploy-linux: $(JAR_FILE)
+deploy-linux-deb: $(JAR_FILE)
 	# create .deb
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
-install-linux-deb: deploy-linux
+install-linux-deb: deploy-linux-deb
 	# copy .deb to /tmp
 	mkdir -p /tmp/sheepsmeadow
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
@@ -62,4 +64,4 @@ install-linux-deb: deploy-linux
 
 
 # declare "phony-targets" to prevent conflicts with files that have the same name as the "phony-target"
-.PHONY: all compile-source compile-tests unzip-dependencies clean run deploy-linux install-linux-deb
+.PHONY: all compile-source compile-tests unzip-dependencies clean run deploy-linux-deb install-linux-deb
