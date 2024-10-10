@@ -21,9 +21,9 @@ all: $(JAR_FILE) deploy clean
 # Compile Java classes
 compile-source:
 	mkdir -p $(BUILD_DIR)
-	'javac' -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*" src/Controller/ModelWithUI.java
+	'javac' -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*:images/*" src/Controller/ModelWithUI.java
 	cp ./$(SRC_DIR)/Controller/index.html ./$(BUILD_DIR)/Controller/
-
+	cp -r images ./$(BUILD_DIR)/
 
 # compile and run the application
 run: compile-source
@@ -44,7 +44,7 @@ unzip-dependencies:
 
 # Create the JAR file with dependencies
 $(JAR_FILE): compile-source unzip-dependencies
-	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) .
+	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) . -C $(BUILD_DIR)/images .
 
 # Clean build artifacts
 clean:
