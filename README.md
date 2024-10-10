@@ -5,7 +5,7 @@
 
 Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (MAS) for undergrad Students making their first steps in MAS. They can tweak the model parameters and observe the changes of the simulation state in each time steps via a GUI. Also some simple "live statistics" will be provided.
 
-Advanced model statistics will be provided via python scripts for the sake of easier manipulation.
+
 
 # How to start 'Sheepsmeadow'?
 
