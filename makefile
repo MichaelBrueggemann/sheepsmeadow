@@ -16,8 +16,6 @@ JAR_FILE = sheepsmeadow.jar
 
 
 # Default target
-all: $(JAR_FILE) deploy clean
-
 # Compile Java classes
 compile-source:
 	mkdir -p $(BUILD_DIR)
