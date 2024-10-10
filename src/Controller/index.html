@@ -33,21 +33,21 @@ The Meadow is where all action happens. Sheep eat grass, reproduce or get eaten 
 
 <h3>Console</h3>
 
-The "Console"-Tab let's you change basic simulation properties like the <i>Seed</i>, <i>Step-Delay</i> and <i>Stop/Pause-Criteria</i>. 
+The "Console"-Tab let's you change basic simulation properties like the <strong>Seed</strong>, <strong>Step-Delay</strong> and <strong>Stop/Pause-Criteria</strong>. 
 <br>
-If you want to run the same simulation over and over again, you have to use the same <i>Seed</i> every time and also uncheck the option <i>Increment Seed on Stop</i>.
-<br>
-<br>
-The <i>Step-Delay</i> defines how many seconds it takes to perform a <i>step</i> of the simulation. A <i>step</i> is just number that gets increment every time every agent in the simulation has performed their action. The larger <i>Step-Delay</i> gets, the more time it takes to perform a <i>step</i>.
+If you want to run the same simulation over and over again, you have to use the same <strong>Seed</strong> every time and also uncheck the option <strong>Increment Seed on Stop</strong>.
 <br>
 <br>
-The <i>Stop/Pause-Criteria</i> defines, on what condition the simulation run should be ended/paused. You have the option to either give a specific <i>step</i> (e.g. by giving "10", the simulation run will end/stop at Step 10). 
+The <strong>Step-Delay</strong> defines how many seconds it takes to perform a <strong>step</strong> of the simulation. A <strong>step</strong> is just number that gets increment every time every agent in the simulation has performed their action. The larger <strong>Step-Delay</strong> gets, the more time it takes to perform a <strong>step</strong>.
 <br>
 <br>
-Another option is to set a specific <i>time</i> as a <i>Stop/Pause-Criteria</i>. <i>Time</i> means the "simulation time" not the normal clock-time. This is a bit complicated to explain, so just ignore it.
+The <strong>Stop/Pause-Criteria</strong> defines, on what condition the simulation run should be ended/paused. You have the option to either give a specific <strong>step</strong> (e.g. by giving "10", the simulation run will end/stop at Step 10). 
 <br>
 <br>
-If the <i>Stop/Pause-Criteria</i> can be applied, depends on the current <i>Simulation Mode</i>. You can change it in the bottom right corner of this window with this dropdown-menu. To make things easier, please only use the mode <i>Steps</i>.
+Another option is to set a specific <strong>time</strong> as a <strong>Stop/Pause-Criteria</strong>. <strong>Time</strong> means the "simulation time" not the normal clock-time. This is a bit complicated to explain, so just ignore it.
+<br>
+<br>
+If the <strong>Stop/Pause-Criteria</strong> can be applied, depends on the current <strong>Simulation Mode</strong>. You can change it in the bottom right corner of this window with this dropdown-menu. To make things easier, please only use the mode <strong>Steps</strong>.
 <br>
 <img src="../images/simulation_mode_dropdown.png">
 
@@ -67,60 +67,60 @@ The "Model"-Tab provides options to change the "Model Parameters". These change 
 
 <h2>How to start a simulation</h2>
 
-To start a simulation run using <strong>Sheepsmeadow</strong>, you first need to set the <i>Model Parameters</i> (those are described in detail below).
+To start a simulation run using <strong>Sheepsmeadow</strong>, you first need to set the <strong>Model Parameters</strong> (those are described in detail below).
 <br>
 <br>
-After you've set all desired parameters, you can start the simulation using the <i>Start Button</i>  <img src="../images/start_button.png" width="18" height="18"> placed in the bottom left corner of this window. When the simulation run is started, you can pause it any time using the <i>Pause Button</i> <img src="../images/pause_button.png" width="18" height="18">. 
+After you've set all desired parameters, you can start the simulation using the <strong>Start Button</strong>  <img src="../images/start_button.png" width="18" height="18"> placed in the bottom left corner of this window. When the simulation run is started, you can pause it any time using the <strong>Pause Button</strong> <img src="../images/pause_button.png" width="18" height="18">. 
 <br>
 <br>
-After pausing, the button changes to the <i>Resume Button</i> <img src="../images/resume_button.png" width="18" height="18">. With this button you can increment the simulation step by one, each time you press this button. If you press the <i>Pause Button</i> again, the simulation will continue to run automatically.
+After pausing, the button changes to the <strong>Resume Button</strong> <img src="../images/resume_button.png" width="18" height="18">. With this button you can increment the simulation step by one, each time you press this button. If you press the <strong>Pause Button</strong> again, the simulation will continue to run automatically.
 <br>
 <br>
-To end the simulation run prematurely, you can use the <i>End Button</i> <img src="../images/end_button.png" width="18" height="18">.
+To end the simulation run prematurely, you can use the <strong>End Button</strong> <img src="../images/end_button.png" width="18" height="18">.
 
 <h2>Model Parameters</h2>
 
 <strong>Sheepsmeadow</strong> provides some parameters for you to edit. Those parameters change the behavior of the simulation (like gridsize, reproducibility of agents, etc.).
-<strong>Sheepsmeadow</strong> also provides "read-only" parameters like <i>WolfEnergyDistribution</i> and <i>SheepEnergyDistribution</i>.
+<strong>Sheepsmeadow</strong> also provides "read-only" parameters like <strong>WolfEnergyDistribution</strong> and <strong>SheepEnergyDistribution</strong>.
 
 <h3>GridSize</h3>
 
-The <i>GridSize</i> defines the area of the "Meadow". This is a raster of size N x N. The Gridsize is a threshold for how many agents can be placed on the "Meadow" (e.g. with a Gridsize of 5, only 5*5=25 agents can be placed).
+The <strong>GridSize</strong> defines the area of the "Meadow". This is a raster of size N x N. The Gridsize is a threshold for how many agents can be placed on the "Meadow" (e.g. with a Gridsize of 5, only 5*5=25 agents can be placed).
 
 <h3>ReproductionDelay</h3>
 
-The <i>ReproductionDelay</i> defines the number of simulation steps, an agent that has been part of a reproduction event needs to wait until it can reproduce again.
+The <strong>ReproductionDelay</strong> defines the number of simulation steps, an agent that has been part of a reproduction event needs to wait until it can reproduce again.
 
 <h3>SheepEnergyDistribution</h3>
 
-Using the small "magnifying lens"  <img src="../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <i>Make Histogram</i>. 
+Using the small "magnifying lens"  <img src="../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <strong>Make Histogram</strong>. 
 <br>
 Click this, and a window with the corresponding histogram will pop up. Please note, that you have to start the simulation, before you can create a histogram. Otherwise the histogram window automatically will be closed.
 
 <h3>SheepFertillityRate</h3>
 
-The <i>SheepFertillityRate</i> defines how likely it is, that two sheeps produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two sheep can't reproduce.
+The <strong>SheepFertillityRate</strong> defines how likely it is, that two sheeps produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two sheep can't reproduce.
 <br>
 <strong>!! This parameter can be changed during the simulation run !!</strong>
 
 <h3>Wolves</h3>
 
-<i>Wolves</i> defines, how many wolves should be placed on the "Meadow". You can only place as many wolves, as the the gridsize allows.
+<strong>Wolves</strong> defines, how many wolves should be placed on the "Meadow". You can only place as many wolves, as the the gridsize allows.
 
 <h3>WolfEnergyDistribution</h3>
 
-Using the small "magnifying lens"  <img src="../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <i>Make Histogram</i>. 
+Using the small "magnifying lens"  <img src="../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <strong>Make Histogram</strong>. 
 <br>
 Click this, and a window with the corresponding histogram will pop up. Please note, that you have to start the simulation, before you can create a histogram. Otherwise the histogram window automatically will be closed.
 
 <h3>WolfFertilityRate</h3>
 
-The <i>WolfFertillityRate</i> defines how likely it is, that two wolves produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two wolve can't reproduce.
+The <strong>WolfFertillityRate</strong> defines how likely it is, that two wolves produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two wolve can't reproduce.
 <br>
 <strong>!! This parameter can be changed during the simulation run !!</strong>
 
 <h3>Sheep</h3>
 
-<i>Sheep</i> defines, how many sheep should be placed on the "Meadow". You can only place as many sheep, as the the gridsize allows.
+<strong>Sheep</strong> defines, how many sheep should be placed on the "Meadow". You can only place as many sheep, as the the gridsize allows.
 </body>
 </html>
