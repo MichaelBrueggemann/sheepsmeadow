@@ -54,6 +54,11 @@ deploy-linux-deb: $(JAR_FILE)
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
+deploy-macOS: $(JAR_FILE)
+# create .deb
+mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
+jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type dmg --dest $(DEPLOYMENT_DIR)/macOS/
+
 install-linux-deb: deploy-linux-deb
 	# copy .deb to /tmp
 	mkdir -p /tmp/sheepsmeadow
