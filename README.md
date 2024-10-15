@@ -5,7 +5,7 @@
 
 Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (MAS) for undergrad Students making their first steps in MAS. They can tweak the model parameters and observe the changes of the simulation state in each time steps via a GUI. Also some simple "live statistics" will be provided.
 
-For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/dev/deployments/windows/sheepsmeadow.exe)
+For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/dev/deployments/windows/sheepsmeadow.zip)
 
 # How to start 'Sheepsmeadow'?
 
@@ -188,3 +188,6 @@ In this simulation on the other hand, all agent have a finite order, so an agent
 ## 03.10.2024
 - Today I provided images to use in this README and inside the application. I created those images using [pixelart](https://www.pixilart.com/draw). Here I really learned to appreciate AI art generation, as I created raster-based images which aren't fun to upscale. 
 Fortunately, pixelart had an option to automatically upscale those images. This really boosted the design process and made my life significantly easier. 
+
+## 15.10.2024
+- Now it's also possible to deploy a ".dmg"
