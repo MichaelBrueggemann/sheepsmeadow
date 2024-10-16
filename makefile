@@ -19,13 +19,13 @@ JAR_FILE = sheepsmeadow.jar
 # Compile Java classes
 compile-source:
 	mkdir -p $(BUILD_DIR)
-	'javac' -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*:images/*" src/Controller/ModelWithUI.java
+	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*:images/*" src/Controller/ModelWithUI.java
 	cp ./$(SRC_DIR)/Controller/index.html ./$(BUILD_DIR)/Controller/
 	cp -r images ./$(BUILD_DIR)/
 
 # compile and run the application
 run: compile-source
-	'java' -cp "bin:libs/*" $(MAIN_CLASS)
+	java -cp "bin:libs/*" $(MAIN_CLASS)
 
 compile-tests:
 	find tests -name '*.java' -print0 | xargs -0 javac -cp "src:bin:libs/*" -d bin
@@ -50,17 +50,14 @@ clean:
 
 
 deploy-linux-deb: $(JAR_FILE)
-	# create .deb
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
 
 deploy-macOS: $(JAR_FILE)
-# create .deb
-mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
-jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type dmg --dest $(DEPLOYMENT_DIR)/macOS/
+	mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
+	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type dmg --dest $(DEPLOYMENT_DIR)/macOS/
 
 install-linux-deb: deploy-linux-deb
-	# copy .deb to /tmp
 	mkdir -p /tmp/sheepsmeadow
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
