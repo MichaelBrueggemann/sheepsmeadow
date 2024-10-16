@@ -11,17 +11,20 @@ For easy access on **Windows** you can access the ".exe"-File [here](https://raw
 
 ## Prerequisites
 - you need to install `make` on your machine 
-    - **Windows**: [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
+    - **Windows**: Download [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
     - **Linux**: Install via your favorite package manager
-
+- you need at least Java 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
 
 ### Terminal based
-1. Change to this projects root directory `sheepsmeadow/`
-2. Enter `make run` in the console
+1. Clone this git-repository
+2. Change to this projects root directory `sheepsmeadow/`
+3. Enter `make run` in the console
     - this will open the GUI to start a simulation
 
 ### Executable based
-- **Windows**: Simply double-click the `.exe` in `executables/windows/`
+- **Windows**:
+    1. Unzip `.zip` in `deployments/windows/`
+    2. Double-click the ".exe"
 - **Linux-Debian**: 
     1. [Deploy](#deploy-linux-debian) 'Sheepsmeadow' for Linux-Debian
     2. Install 'Sheepsmeadow' for Linux-Debian
