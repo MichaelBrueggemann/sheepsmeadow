@@ -27,7 +27,7 @@ JAR_FILE = sheepsmeadow.jar
 # Default target
 # Compile Java classes
 compile-source:
-	$(MKDIR)
+	$(MKDIR) $(BUILD_DIR)
 	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(SEP).$(SEP)libs/*$(SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
 	$(CP) $(SRC_DIR)/Controller/index.html $(BUILD_DIR)/Controller/
 	$(CP) -r images $(BUILD_DIR)/
