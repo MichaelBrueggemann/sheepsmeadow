@@ -5,19 +5,18 @@ ifeq ($(OS),Windows_NT)
     CP = copy
     CP_DIR = xcopy /E /I /Y
     CLASSPATH_SEP = ;
-	PATH_SEP = \
-    JPACKAGE_TYPE_LINUX = exe
-    JPACKAGE_TYPE_MAC = exe
+    PATH_SEP = \
 else
     RM = rm -rf
     MKDIR = mkdir -p
     CP = cp
     CP_DIR = cp -r
     CLASSPATH_SEP = :
-	PATH_SEP = /
+    PATH_SEP = /
     JPACKAGE_TYPE_LINUX = deb
     JPACKAGE_TYPE_MAC = dmg
 endif
+
 
 # Define directories and files
 SRC_DIR = src
