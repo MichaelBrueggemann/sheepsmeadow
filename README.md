@@ -5,7 +5,7 @@
 
 Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (MAS) for undergrad Students making their first steps in MAS. They can tweak the model parameters and observe the changes of the simulation state in each time steps via a GUI. Also some simple "live statistics" will be provided.
 
-For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/bugfix-windows/deployments/windows/sheepsmeadow.zip)
+For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/bugifx-windows/deployments/windows/sheepsmeadow.zip)
 
 # How to start 'Sheepsmeadow'?
 
