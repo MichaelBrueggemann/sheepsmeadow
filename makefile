@@ -5,7 +5,7 @@ ifeq ($(OS),Windows_NT)
     CP = copy
     CP_DIR = xcopy /E /I /Y
     CLASSPATH_SEP = ;
-    PATH_SEP = \
+    PATH_SEP = \\
 
 else
     RM = rm -rf
