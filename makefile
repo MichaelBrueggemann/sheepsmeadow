@@ -3,6 +3,7 @@ ifeq ($(OS),Windows_NT)
     RM = rmdir /S /Q
     MKDIR = if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
     CP = copy
+    CP_DIR = xcopy /E /I /Y
     SEP = ;
     JPACKAGE_TYPE_LINUX = exe
     JPACKAGE_TYPE_MAC = exe
@@ -10,6 +11,7 @@ else
     RM = rm -rf
     MKDIR = mkdir -p
     CP = cp
+    CP_DIR = cp -r
     SEP = :
     JPACKAGE_TYPE_LINUX = deb
     JPACKAGE_TYPE_MAC = dmg
@@ -30,7 +32,7 @@ compile-source:
 	$(MKDIR) $(BUILD_DIR)
 	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(SEP).$(SEP)libs/*$(SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
 	$(CP) $(SRC_DIR)/Controller/index.html $(BUILD_DIR)/Controller/
-	$(CP) -r images $(BUILD_DIR)/
+	$(CP_DIR) images $(BUILD_DIR)/
 
 # Compile and run the application
 run: compile-source
@@ -67,9 +69,4 @@ deploy-macOS: $(JAR_FILE)
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_MAC) --dest $(DEPLOYMENT_DIR)/macOS/
 
 install-linux-deb: deploy-linux-deb
-	$(MKDIR) /tmp/sheepsmeadow
-	$(CP) $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
-	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
-
-# Declare "phony-targets" to prevent conflicts with files that have the same name
-.PHONY: all compile-source compile-tests unzip-dependencies clean run deploy-linux-deb install-linux-deb
+	$(MKDIR) /tmp/sheeps
