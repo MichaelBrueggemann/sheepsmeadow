@@ -6,7 +6,7 @@
   <outfile>C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
-  <chdir>.</chdir>
+  <chdir></chdir>
   <priority>normal</priority>
   <downloadUrl></downloadUrl>
   <supportUrl></supportUrl>
@@ -15,10 +15,10 @@
   <manifest></manifest>
   <icon></icon>
   <jre>
-    <path>jre/</path>
-    <requiresJdk>false</requiresJdk>
+    <path>../../jre/bin/javaw.exe</path>
+    <requiresJdk>true</requiresJdk>
     <requires64Bit>false</requires64Bit>
-    <minVersion>1.22</minVersion>
-    <maxVersion></maxVersion>
+    <minVersion>1.20</minVersion>
+    <maxVersion>1.24</maxVersion>
   </jre>
 </launch4jConfig>
