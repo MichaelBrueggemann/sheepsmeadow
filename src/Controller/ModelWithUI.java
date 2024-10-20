@@ -44,7 +44,7 @@ public class ModelWithUI extends GUIState {
 
         try 
         {
-            BufferedImage icon = ImageIO.read(new File("/home/mbrue/Repositories/sheepsmeadow/images/sheepsmeadow32x32.png")); 
+            BufferedImage icon = ImageIO.read(getClass().getClassLoader().getResourceAsStream("images/sheepsmeadow32x32.png")); 
             
             // set icon for the meadow display
             displayFrame.setIconImage(icon);
@@ -103,7 +103,7 @@ public class ModelWithUI extends GUIState {
         
         try 
         {
-            BufferedImage icon = ImageIO.read(new File("/home/mbrue/Repositories/sheepsmeadow/images/sheepsmeadow32x32.png")); 
+            BufferedImage icon = ImageIO.read(getClass().getClassLoader().getResourceAsStream("images/sheepsmeadow32x32.png")); 
             
             // set icon for the console
             console.setIconImage(icon);
