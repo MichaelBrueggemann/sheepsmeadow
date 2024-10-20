@@ -6,6 +6,7 @@ ifeq ($(OS),Windows_NT)
     CP_DIR = xcopy /E /I /Y
     CLASSPATH_SEP = ;
     PATH_SEP = \
+
 else
     RM = rm -rf
     MKDIR = mkdir -p
@@ -16,6 +17,7 @@ else
     JPACKAGE_TYPE_LINUX = deb
     JPACKAGE_TYPE_MAC = dmg
 endif
+
 
 
 # Define directories and files
