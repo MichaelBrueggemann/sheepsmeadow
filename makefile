@@ -8,7 +8,7 @@ ifeq ($(OS),Windows_NT)
     PATH_SEP = "\"
 else
     RM = rm -rf
-    MKDIR = mkdir -p
+    MKDIR = mkdir -p $(BUILD_DIR)
     CP = cp
     CP_DIR = cp -r
     CLASSPATH_SEP = :
