@@ -34,11 +34,11 @@ compile-source:
 	$(MKDIR) 
 	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
 	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BUILD_DIR)$(PATH_SEP)Controller
-	$(CP_DIR) images $(BUILD_DIR)/images
+	$(CP_DIR) .$(PATH_SEP)images $(BUILD_DIR)$(PATH_SEP)images
 
 # Compile and run the application
 run: compile-source
-	java -cp "$(BUILD_DIR)$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
+	java -cp "$(BUILD_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
 compile-tests:
 	find tests -name '*.java' -print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BUILD_DIR)$(CLASSPATH_SEP)libs/*" -d $(BUILD_DIR)
