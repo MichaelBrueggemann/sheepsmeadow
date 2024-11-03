@@ -1,0 +1,132 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.022.000
+Java max ver:	
+JRE paths:	jre\
+Check launcher:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\jre\bin\javaw.exe (not found)
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+32-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+64-bit search:	SOFTWARE\JavaSoft\JRE...
+32-bit search:	SOFTWARE\JavaSoft\JRE...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Check:		SOFTWARE\JavaSoft\JDK\22.0.1
+Version string: 1.022.000_001 / 64-Bit (OK)
+Check launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe (OK)
+Match:		1.022.000_001
+Runtime used:	1.022.000_001 (64-bit)
+Launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe
+Launcher args:	-jar "C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe"
+Args length:	81/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Requires JDK:	Yes
+Requires 64-Bit: No
+Java min ver:	1.020.000
+Java max ver:	
+JRE paths:	jre\
+Check launcher:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\jre\bin\javaw.exe (not found)
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Check:		SOFTWARE\JavaSoft\JDK\22.0.1
+Version string: 1.022.000_001 / 64-Bit (OK)
+Check launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-22\bin\javac.exe (OK)
+Match:		1.022.000_001
+Runtime used:	1.022.000_001 (64-bit)
+Launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe
+Launcher args:	-jar "C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe"
+Args length:	81/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Requires JDK:	Yes
+Requires 64-Bit: No
+Java min ver:	1.020.000
+Java max ver:	1.024.000
+JRE paths:	..\..\jre\
+Check launcher:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\..\..\jre\bin\javaw.exe (OK)
+Check javac:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\..\..\jre\bin\javac.exe (OK)
+Cannot get version string: cannot find quote
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Check:		SOFTWARE\JavaSoft\JDK\22.0.1
+Version string: 1.022.000_001 / 64-Bit (OK)
+Check launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-22\bin\javac.exe (OK)
+Match:		1.022.000_001
+Runtime used:	1.022.000_001 (64-bit)
+Launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe
+Launcher args:	-jar "C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe"
+Args length:	81/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Requires JDK:	Yes
+Requires 64-Bit: No
+Java min ver:	1.020.000
+Java max ver:	1.024.000
+JRE paths:	..\..\jre\bin
+Check launcher:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\..\..\jre\bin\javaw.exe (OK)
+Check javac:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\..\..\jre\bin\javac.exe (OK)
+Cannot get version string: cannot find quote
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Check:		SOFTWARE\JavaSoft\JDK\22.0.1
+Version string: 1.022.000_001 / 64-Bit (OK)
+Check launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-22\bin\javac.exe (OK)
+Match:		1.022.000_001
+Runtime used:	1.022.000_001 (64-bit)
+Launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe
+Launcher args:	-jar "C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe"
+Args length:	81/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Requires JDK:	Yes
+Requires 64-Bit: No
+Java min ver:	1.020.000
+Java max ver:	1.024.000
+JRE paths:	..\..\jre\bin\javaw.exe
+Check launcher:	C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\..\..\jre\bin\javaw.exe\bin\javaw.exe (not found)
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Check:		SOFTWARE\JavaSoft\JDK\22.0.1
+Version string: 1.022.000_001 / 64-Bit (OK)
+Check launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-22\bin\javac.exe (OK)
+Match:		1.022.000_001
+Runtime used:	1.022.000_001 (64-bit)
+Launcher:	C:\Program Files\Java\jdk-22\bin\javaw.exe
+Launcher args:	-jar "C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe"
+Args length:	81/32768 chars
+Exit code:	0

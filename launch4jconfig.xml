@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\mbrue\Documents\sheepsmeadow\deployments\jar\sheepsmeadow.jar</jar>
+  <outfile>C:\Users\mbrue\Documents\sheepsmeadow\deployments\windows\sheepsmeadow.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir></chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon></icon>
+  <jre>
+    <path>../../jre/bin/javaw.exe</path>
+    <requiresJdk>true</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>1.20</minVersion>
+    <maxVersion>1.24</maxVersion>
+  </jre>
+</launch4jConfig>

@@ -1,0 +1,146 @@
+<!-- Copyright (C) 2024 Michael Brüggemann
+
+This file is part of Sheepsmeadow.
+
+Sheepsmeadow is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Sheepsmeadow is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Sheepsmeadow. If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body>
+<font face="Arial, sans-serif" size="2" color="#000000"></font>
+<table border=0 cellspacing=0 cellpadding=6>
+<tr>
+<td valign=top>
+<img src="../images/sheepsmeadow128x128.png">
+<td valign=top>
+<h2>Sheepsmeadow</h2>
+<b>By Michael Brüggemann</b> <br> <br>
+<b>Version: 1.0.0</b> <br>
+<b>License: GPLv3</b>
+</table>
+
+<h2>Introduction</h2>
+
+<strong>Sheepsmeadow</strong> is a simple simulation program, based on the Lecture "Einführung in die Geoinformatik" held by Prof. Dr. Christian Kray at University Münster, Germany.
+This application aims to give an easy introduction to "Agent Based Simulations".
+
+<br>
+<br>
+
+<strong>Sheepsmeadow</strong> is a simulation of wolves and sheeps living on a meadow. 
+<br>
+The meadow is where all action happens. Sheeps eat grass, reproduce or get eaten by wolves. Wolves stroll around on the hunt for lonely sheeps or try to keep their population alive by producing more wolves.
+
+<h2>How to use this application</h2>
+
+<strong>Sheepsmeadow</strong> provides different "Tabs":
+<br>
+<img src="../images/tabs.png">
+
+<h3>Console</h3>
+
+The "Console"-Tab let's you change basic simulation properties like the <strong>Seed</strong>, <strong>Step-Delay</strong> and <strong>Stop/Pause-Criteria</strong>. 
+<br>
+If you want to run the same simulation over and over again, you have to use the same <strong>Seed</strong> every time and also uncheck the option <strong>Increment Seed on Stop</strong>.
+<br>
+<br>
+The <strong>Step-Delay</strong> defines how many seconds it takes to perform a <strong>step</strong> of the simulation. A <strong>step</strong> is just number that gets incremented every time every agent in the simulation has performed their action. The larger the <strong>Step-Delay</strong> gets, the more time it takes to perform a <strong>step</strong>.
+<br>
+<br>
+The <strong>Stop/Pause-Criteria</strong> defines, on what condition the simulation run should be ended/paused. You have the option to either give a specific <strong>step</strong> (e.g. by giving "10", the simulation run will end/stop at Step 10). 
+<br>
+<br>
+Another option is to set a specific <strong>time</strong> as a <strong>Stop/Pause-Criteria</strong>. <strong>Time</strong> refers to the "simulation time" not the normal clock-time. This is a bit complicated to explain, so just ignore it.
+<br>
+<br>
+If the <strong>Stop/Pause-Criteria</strong> can be applied, depends on the current <strong>Simulation Mode</strong>. You can change it in the bottom right corner of this window with this dropdown-menu. To make things easier, please only use the mode <strong>Steps</strong>.
+<br>
+<img src="../images/simulation_mode_dropdown.png">
+
+<h3>Displays</h3>
+
+The "Displays"-Tab lists all "Displays" provided by <strong>Sheepsmeadow</strong>. 
+A "Display" is a Window where graphical elements of the simulation (like the "Meadow" where you can see all the Sheep and Wolves) are stored. Here you have the option to "show" or "hide" those Displays.
+
+<h3>Inspectors</h3>
+
+Currently not supported.
+
+<h3>Model</h3>
+
+The "Model"-Tab provides options to change the "Model Parameters". These change how the simulation behaves.
+
+
+<h2>How to start a simulation</h2>
+
+To start a simulation run using <strong>Sheepsmeadow</strong>, you first need to set the <strong>Model Parameters</strong> (those are described in detail below).
+<br>
+<br>
+After you've set all desired parameters, you can start the simulation using the <strong>Start Button</strong>  <img src="../images/start_button.png" width="18" height="18"> placed in the bottom left corner of this window. When the simulation run is started, you can pause it any time using the <strong>Pause Button</strong> <img src="../images/pause_button.png" width="18" height="18">. 
+<br>
+<br>
+After pausing, the button changes to the <strong>Resume Button</strong> <img src="../images/resume_button.png" width="18" height="18">. With this button you can increment the simulation step by one, each time you press this button. If you press the <strong>Pause Button</strong> again, the simulation will continue to run automatically.
+<br>
+<br>
+To end the simulation run prematurely, you can use the <strong>End Button</strong> <img src="../images/end_button.png" width="18" height="18">.
+
+<h2>Model Parameters</h2>
+
+<strong>Sheepsmeadow</strong> provides some parameters for you to edit. Those parameters change the behavior of the simulation (like gridsize, reproducibility of agents, etc.).
+<strong>Sheepsmeadow</strong> also provides "read-only" parameters like <strong>WolfEnergyDistribution</strong> and <strong>SheepEnergyDistribution</strong>.
+
+<h3>GridSize</h3>
+
+The <strong>GridSize</strong> defines the area of the "Meadow". This is a raster of size N x N. The Gridsize is a threshold for how many agents can be placed on the "Meadow" (e.g. with a Gridsize of 5, only 5*5=25 agents can be placed).
+
+<h3>ReproductionDelay</h3>
+
+The <strong>ReproductionDelay</strong> defines the number of simulation steps, an agent that has been part of a reproduction event needs to wait until it can reproduce again.
+
+<h3>SheepEnergyDistribution</h3>
+
+Using the small "magnifying lens"  <img src="../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <strong>Make Histogram</strong>. 
+<br>
+Click this, and a window with the corresponding histogram will pop up. Please note, that you have to start the simulation, before you can create a histogram. Otherwise the histogram window will be automatically closed.
+
+<h3>SheepFertillityRate</h3>
+
+The <strong>SheepFertillityRate</strong> defines how likely it is, that two sheeps produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two sheep cannot reproduce.
+<br>
+<strong>!! This parameter can be changed during the simulation run !!</strong>
+
+<h3>Sheeps</h3>
+
+<strong>Sheeps</strong> defines, how many sheeps should be placed on the "meadow". You can only place as many sheeps, as the the gridsize allows.
+
+<h3>WolfEnergyDistribution</h3>
+
+Using the small "magnifying lens"  <img src="../images/magnifying_lens.png"> next to this parameter in the "Model"-Tab, you can find the option <strong>Make Histogram</strong>. 
+<br>
+Click this, and a window with the corresponding histogram will pop up. Please note, that you have to start the simulation, before you can create a histogram. Otherwise the histogram window automatically will be closed.
+
+<h3>WolfFertilityRate</h3>
+
+The <strong>WolfFertillityRate</strong> defines how likely it is, that two wolves produce an offspring in a reproduction event. "1" means the reproduction will always be sucessful and "0" means the two wolve cannot reproduce.
+<br>
+
+<h3>Wolves</h3>
+
+<strong>Wolves</strong> defines, how many wolves should be placed on the "Meadow". You can only place as many wolves as the gridsize allows.
+<strong>!! This parameter can be changed during the simulation run !!</strong>
+</body>
+</html>

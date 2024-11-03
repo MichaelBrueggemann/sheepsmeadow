@@ -1,16 +1,40 @@
+/*
+Copyright (C) 2024 Michael Brüggemann
+
+This file is part of Sheepsmeadow.
+
+Sheepsmeadow is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Sheepsmeadow is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Sheepsmeadow. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 package Controller;
+
 import sim.engine.*;
 import sim.portrayal.*;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
-import sim.portrayal.simple.RectanglePortrayal2D;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
-
-import javax.swing.*;
-import Model.Model;
-import Model.Agents.Agent;
 import sim.display.*;
+
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import Model.Model;
+import View.MeadowDisplay;
+
 
 
 /**
@@ -24,57 +48,6 @@ public class ModelWithUI extends GUIState {
     public JFrame displayFrame;
     public ObjectGridPortrayal2D meadowPortrayal = new ObjectGridPortrayal2D();
 
-    public void setupPortrayals()
-    {
-        // used to acces the Model instance
-        Model model = (Model) state;
-
-        // show grid borders
-        meadowPortrayal.setBorder(true);
-        meadowPortrayal.setBorderColor(Color.black);
-
-        // Set custom portrayal for each cell
-        meadowPortrayal.setPortrayalForAll(
-            new RectanglePortrayal2D() 
-            {
-                @Override
-                // Overrides draw method for custom agent colors
-                public void draw(Object object, Graphics2D graphics, DrawInfo2D info) 
-                {
-                    // paint cell, if agent is present
-                    if (object != null) 
-                    {
-                        Agent agent = (Agent) object;
-
-                        // Get color from the Agent class
-                        paint = agent.getColor(); 
-                    } 
-                    else 
-                    {
-                        // Default color for empty cells
-                        paint = Color.green; 
-                    }
-
-                    scale = 0.9; // Scale factor to reduce the size of the rectangle
-
-                    super.draw(object, graphics, info);
-                }
-            });
-
-
-        // tell the portrayals what to portray and how to portray them
-        meadowPortrayal.setField(model.getMeadow());
-
-        // reschedule the displayer
-        display.reset();
-
-        display.setBackdrop(Color.white);
-        display.setClipping(true);
-
-        // redraw the display after each step of the model schedule
-        display.repaint();
-    }
-
     /**
      * Called on GUI creation
      */
@@ -82,11 +55,24 @@ public class ModelWithUI extends GUIState {
     {
         super.init(c);
 
-        // construct Display in the size of the grid used in "model"
-        display = new Display2D(300, 300, this);
+        // construct Display for the grid in the size of the grid used in "model"
+        display = new Display2D(1000, 900, this);
 
         displayFrame = display.createFrame();
         displayFrame.setTitle("Sheepsmeadow Display");
+
+        try 
+        {
+            BufferedImage icon = ImageIO.read(ModelWithUI.class.getClassLoader().getResourceAsStream("images/sheepsmeadow32x32.png")); 
+            
+            // set icon for the meadow display
+            displayFrame.setIconImage(icon);
+
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace(); // Handle exception if the icon file is not found
+        }
 
         c.registerFrame(displayFrame); // so the frame appears in the "Display" list
         displayFrame.setVisible(true);
@@ -99,7 +85,7 @@ public class ModelWithUI extends GUIState {
     public void start()
     {
         super.start();
-        setupPortrayals();
+        MeadowDisplay.setupPortrayal(meadowPortrayal, (Model) state, display);
     }
 
     /**
@@ -118,7 +104,7 @@ public class ModelWithUI extends GUIState {
     public void load(SimState state)
     {
         super.load(state);
-        setupPortrayals();
+        MeadowDisplay.setupPortrayal(meadowPortrayal, (Model) state, display);
     }
 
     public static void main(String[] args)
@@ -128,7 +114,30 @@ public class ModelWithUI extends GUIState {
         
         // create GUI console
         Console console = new Console(simulation);
+
+        // change size of the Console
+        console.setPreferredSize(new Dimension(600,600));
+        // apply changes
+        console.pack();
+        
+        try 
+        {
+            BufferedImage icon = ImageIO.read(ModelWithUI.class.getClassLoader().getResourceAsStream("images/sheepsmeadow32x32.png")); 
+            
+            // set icon for the console
+            console.setIconImage(icon);
+
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace(); // Handle exception if the icon file is not found
+        }
+
         console.setVisible(true);
+
+        // set some defaults for the console
+        // sets a delay for each step in milliseconds
+        console.setPlaySleep(400);
     }
 
 
@@ -145,6 +154,22 @@ public class ModelWithUI extends GUIState {
     {
         Inspector i = super.getInspector();
         i.setVolatile(true);
+
+        Model model = (Model) state;
+
+        // Add a listener to update GUI components
+        // an "evt" is a change in a property of the "Model" class. Currently supported events:
+        // - "wolves": the number of wolves stored in the model is updated
+        // - "sheeps": the number of sheeps stored in the model is updated
+        model.addPropertyChangeListener(evt -> 
+        {
+            if ("wolves".equals(evt.getPropertyName()) || "sheeps".equals(evt.getPropertyName())) 
+            {
+                // update the inspector to represent the current state of the property in the model
+                i.updateInspector();
+            }
+        });
+
         return i;
     }
 
