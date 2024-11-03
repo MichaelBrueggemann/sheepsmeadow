@@ -5,15 +5,19 @@
 
 Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (MAS) for undergrad Students making their first steps in MAS. They can tweak the model parameters and observe the changes of the simulation state in each time steps via a GUI. Also some simple "live statistics" will be provided.
 
-For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/deploy-macOS/deployments/windows/sheepsmeadow.zip)
+For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/bugifx-windows/deployments/windows/sheepsmeadow.zip)
 
 # How to start 'Sheepsmeadow'?
 
 ## Prerequisites
 - you need to install `make` on your machine 
-    - **Windows**: [make-Website](https://gnuwin32.sourceforge.net/packages/make.htm)
+    - **Windows**: Download [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
     - **Linux**: Install via your favorite package manager
-
+- you need at least Java 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
+- you need to "clone" this Repository
+```bash
+git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
+```
 
 ### Terminal based
 1. Change to this projects root directory `sheepsmeadow/`
@@ -21,7 +25,9 @@ For easy access on **Windows** you can access the ".exe"-File [here](https://raw
     - this will open the GUI to start a simulation
 
 ### Executable based
-- **Windows**: Simply double-click the `.exe` in `executables/windows/`
+- **Windows**:
+    1. Unzip `.zip` in `deployments/windows/`
+    2. Double-click the ".exe"
 - **Linux-Debian**: 
     1. [Deploy](#deploy-linux-debian) 'Sheepsmeadow' for Linux-Debian
     2. Install 'Sheepsmeadow' for Linux-Debian
@@ -191,3 +197,6 @@ Fortunately, pixelart had an option to automatically upscale those images. This 
 
 ## 15.10.2024
 - Now it's also possible to deploy a ".dmg"
+
+## 03.11.2024
+- I improved the `makefile` so that it automatically detects, on which OS it was run. This enables easier compilation of the project across plattforms.

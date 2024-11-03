@@ -1,41 +1,54 @@
-# Define directories and files
-# directory with the source code
-SRC_DIR = src
-# directory with all compiled classes
-BUILD_DIR = bin
-# directory to store all .jar files of the project dependencies
-JAR_DIR = build/jar
-# dependencies of the project
-LIB_DIR = libs
-# directory for the binaries
-DEPLOYMENT_DIR = deployments
-# entry point in the program
-MAIN_CLASS = Controller.ModelWithUI
-# name of the output .jar-file
-JAR_FILE = sheepsmeadow.jar
+# Detect OS (Unix-based or Windows)
+ifeq ($(OS),Windows_NT)
+    RM = rmdir /S /Q
+    MKDIR = if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
+    CP = copy
+    CP_DIR = xcopy /E /I /Y
+    CLASSPATH_SEP = ;
+    PATH_SEP = "\"
+else
+    RM = rm -rf
+    MKDIR = mkdir -p $(BUILD_DIR)
+    CP = cp
+    CP_DIR = cp -r
+    CLASSPATH_SEP = :
+    PATH_SEP = /
+    JPACKAGE_TYPE_LINUX = deb
+    JPACKAGE_TYPE_MAC = dmg
+endif
 
+
+
+# Define directories and files
+SRC_DIR = src
+BUILD_DIR = bin
+JAR_DIR = build/jar
+LIB_DIR = libs
+DEPLOYMENT_DIR = deployments
+MAIN_CLASS = Controller.ModelWithUI
+JAR_FILE = sheepsmeadow.jar
 
 # Default target
 # Compile Java classes
 compile-source:
-	mkdir -p $(BUILD_DIR)
-	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src:.:libs/*:images/*" src/Controller/ModelWithUI.java
-	cp ./$(SRC_DIR)/Controller/index.html ./$(BUILD_DIR)/Controller/
-	cp -r images ./$(BUILD_DIR)/
+	$(MKDIR) 
+	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
+	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BUILD_DIR)$(PATH_SEP)Controller
+	$(CP_DIR) .$(PATH_SEP)images $(BUILD_DIR)$(PATH_SEP)images
 
-# compile and run the application
+# Compile and run the application
 run: compile-source
-	java -cp "bin:libs/*" $(MAIN_CLASS)
+	java -cp "$(BUILD_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
 compile-tests:
-	find tests -name '*.java' -print0 | xargs -0 javac -cp "src:bin:libs/*" -d bin
+	find tests -name '*.java' -print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BUILD_DIR)$(CLASSPATH_SEP)libs/*" -d $(BUILD_DIR)
 
 test: compile-tests
-	java --enable-preview -cp bin:libs/* org.junit.runner.JUnitCore $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
+	java --enable-preview -cp $(BUILD_DIR)$(CLASSPATH_SEP)libs/* org.junit.runner.JUnitCore $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
 # Unzip all project dependencies
 unzip-dependencies:
-	mkdir -p $(JAR_DIR)
+	$(MKDIR) $(JAR_DIR)
 	for jar in $(LIB_DIR)/*.jar; do \
 		unzip -o -d $(JAR_DIR) $$jar > /dev/null 2>&1; \
 	done
@@ -46,22 +59,16 @@ $(JAR_FILE): compile-source unzip-dependencies
 
 # Clean build artifacts
 clean:
-	rm -rf $(BUILD_DIR)/* $(JAR_DIR) $(JAR_FILE) 
+	$(RM) $(BUILD_DIR) $(JAR_DIR) $(JAR_FILE)
 
-
+# Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
-	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
-	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type deb --dest $(DEPLOYMENT_DIR)/linux-deb/
+	$(MKDIR) ./$(DEPLOYMENT_DIR)/linux-deb/
+	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_LINUX) --dest $(DEPLOYMENT_DIR)/linux-deb/
 
 deploy-macOS: $(JAR_FILE)
-	mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
-	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/sheepsmeadow.jar --main-class Controller.ModelWithUI --type dmg --dest $(DEPLOYMENT_DIR)/macOS/
+	$(MKDIR) ./$(DEPLOYMENT_DIR)/macOS/
+	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_MAC) --dest $(DEPLOYMENT_DIR)/macOS/
 
 install-linux-deb: deploy-linux-deb
-	mkdir -p /tmp/sheepsmeadow
-	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
-	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
-
-
-# declare "phony-targets" to prevent conflicts with files that have the same name as the "phony-target"
-.PHONY: all compile-source compile-tests unzip-dependencies clean run deploy-linux-deb install-linux-deb
+	$(MKDIR) /tmp/sheeps

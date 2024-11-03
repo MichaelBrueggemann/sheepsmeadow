@@ -3,5 +3,6 @@
 
 # JAVA
 bin/
+jre/
 build/
 Localtest.java
