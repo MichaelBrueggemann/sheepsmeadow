@@ -15,6 +15,9 @@ For easy access on **Windows** you can access the ".exe"-File [here](https://raw
     - **Linux**: Install via your favorite package manager
 - you need at least Java 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
 - you need to "clone" this Repository
+```bash
+git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
+```
 
 ### Terminal based
 1. Change to this projects root directory `sheepsmeadow/`
@@ -194,3 +197,6 @@ Fortunately, pixelart had an option to automatically upscale those images. This 
 
 ## 15.10.2024
 - Now it's also possible to deploy a ".dmg"
+
+## 03.11.2024
+- I improved the `makefile` so that it automatically detects, on which OS it was run. This enables easier compilation of the project across plattforms.
