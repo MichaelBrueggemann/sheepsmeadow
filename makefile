@@ -12,7 +12,7 @@ JAR_FILE 				:= sheepsmeadow.jar
 # Detect OS (Unix-based or Windows)
 ifeq ($(OS),Windows_NT)
     RM 					:= rmdir /S /Q
-    CREATE_BUILDDIR		:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(BUILD_DIR)
+    CREATE_BUILDDIR		:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
     CP 					:= copy
     CP_DIR 				:= xcopy /E /I /Y
     CLASSPATH_SEP 		:= ;
