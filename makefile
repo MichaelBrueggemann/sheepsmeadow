@@ -12,14 +12,14 @@ JAR_FILE 				:= sheepsmeadow.jar
 # Detect OS (Unix-based or Windows)
 ifeq ($(OS),Windows_NT)
     RM 					:= rmdir /S /Q
-    MKDIR 				:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir
+    CREATE_BUILDDIR		:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(BUILD_DIR)
     CP 					:= copy
     CP_DIR 				:= xcopy /E /I /Y
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= "\"
 else
     RM 					:= rm -rf
-    MKDIR 				:= mkdir -p
+    CREATE_BUILDDIR		:= mkdir -p $(BUILD_DIR)
     CP 					:= cp
     CP_DIR 				:= cp -r
     CLASSPATH_SEP 		:= :
@@ -30,7 +30,7 @@ endif
 
 # Compile Java classes
 compile-source:
-	$(MKDIR) $(BUILD_DIR)
+	$(CREATE_BUILDDIR)
 	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
 	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BUILD_DIR)$(PATH_SEP)Controller
 	$(CP_DIR) .$(PATH_SEP)images $(BUILD_DIR)$(PATH_SEP)images
@@ -58,16 +58,16 @@ $(JAR_FILE): compile-source unzip-dependencies
 
 # Clean build artifacts
 clean:
-	$(RM) $(BUILD_DIR) $(JAR_DIR) $(JAR_FILE)
+	$(RM) $(BUILD_DIR)/* $(JAR_DIR)/* $(DEPLOYMENT_DIR)$(PATH_SEP)jar$(PATH_SEP)$(JAR_FILE)
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
-	$(MKDIR) ./$(DEPLOYMENT_DIR)/linux-deb/
+	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_LINUX) --dest $(DEPLOYMENT_DIR)/linux-deb/
 
 deploy-macOS: $(JAR_FILE)
-	$(MKDIR) ./$(DEPLOYMENT_DIR)/macOS/
+	mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_MAC) --dest $(DEPLOYMENT_DIR)/macOS/
 
 install-linux-deb: deploy-linux-deb
-	$(MKDIR) /tmp/sheeps
+	mkdir -p /tmp/sheeps
