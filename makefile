@@ -1,37 +1,36 @@
-# Detect OS (Unix-based or Windows)
-ifeq ($(OS),Windows_NT)
-    RM = rmdir /S /Q
-    MKDIR = if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
-    CP = copy
-    CP_DIR = xcopy /E /I /Y
-    CLASSPATH_SEP = ;
-    PATH_SEP = "\"
-else
-    RM = rm -rf
-    MKDIR = mkdir -p $(BUILD_DIR)
-    CP = cp
-    CP_DIR = cp -r
-    CLASSPATH_SEP = :
-    PATH_SEP = /
-    JPACKAGE_TYPE_LINUX = deb
-    JPACKAGE_TYPE_MAC = dmg
-endif
-
-
 
 # Define directories and files
-SRC_DIR = src
-BUILD_DIR = bin
-JAR_DIR = build/jar
-LIB_DIR = libs
-DEPLOYMENT_DIR = deployments
-MAIN_CLASS = Controller.ModelWithUI
-JAR_FILE = sheepsmeadow.jar
+SRC_DIR					:= src
+BUILD_DIR 				:= bin
+JAR_DIR 				:= build/jar
+LIB_DIR 				:= libs
+DEPLOYMENT_DIR 			:= deployments
+MAIN_CLASS 				:= Controller.ModelWithUI
+JAR_FILE 				:= sheepsmeadow.jar
 
-# Default target
+
+# Detect OS (Unix-based or Windows)
+ifeq ($(OS),Windows_NT)
+    RM 					:= rmdir /S /Q
+    MKDIR 				:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir
+    CP 					:= copy
+    CP_DIR 				:= xcopy /E /I /Y
+    CLASSPATH_SEP 		:= ;
+    PATH_SEP 			:= "\"
+else
+    RM 					:= rm -rf
+    MKDIR 				:= mkdir -p
+    CP 					:= cp
+    CP_DIR 				:= cp -r
+    CLASSPATH_SEP 		:= :
+    PATH_SEP 			:= /
+    JPACKAGE_TYPE_LINUX := deb
+    JPACKAGE_TYPE_MAC 	:= dmg
+endif
+
 # Compile Java classes
 compile-source:
-	$(MKDIR) 
+	$(MKDIR) $(BUILD_DIR)
 	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
 	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BUILD_DIR)$(PATH_SEP)Controller
 	$(CP_DIR) .$(PATH_SEP)images $(BUILD_DIR)$(PATH_SEP)images
