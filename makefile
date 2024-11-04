@@ -70,4 +70,6 @@ deploy-macOS: $(JAR_FILE)
 	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_MAC) --dest $(DEPLOYMENT_DIR)/macOS/
 
 install-linux-deb: deploy-linux-deb
-	mkdir -p /tmp/sheeps
+	mkdir -p /tmp/sheepsmeadow
+	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
+	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
