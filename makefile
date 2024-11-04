@@ -1,3 +1,9 @@
+# Detect OS (Unix-based or Windows)
+ifeq ($(OS), Windows_NT)
+    DETECTED_OS 		:= Windows
+else
+    DETECTED_OS 		:= $(shell uname -s)
+endif
 
 # Define directories and files
 SRC_DIR					:= src
@@ -8,17 +14,18 @@ DEPLOYMENT_DIR 			:= deployments
 MAIN_CLASS 				:= Controller.ModelWithUI
 JAR_FILE 				:= sheepsmeadow.jar
 
-
-# Detect OS (Unix-based or Windows)
-ifeq ($(OS),Windows_NT)
+# Define OS based commands
+ifeq ($(DETECTED_OS),Windows)
     RM 					:= rmdir /S /Q
     CREATE_BUILDDIR		:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
     CP 					:= copy
     CP_DIR 				:= xcopy /E /I /Y
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= "\"
-else
-    RM 					:= rm -rf
+endif
+
+ifeq ($(DETECTED_OS),Linux) || ($(DETECTED_OS),Darwin)
+    RM 					:= rm -r
     CREATE_BUILDDIR		:= mkdir -p $(BUILD_DIR)
     CP 					:= cp
     CP_DIR 				:= cp -r
@@ -57,7 +64,6 @@ unzip-dependencies:
 # Create the JAR file with dependencies
 $(JAR_FILE): compile-source unzip-dependencies
 	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) . -C $(BUILD_DIR)/images .
-
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
