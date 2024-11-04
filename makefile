@@ -28,6 +28,8 @@ else
     JPACKAGE_TYPE_MAC 	:= dmg
 endif
 
+all: compile-source run
+
 # Compile Java classes
 compile-source:
 	$(CREATE_BUILDDIR)
@@ -56,9 +58,6 @@ unzip-dependencies:
 $(JAR_FILE): compile-source unzip-dependencies
 	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) . -C $(BUILD_DIR)/images .
 
-# Clean build artifacts
-clean:
-	$(RM) $(BUILD_DIR)/* $(JAR_DIR)/* $(DEPLOYMENT_DIR)$(PATH_SEP)jar$(PATH_SEP)$(JAR_FILE)
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
@@ -73,3 +72,9 @@ install-linux-deb: deploy-linux-deb
 	mkdir -p /tmp/sheepsmeadow
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
+
+# Clean build artifacts
+clean:
+	$(RM) $(BUILD_DIR)/* $(JAR_DIR)/* $(DEPLOYMENT_DIR)$(PATH_SEP)jar$(PATH_SEP)$(JAR_FILE)
+
+.PHONY: all compile-source run compile-tests test deploy-linux-deb deploy-macOS install-linux-deb clean
