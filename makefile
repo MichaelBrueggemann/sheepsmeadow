@@ -28,6 +28,7 @@ ifeq ($(DETECTED_OS),Windows)
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= "\"
     UNZIP_TOOL			:= 7z
+    UNZIP_JAR_LOOP      := for %f in ($(LIB_DIR)\*.jar) do $(UNZIP_TOOL) x -o$(BUILD_DIR) %f > NUL 2>&1
 else ifeq ($(DETECTED_OS),Linux)
     RM 					:= rm -r
     CREATE_BINDDIR		:= mkdir -p $(BIN_DIR)
@@ -37,6 +38,9 @@ else ifeq ($(DETECTED_OS),Linux)
     CLASSPATH_SEP 		:= :
     PATH_SEP 			:= /
     UNZIP_TOOL			:= unzip
+    UNZIP_JAR_LOOP 		:= for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
+        $(UNZIP_TOOL) -o -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
+    done
     JPACKAGE_TYPE	 	:= deb
 else ifeq ($(DETECTED_OS),Darwin)
     RM 					:= rm -r
@@ -47,6 +51,9 @@ else ifeq ($(DETECTED_OS),Darwin)
     CLASSPATH_SEP 		:= :
     PATH_SEP 			:= /
     UNZIP_TOOL			:= unzip
+    UNZIP_JAR_LOOP 		:= for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
+        $(UNZIP_TOOL) -o -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
+    done
     JPACKAGE_TYPE		:= dmg
 endif
 
@@ -83,9 +90,7 @@ test: compile-tests
 # Unzip all project dependencies
 unzip-dependencies:
 	$(CREATE_BUILDDIR)
-	for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
-		$(UNZIP_TOOL) -o -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
-	done
+	$(UNZIP_JAR_LOOP)
 
 # Create the JAR file with dependencies
 $(JAR_FILE): $(JAR_DIR) $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-dependencies
@@ -127,12 +132,8 @@ install-linux-deb: deploy-linux-deb
 
 
 fetch-jre: $(JRE_DIR)
-	ifeq ($(DETECTED_OS),Windows)
-		curl -L -o jre-win.zip https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
-		move jre-win.zip $(JRE_DIR)
-		$(UNZIP_TOOL) e jre-win.zip
-		del $(JRE_DIR)$(PATH_SEP)jre-win.zip
-	endif
+	curl -L -o jre-win.zip https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
+	$(UNZIP_TOOL) e jre-win.zip -o $(JRE_DIR)$(PATH_SEP)
 
 # ensure that those directories exist
 $(JRE_DIR) $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
