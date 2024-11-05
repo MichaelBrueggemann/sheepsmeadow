@@ -55,8 +55,14 @@ all: compile-source run
 # Compile Java classes
 compile-source:
 	$(CREATE_BUILDDIR)
-	javac -d $(BIN_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
+# compile sources
+	javac -d $(BIN_DIR) \
+	-sourcepath $(SRC_DIR) \
+	-cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" \
+	$(SRC_DIR)/Controller/ModelWithUI.java
+# copy "about page"
 	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BIN_DIR)$(PATH_SEP)Controller
+# copy images
 	$(CP_DIR) .$(PATH_SEP)images $(BIN_DIR)$(PATH_SEP)images
 
 # Compile and run the application
@@ -64,10 +70,15 @@ run: compile-source
 	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
 compile-tests:
-	find tests -name '*.java' -print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*" -d $(BIN_DIR)
+	find tests \
+	-name '*.java' \
+	-print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*" -d $(BIN_DIR)
 
 test: compile-tests
-	java --enable-preview -cp $(BIN_DIR)$(CLASSPATH_SEP)libs/* org.junit.runner.JUnitCore $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
+	java --enable-preview \
+	-cp $(BIN_DIR)$(CLASSPATH_SEP)libs/* \
+	org.junit.runner.JUnitCore \
+	$$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
 # Unzip all project dependencies
 unzip-dependencies:
@@ -78,7 +89,11 @@ unzip-dependencies:
 
 # Create the JAR file with dependencies
 $(JAR_FILE): $(JAR_DIR) $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-dependencies
-	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) $(MAIN_CLASS) -C $(BUILD_DIR) . -C $(BIN_DIR) . -C $(BIN_DIR)/images .
+	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
+	$(MAIN_CLASS) \
+	-C $(BUILD_DIR) . \
+	-C $(BIN_DIR) . \
+	-C $(BIN_DIR)/images .
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
