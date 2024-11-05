@@ -110,7 +110,9 @@ deploy-windows: $(JAR_FILE)
 	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
 	--main-class $(MAIN_CLASS) \
 	--type $(JPACKAGE_TYPE) \
-	--dest $(DEPLOYMENT_DIR)$(PATH_SEP)windows
+	--dest $(DEPLOYMENT_DIR)$(PATH_SEP)windows \
+	--win-dir-chooser \
+	--win-shortcut
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
