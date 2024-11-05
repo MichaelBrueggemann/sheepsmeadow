@@ -49,13 +49,29 @@ make test
 # Deploy Sheepsmeadow
 To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
-### Prerequisites
-- **Windows**: You need to install `Launch4j` **Version 3.50** or higher. You can download it here: [Launch4j](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
-- **Linux-Debian**: No Prerequisites to deploy
+## Prerequisites
+- **Windows**: You need to install the following software:
+    - `Launch4j` **Version 3.50** or higher. You can download it here: [Launch4j](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
+    - `7zip`. You can download it here: [7zip](https://7-zip.org/download.html)
+    - `make`. You can download it here: [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
+- **Linux-Debian**: 
+    - `make`
+- **MacOS**: 
+    - `make`
+
+Please note, that the different deployments are designed for `x86_64` systems. This Guide might not work for other systems.
 
 ## Deploy Windows
-1. Open `Launch4J`
-2. Create `.exe` ![instructions](images/instructions_to_build_exe.png) 
+1. Download the JRE 21.
+```bash
+make fetch-jre
+```
+2. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
+```Bash
+make sheepsmeadow.jar
+```
+3. Open `Launch4J`
+4. Create `.exe` ![instructions](images/instructions_to_build_exe.png) 
     - **Output file**: `path/to/sheepsmeadow/executables/windows`
     - **Jar**: `path/to/sheepsmeadow/deployments/jar/sheepsmeadow.jar`
 
@@ -66,7 +82,7 @@ You don't need to provide any further information.
 ```Bash
 make sheepsmeadow.jar
 ```
-Alternatively you can use the `.jar` provided in `deployments/jar`
+ADD STEPS HOW TO INCLUDE THE JRE IN THE BINARY
 
 2. Run `make deploy-linux-deb`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`
 ```bash
@@ -78,6 +94,20 @@ You will need to enter your `sudo` password
 make install-linux-deb
 ```
 The binary will be stored in `/opt/sheepsmeadow/bin/`.
+
+##  Deploy MacOS
+1. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
+```Bash
+make sheepsmeadow.jar
+```
+Alternatively you can use the `.jar` provided in `deployments/jar`
+
+ADD STEPS HOW TO INCLUDE THE JRE IN THE BINARY
+
+2. Run `make deploy-macOS`. This will create a `.dmg` file in `deployments/macOS` named `sheepsmeadow_1.0_amd64.dmg`
+```bash
+make deploy-macOS
+```
 
 # Reflections on this project
 In this Section I will note some of my experiences with this project. Those notes aren't necessary to use this simulation tool, so feel free to skip the reading:
@@ -198,3 +228,7 @@ Fortunately, pixelart had an option to automatically upscale those images. This 
 
 ## 03.11.2024
 - I improved the `makefile` so that it automatically detects, on which OS it was run. This enables easier compilation of the project across plattforms.
+
+## 05.11.2024 
+- I started add options to the `makefile` to download a system-specific version of the JRE instance and add this to the right executable format for the OS. 
+- To test this, I have set up a Virtual Machine for MacOS.
