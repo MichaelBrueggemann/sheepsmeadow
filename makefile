@@ -12,6 +12,7 @@ BIN_DIR 				:= bin
 BUILD_DIR 				:= build
 IMAGES_DIR				:= images
 JRE_DIR 				:= jre
+JAR_DIR					:= jar
 LIB_DIR 				:= libs
 DEPLOYMENT_DIR 			:= deployments
 MAIN_CLASS 				:= Controller.ModelWithUI
@@ -76,8 +77,8 @@ unzip-dependencies:
 	done
 
 # Create the JAR file with dependencies
-$(JAR_FILE): compile-source unzip-dependencies
-	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(BUILD_DIR) . -C $(BIN_DIR) . -C $(BIN_DIR)/images .
+$(JAR_FILE): $(JAR_DIR) $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-dependencies
+	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) $(MAIN_CLASS) -C $(BUILD_DIR) . -C $(BIN_DIR) . -C $(BIN_DIR)/images .
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
@@ -109,16 +110,22 @@ install-linux-deb: deploy-linux-deb
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
 
-$(JRE_DIR):
-	mkdir $@
 
 fetch-jre: $(JRE_DIR)
 	ifeq ($(DETECTED_OS),Windows)
 		curl -L -o https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
 	endif
 
+# ensure that those directories exist
+$(JRE_DIR) $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
+	mkdir $@
+
 # Clean build artifacts
-clean:
-	$(RM) $(BIN_DIR)/* $(BUILD_DIR)/* $(DEPLOYMENT_DIR)$(PATH_SEP)jar$(PATH_SEP)$(JAR_FILE)
+clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR)
+	$(RM) \
+	$(BIN_DIR)$(PATH_SEP)* \
+	$(BUILD_DIR)$(PATH_SEP)* \
+	$(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)* \
+	$(JRE_DIR)$(PATH_SEP)*
 
 .PHONY: all compile-source run compile-tests test deploy-linux-deb deploy-macOS install-linux-deb clean
