@@ -51,9 +51,9 @@ else ifeq ($(DETECTED_OS),Darwin)
     CLASSPATH_SEP 		:= :
     PATH_SEP 			:= /
     UNZIP_TOOL			:= unzip
-    UNZIP_JAR_LOOP 		:= for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
+    UNZIP_JAR_LOOP 		:= $(shell for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
         $(UNZIP_TOOL) -o -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
-    done
+    done)
     JPACKAGE_TYPE		:= dmg
 endif
 
