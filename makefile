@@ -28,7 +28,7 @@ ifeq ($(DETECTED_OS),Windows)
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= "\"
     UNZIP_TOOL			:= 7z
-    UNZIP_JAR_LOOP      := for %f in ($(LIB_DIR)\*.jar) do $(UNZIP_TOOL) x -o$(BUILD_DIR) %f > NUL 2>&1
+    UNZIP_JAR_LOOP      := $(shell for %f in ($(LIB_DIR)\*.jar) do $(UNZIP_TOOL) x -o$(BUILD_DIR) %f > NUL 2>&1)
 else ifeq ($(DETECTED_OS),Linux)
     RM 					:= rm -r
     CREATE_BINDDIR		:= mkdir -p $(BIN_DIR)
