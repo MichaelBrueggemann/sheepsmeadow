@@ -39,6 +39,8 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
     ```
 
 ## Run tests
+!! THE TESTING SCRIPT IN THE `makefile` WILL ONLY WORK ON MacOS/Linux !!
+
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
 
 To run a test locally, execute: 
