@@ -26,7 +26,7 @@ ifeq ($(DETECTED_OS),Windows)
     CP 					:= copy
     CP_DIR 				:= xcopy /E /I /Y
     CLASSPATH_SEP 		:= ;
-    PATH_SEP 			:= "\"
+    PATH_SEP 			:= \\
     UNZIP_TOOL			:= 7z
     UNZIP_JAR_LOOP      := $(shell for %f in ($(LIB_DIR)\*.jar) do $(UNZIP_TOOL) x -o$(BUILD_DIR) %f > NUL 2>&1)
 else ifeq ($(DETECTED_OS),Linux)
