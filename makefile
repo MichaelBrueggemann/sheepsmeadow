@@ -128,7 +128,10 @@ install-linux-deb: deploy-linux-deb
 
 fetch-jre: $(JRE_DIR)
 	ifeq ($(DETECTED_OS),Windows)
-		curl -L -o https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
+		curl -L -o jre-win.zip https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
+		move jre-win.zip $(JRE_DIR)
+		$(UNZIP_TOOL) e jre-win.zip
+		del $(JRE_DIR)$(PATH_SEP)jre-win.zip
 	endif
 
 # ensure that those directories exist
