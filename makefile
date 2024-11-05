@@ -1,4 +1,5 @@
 # Detect OS (Unix-based or Windows)
+# TODO: GGF AUCH ARCHITEKTUR DES PROZESSORS ERFASSEN
 ifeq ($(OS), Windows_NT)
     DETECTED_OS 		:= Windows
 else
@@ -7,8 +8,10 @@ endif
 
 # Define directories and files
 SRC_DIR					:= src
-BUILD_DIR 				:= bin
-JAR_DIR 				:= build/jar
+BIN_DIR 				:= bin
+BUILD_DIR 				:= build
+IMAGES_DIR				:= images
+JRE_DIR 				:= jre
 LIB_DIR 				:= libs
 DEPLOYMENT_DIR 			:= deployments
 MAIN_CLASS 				:= Controller.ModelWithUI
@@ -17,22 +20,33 @@ JAR_FILE 				:= sheepsmeadow.jar
 # Define OS based commands
 ifeq ($(DETECTED_OS),Windows)
     RM 					:= rmdir /S /Q
+    CREATE_BINDDIR		:= if not exist $(subst /,\,$(BIN_DIR)) mkdir $(subst /,\,$(BIN_DIR))
     CREATE_BUILDDIR		:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
     CP 					:= copy
     CP_DIR 				:= xcopy /E /I /Y
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= "\"
-endif
-
-ifeq ($(DETECTED_OS),Linux) || ($(DETECTED_OS),Darwin)
+    UNZIP_TOOL			:= 7z
+else ifeq ($(DETECTED_OS),Linux)
     RM 					:= rm -r
+    CREATE_BINDDIR		:= mkdir -p $(BIN_DIR)
     CREATE_BUILDDIR		:= mkdir -p $(BUILD_DIR)
     CP 					:= cp
     CP_DIR 				:= cp -r
     CLASSPATH_SEP 		:= :
     PATH_SEP 			:= /
-    JPACKAGE_TYPE_LINUX := deb
-    JPACKAGE_TYPE_MAC 	:= dmg
+    UNZIP_TOOL			:= unzip
+    JPACKAGE_TYPE	 	:= deb
+else ifeq ($(DETECTED_OS),Darwin)
+    RM 					:= rm -r
+    CREATE_BINDDIR		:= mkdir -p $(BIN_DIR)
+    CREATE_BUILDDIR		:= mkdir -p $(BUILD_DIR)
+    CP 					:= cp
+    CP_DIR 				:= cp -r
+    CLASSPATH_SEP 		:= :
+    PATH_SEP 			:= /
+    UNZIP_TOOL			:= unzip
+    JPACKAGE_TYPE		:= dmg
 endif
 
 all: compile-source run
@@ -40,47 +54,71 @@ all: compile-source run
 # Compile Java classes
 compile-source:
 	$(CREATE_BUILDDIR)
-	javac -d $(BUILD_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
-	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BUILD_DIR)$(PATH_SEP)Controller
-	$(CP_DIR) .$(PATH_SEP)images $(BUILD_DIR)$(PATH_SEP)images
+	javac -d $(BIN_DIR) -sourcepath $(SRC_DIR) -cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" $(SRC_DIR)/Controller/ModelWithUI.java
+	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BIN_DIR)$(PATH_SEP)Controller
+	$(CP_DIR) .$(PATH_SEP)images $(BIN_DIR)$(PATH_SEP)images
 
 # Compile and run the application
 run: compile-source
-	java -cp "$(BUILD_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
+	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
 compile-tests:
-	find tests -name '*.java' -print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BUILD_DIR)$(CLASSPATH_SEP)libs/*" -d $(BUILD_DIR)
+	find tests -name '*.java' -print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*" -d $(BIN_DIR)
 
 test: compile-tests
-	java --enable-preview -cp $(BUILD_DIR)$(CLASSPATH_SEP)libs/* org.junit.runner.JUnitCore $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
+	java --enable-preview -cp $(BIN_DIR)$(CLASSPATH_SEP)libs/* org.junit.runner.JUnitCore $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
 # Unzip all project dependencies
 unzip-dependencies:
-	$(MKDIR) $(JAR_DIR)
-	for jar in $(LIB_DIR)/*.jar; do \
-		unzip -o -d $(JAR_DIR) $$jar > /dev/null 2>&1; \
+	$(CREATE_BUILDDIR)
+	for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
+		$(UNZIP_TOOL) -o -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
 	done
 
 # Create the JAR file with dependencies
 $(JAR_FILE): compile-source unzip-dependencies
-	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(JAR_DIR) . -C $(BUILD_DIR) . -C $(BUILD_DIR)/images .
+	jar cfe $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) $(MAIN_CLASS) -C $(BUILD_DIR) . -C $(BIN_DIR) . -C $(BIN_DIR)/images .
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
 	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
-	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_LINUX) --dest $(DEPLOYMENT_DIR)/linux-deb/
+	jpackage --app-version 0.0.0 \
+	--description "Educational simulation program, to explore the world of agent-based modeling" \
+	--icon $(IMAGES_DIR)/sheepsmeadow32x32.png \
+	--name Sheepsmeadow \
+	--input . \
+	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
+	--main-class $(MAIN_CLASS) \
+	--type $(JPACKAGE_TYPE) \
+	--dest $(DEPLOYMENT_DIR)/linux-deb/
 
 deploy-macOS: $(JAR_FILE)
 	mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
-	jpackage --name Sheepsmeadow --input . --main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) --main-class $(MAIN_CLASS) --type $(JPACKAGE_TYPE_MAC) --dest $(DEPLOYMENT_DIR)/macOS/
+	jpackage --app-version 0.0.0 \
+	--description "Educational simulation program, to explore the world of agent-based modeling" \
+	--icon $(IMAGES_DIR)/sheepsmeadow32x32.png \
+	--name Sheepsmeadow \
+	--input . \
+	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
+	--main-class $(MAIN_CLASS) \
+	--type $(JPACKAGE_TYPE) \
+	--dest $(DEPLOYMENT_DIR)/macOS/
 
 install-linux-deb: deploy-linux-deb
 	mkdir -p /tmp/sheepsmeadow
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
 
+$(JRE_DIR):
+	mkdir $@
+
+fetch-jre: $(JRE_DIR)
+	ifeq ($(DETECTED_OS),Windows)
+		curl -L -o https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
+	endif
+
 # Clean build artifacts
 clean:
-	$(RM) $(BUILD_DIR)/* $(JAR_DIR)/* $(DEPLOYMENT_DIR)$(PATH_SEP)jar$(PATH_SEP)$(JAR_FILE)
+	$(RM) $(BIN_DIR)/* $(BUILD_DIR)/* $(DEPLOYMENT_DIR)$(PATH_SEP)jar$(PATH_SEP)$(JAR_FILE)
 
 .PHONY: all compile-source run compile-tests test deploy-linux-deb deploy-macOS install-linux-deb clean
