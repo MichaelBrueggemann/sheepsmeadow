@@ -94,7 +94,7 @@ unzip-dependencies:
 	$(UNZIP_JAR_LOOP)
 
 # Create the JAR file with dependencies
-$(JAR_FILE): $(JAR_DIR) $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-dependencies
+$(JAR_FILE): $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-dependencies
 	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
 	$(MAIN_CLASS) \
 	-C $(BUILD_DIR) . \
