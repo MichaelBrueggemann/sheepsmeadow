@@ -98,7 +98,6 @@ $(JAR_FILE): $(JAR_DIR) $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source
 	$(MAIN_CLASS) \
 	-C $(BUILD_DIR) . \
 	-C $(BIN_DIR) . \
-	-C $(BIN_DIR)/images .
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
