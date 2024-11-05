@@ -11,7 +11,6 @@ SRC_DIR					:= src
 BIN_DIR 				:= bin
 BUILD_DIR 				:= build
 IMAGES_DIR				:= images
-JRE_DIR 				:= jre
 JAR_DIR					:= jar
 LIB_DIR 				:= libs
 DEPLOYMENT_DIR 			:= deployments
@@ -23,6 +22,7 @@ ifeq ($(DETECTED_OS),Windows)
     RM 					:= rmdir /S /Q
     CREATE_BINDDIR		:= if not exist $(subst /,\,$(BIN_DIR)) mkdir $(subst /,\,$(BIN_DIR))
     CREATE_BUILDDIR		:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
+    CREATE_DEPLOYMENTDIR:= if not exist $(subst /,\,$(DEPLOYMENT_DIR)) mkdir $(subst /,\,$(DEPLOYMENT_DIR))
     CP 					:= copy
     CP_DIR 				:= xcopy /E /I /Y
     CLASSPATH_SEP 		:= ;
@@ -33,6 +33,7 @@ else ifeq ($(DETECTED_OS),Linux)
     RM 					:= rm -r
     CREATE_BINDDIR		:= mkdir -p $(BIN_DIR)
     CREATE_BUILDDIR		:= mkdir -p $(BUILD_DIR)
+    CREATE_DEPLOYMENTDIR:= mkdir -p $(DEPLOYMENT_DIR)
     CP 					:= cp
     CP_DIR 				:= cp -r
     CLASSPATH_SEP 		:= :
@@ -99,12 +100,24 @@ $(JAR_FILE): $(JAR_DIR) $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source
 	-C $(BUILD_DIR) . \
 	-C $(BIN_DIR) . \
 
-# Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
-deploy-linux-deb: $(JAR_FILE)
-	mkdir -p ./$(DEPLOYMENT_DIR)/linux-deb/
+deploy-windows: $(JAR_FILE) 
+	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)windows
 	jpackage --app-version 0.0.0 \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
-	--icon $(IMAGES_DIR)/sheepsmeadow32x32.png \
+	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
+	--name Sheepsmeadow \
+	--input . \
+	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
+	--main-class $(MAIN_CLASS) \
+	--type $(JPACKAGE_TYPE) \
+	--dest $(DEPLOYMENT_DIR)$(PATH_SEP)windows
+
+# Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
+deploy-linux-deb: $(JAR_FILE)
+	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)linux-deb
+	jpackage --app-version 0.0.0 \
+	--description "Educational simulation program, to explore the world of agent-based modeling" \
+	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
 	--name Sheepsmeadow \
 	--input . \
 	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
@@ -113,10 +126,10 @@ deploy-linux-deb: $(JAR_FILE)
 	--dest $(DEPLOYMENT_DIR)/linux-deb/
 
 deploy-macOS: $(JAR_FILE)
-	mkdir -p ./$(DEPLOYMENT_DIR)/macOS/
+	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)macOS
 	jpackage --app-version 0.0.0 \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
-	--icon $(IMAGES_DIR)/sheepsmeadow32x32.png \
+	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
 	--name Sheepsmeadow \
 	--input . \
 	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
@@ -129,13 +142,8 @@ install-linux-deb: deploy-linux-deb
 	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
 	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
 
-
-fetch-jre: $(JRE_DIR)
-	curl -L -o jre-win.zip https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-jre21.0.5-win_x64.zip
-	$(UNZIP_TOOL) e jre-win.zip -o $(JRE_DIR)$(PATH_SEP)
-
 # ensure that those directories exist
-$(JRE_DIR) $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
+$(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
 	mkdir $@
 
 # Clean build artifacts
@@ -144,6 +152,5 @@ clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR)
 	$(BIN_DIR)$(PATH_SEP)* \
 	$(BUILD_DIR)$(PATH_SEP)* \
 	$(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)* \
-	$(JRE_DIR)$(PATH_SEP)*
 
-.PHONY: all compile-source run compile-tests test deploy-linux-deb deploy-macOS install-linux-deb clean
+.PHONY: all compile-source run compile-tests test deploy-windows deploy-linux-deb deploy-macOS install-linux-deb clean
