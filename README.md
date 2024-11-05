@@ -37,6 +37,17 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
     ```bash
     Sheepsmeadow
     ```
+- **MacOS**: 
+    1. [Deploy](#deploy-macOS) 'Sheepsmeadow' for MacOS
+    2. Install 'Sheepsmeadow' for MacOS
+    3. Add `Sheepsmeadow` to `$PATH`
+    ```
+    export PATH=/opt/sheepsmeadow/bin:$PATH
+    ``` 
+    4. Run: 
+    ```bash
+    Sheepsmeadow
+    ```
 
 ## Run tests
 !! THE TESTING SCRIPT IN THE `makefile` WILL ONLY WORK ON MacOS/Linux !!
