@@ -24,11 +24,12 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
 
 ### Executable based
 - **Windows**:
-    1. Unzip `.zip` in `deployments/windows/`
-    2. Double-click the ".exe"
+    1. [Deploy](#deploy-windows) 'Sheepsmeadow' for Windows
+    2. Double-click the ".exe" in `deployments/windows`. This will install the `.exe` (you will be asked to give a path to install the actual program)
+    3. Double-click the .exe in the path you provided in the installer
 - **Linux-Debian**: 
     1. [Deploy](#deploy-linux-debian) 'Sheepsmeadow' for Linux-Debian
-    2. Install 'Sheepsmeadow' for Linux-Debian
+    2. Install the `.deb` file
     3. Add `Sheepsmeadow` to `$PATH`
     ```
     export PATH=/opt/sheepsmeadow/bin:$PATH
@@ -39,12 +40,11 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
     ```
 - **MacOS**: 
     1. [Deploy](#deploy-macOS) 'Sheepsmeadow' for MacOS
-    2. Install 'Sheepsmeadow' for MacOS
-    3. Add `Sheepsmeadow` to `$PATH`
+    2. Add `Sheepsmeadow` to `$PATH`
     ```
     export PATH=/opt/sheepsmeadow/bin:$PATH
     ``` 
-    4. Run: 
+    3. Run: 
     ```bash
     Sheepsmeadow
     ```
@@ -75,49 +75,20 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 Please note, that the different deployments are designed for `x86_64` systems. This Guide might not work for other systems.
 
 ## Deploy Windows
-1. Download the JRE 21.
-```bash
-make fetch-jre
-```
-2. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
-```Bash
-make sheepsmeadow.jar
-```
-3. Open `Launch4J`
-4. Create `.exe` ![instructions](images/instructions_to_build_exe.png) 
-    - **Output file**: `path/to/sheepsmeadow/executables/windows`
-    - **Jar**: `path/to/sheepsmeadow/deployments/jar/sheepsmeadow.jar`
-
-You don't need to provide any further information.
-
-##  Deploy Linux-Debian
-1. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
-```Bash
-make sheepsmeadow.jar
-```
-ADD STEPS HOW TO INCLUDE THE JRE IN THE BINARY
-
-2. Run `make deploy-linux-deb`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`
+1. Run `make deploy-windows`
 ```bash
 make deploy-linux-deb
 ```
-3. Install the `.deb` file. You can use `make install-linux-deb`. This creates a tempory directory in `/tmp/sheepsmeadow` and installs the application using `apt`. The `.deb` file **must** be stored like this: `/tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb`!!
-You will need to enter your `sudo` password
+
+##  Deploy Linux-Debian
+1. Run `make deploy-linux-deb`
 ```bash
-make install-linux-deb
+make deploy-linux-deb
 ```
-The binary will be stored in `/opt/sheepsmeadow/bin/`.
 
 ##  Deploy MacOS
-1. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
-```Bash
-make sheepsmeadow.jar
-```
-Alternatively you can use the `.jar` provided in `deployments/jar`
 
-ADD STEPS HOW TO INCLUDE THE JRE IN THE BINARY
-
-2. Run `make deploy-macOS`. This will create a `.dmg` file in `deployments/macOS` named `sheepsmeadow_1.0_amd64.dmg`
+1. Run `make deploy-macOS`
 ```bash
 make deploy-macOS
 ```
