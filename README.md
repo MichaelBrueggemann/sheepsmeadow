@@ -5,32 +5,44 @@
 
 Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (MAS) for undergrad Students making their first steps in MAS. They can tweak the model parameters and observe the changes of the simulation state in each time steps via a GUI. Also some simple "live statistics" will be provided.
 
-For easy access on **Windows** you can access the ".exe"-File [here](https://raw.githubusercontent.com/MichaelBrueggemann/sheepsmeadow/bugifx-windows/deployments/windows/sheepsmeadow.zip)
-
-# How to start 'Sheepsmeadow'?
-
-## Prerequisites
+# Prerequisites
 - you need to install `make` on your machine 
     - **Windows**: Download [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
     - **Linux**: Install via your favorite package manager
-- you need at least Java 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
+    - **MacOS**: Install via your favorite package manager
+    - check the installation
+    ```bash
+    make --version
+    ```
+- you need at least Java JDK 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
+    - check the installation
+    ```bash
+    java --version
+    ```
+    ```bash
+    javac --version
+    ```
 - you need to "clone" this Repository
 ```bash
 git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
 ```
+# How to start 'Sheepsmeadow'?
 
-### Terminal based
+## Terminal based
 1. Change to this projects root directory `sheepsmeadow/`
 2. Enter `make run` in the console
+    - **Windows**: Please use `cmd` (Win + R), then enter "cmd"
+    - **Linux, MacOS**: Please use `bash`
     - this will open the GUI to start a simulation
 
-### Executable based
+## Executable based
 - **Windows**:
-    1. Unzip `.zip` in `deployments/windows/`
-    2. Double-click the ".exe"
+    1. [Deploy](#deploy-sheepsmeadow) 'Sheepsmeadow' for Windows
+    2. Double-click the ".exe" in `deployments/windows`. This will install the `.exe` (you will be asked to give a path to install the actual program)
+    3. Double-click the .exe in the path you provided in the installer
 - **Linux-Debian**: 
-    1. [Deploy](#deploy-linux-debian) 'Sheepsmeadow' for Linux-Debian
-    2. Install 'Sheepsmeadow' for Linux-Debian
+    1. [Deploy](#deploy-sheepsmeadow) 'Sheepsmeadow' for Linux-Debian
+    2. Install the `.deb` file
     3. Add `Sheepsmeadow` to `$PATH`
     ```
     export PATH=/opt/sheepsmeadow/bin:$PATH
@@ -39,8 +51,20 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
     ```bash
     Sheepsmeadow
     ```
+- **MacOS**: 
+    1. [Deploy](#deploy-sheepsmeadow) 'Sheepsmeadow' for MacOS
+    2. Add `Sheepsmeadow` to `$PATH`
+    ```
+    export PATH=/opt/sheepsmeadow/bin:$PATH
+    ``` 
+    3. Run: 
+    ```bash
+    Sheepsmeadow
+    ```
 
 ## Run tests
+!! THE TESTING SCRIPT IN THE `makefile` WILL ONLY WORK ON MacOS/Linux !!
+
 Tests for this project are defined in `./tests`. Each testfile is automaticly compiled and run on every "push" of this repositoy as part of the Testing Pipeline (see [GitHub Workflow](./.github/workflows/tests.yaml)).
 
 To run a test locally, execute: 
@@ -51,35 +75,51 @@ make test
 # Deploy Sheepsmeadow
 To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
-### Prerequisites
-- **Windows**: You need to install `Launch4j` **Version 3.50** or higher. You can download it here: [Launch4j](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
-- **Linux-Debian**: No Prerequisites to deploy
+## Prerequisites
+- **Windows**: You need to install the following software:
+    - `WiX Toolset v3.14`. You can download it here: [WiX](https://wixtoolset.org/docs/wix3/). Then start the ".exe". This will install `WiX` on your machine. After installation, add `WiX` to your `PATH`-Variables.
+        - check the installation
+        ```bash
+        candle --version
+        ```
+        ```bash
+        light --version
+        ```
+    - `7zip`. You can download it here: [7zip](https://7-zip.org/download.html). Then start the ".exe". This will install `7zip` on your machine. After installation, add `7zip` to your `PATH`-Variables.
+        - check the installation
+        ```bash
+        7z
+        ```
+    - `make`. You can download it here: [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
+        - check the installation
+        ```bash
+        make --version
+        ```
+- **Linux-Debian**: 
+    - `make`
+- **MacOS**: 
+    - `make`
+
+Please note, that the different deployments are designed for `x86_64` systems. This Guide might not work for other systems.
 
 ## Deploy Windows
-1. Open `Launch4J`
-2. Create `.exe` ![instructions](images/instructions_to_build_exe.png) 
-    - **Output file**: `path/to/sheepsmeadow/executables/windows`
-    - **Jar**: `path/to/sheepsmeadow/deployments/jar/sheepsmeadow.jar`
-
-You don't need to provide any further information.
+1. Run `make deploy-windows`
+```bash
+make deploy-windows
+```
 
 ##  Deploy Linux-Debian
-1. Create a `.jar` file of **Sheepsmeadow** (only the name `sheepsmeadow.jar` is supported!)
-```Bash
-make sheepsmeadow.jar
-```
-Alternatively you can use the `.jar` provided in `deployments/jar`
-
-2. Run `make deploy-linux-deb`. This will create a `.deb` file in `deployments/linux-deb` named `sheepsmeadow_1.0_amd64.deb`
+1. Run `make deploy-linux-deb`
 ```bash
 make deploy-linux-deb
 ```
-3. Install the `.deb` file. You can use `make install-linux-deb`. This creates a tempory directory in `/tmp/sheepsmeadow` and installs the application using `apt`. The `.deb` file **must** be stored like this: `/tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb`!!
-You will need to enter your `sudo` password
+
+##  Deploy MacOS
+
+1. Run `make deploy-macOS`
 ```bash
-make install-linux-deb
+make deploy-macOS
 ```
-The binary will be stored in `/opt/sheepsmeadow/bin/`.
 
 # Reflections on this project
 In this Section I will note some of my experiences with this project. Those notes aren't necessary to use this simulation tool, so feel free to skip the reading:
@@ -200,3 +240,11 @@ Fortunately, pixelart had an option to automatically upscale those images. This 
 
 ## 03.11.2024
 - I improved the `makefile` so that it automatically detects, on which OS it was run. This enables easier compilation of the project across plattforms.
+
+## 05.11.2024 
+- I started add options to the `makefile` to download a system-specific version of the JRE instance and add this to the right executable format for the OS. 
+- To test this, I have set up a Virtual Machine for MacOS.
+
+## 06.11.2024
+- After pulling an "all-nighter" and doing some additional research, I figured out how to use `jpackage` to also create `.exe` files. This has the advantage, that `jpackage` automatically packs an JRE with the executable (for every OS). This makes the deployment significantly slimmer.
+- This makes the changes from 05.11.2024 useless
