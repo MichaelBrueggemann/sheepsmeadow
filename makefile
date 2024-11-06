@@ -16,6 +16,7 @@ LIB_DIR 				:= libs
 DEPLOYMENT_DIR 			:= deployments
 MAIN_CLASS 				:= Controller.ModelWithUI
 JAR_FILE 				:= sheepsmeadow.jar
+VERSION					:= 0.0.0
 
 # Define OS based commands
 ifeq ($(DETECTED_OS),Windows)
@@ -102,7 +103,7 @@ $(JAR_FILE): $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-depe
 
 deploy-windows: $(JAR_FILE) 
 	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)windows
-	jpackage --app-version 0.0.0 \
+	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
 	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
 	--name Sheepsmeadow \
@@ -117,7 +118,7 @@ deploy-windows: $(JAR_FILE)
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(JAR_FILE)
 	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)linux-deb
-	jpackage --app-version 0.0.0 \
+	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
 	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
 	--name Sheepsmeadow \
@@ -129,7 +130,7 @@ deploy-linux-deb: $(JAR_FILE)
 
 deploy-macOS: $(JAR_FILE)
 	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)macOS
-	jpackage --app-version 0.0.0 \
+	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
 	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
 	--name Sheepsmeadow \
