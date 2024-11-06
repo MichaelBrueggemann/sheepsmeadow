@@ -29,7 +29,7 @@ ifeq ($(DETECTED_OS),Windows)
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= \\
     UNZIP_TOOL			:= 7z
-    UNZIP_JAR_LOOP      := $(shell for %f in ($(LIB_DIR)\*.jar) do $(UNZIP_TOOL) x -o$(BUILD_DIR) %f > NUL 2>&1)
+    UNZIP_JAR_LOOP      := $(shell for %f in ($(LIB_DIR)\*.jar) do $(UNZIP_TOOL) x -o$(BUILD_DIR) "%f" > NUL 2>&1)
     JPACKAGE_TYPE	 	:= exe
 else ifeq ($(DETECTED_OS),Linux)
     RM 					:= rm -r
@@ -143,7 +143,7 @@ $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
 	mkdir $@
 
 # Clean build artifacts
-clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR)
+clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) 
 	$(RM) \
 	$(BIN_DIR)$(PATH_SEP)* \
 	$(BUILD_DIR)$(PATH_SEP)* \
