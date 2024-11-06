@@ -147,6 +147,6 @@ clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR)
 	$(RM) \
 	$(BIN_DIR)$(PATH_SEP)* \
 	$(BUILD_DIR)$(PATH_SEP)* \
-	$(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)* \
+	$(DEPLOYMENT_DIR)$(PATH_SEP)* \
 
 .PHONY: all compile-source run compile-tests test deploy-windows deploy-linux-deb deploy-macOS install-linux-deb clean
