@@ -64,8 +64,8 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
 ## Prerequisites
 - **Windows**: You need to install the following software:
-    - `WiX Toolset v3.14`. You can download it here: [WiX](https://wixtoolset.org/docs/wix3/)
-    - `7zip`. You can download it here: [7zip](https://7-zip.org/download.html)
+    - `WiX Toolset v3.14`. You can download it here: [WiX](https://wixtoolset.org/docs/wix3/). Then start the ".exe". This will install `WiX` on your machine. After installation, add `WiX` to your `PATH`-Variables.
+    - `7zip`. You can download it here: [7zip](https://7-zip.org/download.html). Then start the ".exe". This will install `7zip` on your machine. After installation, add `7zip` to your `PATH`-Variables.
     - `make`. You can download it here: [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
 - **Linux-Debian**: 
     - `make`
