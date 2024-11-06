@@ -76,7 +76,7 @@ Please note, that the different deployments are designed for `x86_64` systems. T
 ## Deploy Windows
 1. Run `make deploy-windows`
 ```bash
-make deploy-linux-deb
+make deploy-windows
 ```
 
 ##  Deploy Linux-Debian
