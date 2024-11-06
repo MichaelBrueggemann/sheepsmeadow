@@ -139,11 +139,6 @@ deploy-macOS: $(JAR_FILE)
 	--type $(JPACKAGE_TYPE) \
 	--dest $(DEPLOYMENT_DIR)/macOS/
 
-install-linux-deb: deploy-linux-deb
-	mkdir -p /tmp/sheepsmeadow
-	cp $(DEPLOYMENT_DIR)/linux-deb/sheepsmeadow_1.0_amd64.deb /tmp/sheepsmeadow
-	sudo apt install /tmp/sheepsmeadow/sheepsmeadow_1.0_amd64.deb
-
 # ensure that those directories exist
 $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
 	mkdir $@
