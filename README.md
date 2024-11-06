@@ -10,7 +10,18 @@ Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (
     - **Windows**: Download [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
     - **Linux**: Install via your favorite package manager
     - **MacOS**: Install via your favorite package manager
+    - check the installation
+    ```bash
+    make --version
+    ```
 - you need at least Java JDK 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
+    - check the installation
+    ```bash
+    java --version
+    ```
+    ```bash
+    javac --version
+    ```
 - you need to "clone" this Repository
 ```bash
 git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
@@ -20,15 +31,17 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
 ## Terminal based
 1. Change to this projects root directory `sheepsmeadow/`
 2. Enter `make run` in the console
+    - **Windows**: Please use `cmd` (Win + R), then enter "cmd"
+    - **Linux, MacOS**: Please use `bash`
     - this will open the GUI to start a simulation
 
 ## Executable based
 - **Windows**:
-    1. [Deploy](#deploy-windows) 'Sheepsmeadow' for Windows
+    1. [Deploy](#deploy-sheepsmeadow) 'Sheepsmeadow' for Windows
     2. Double-click the ".exe" in `deployments/windows`. This will install the `.exe` (you will be asked to give a path to install the actual program)
     3. Double-click the .exe in the path you provided in the installer
 - **Linux-Debian**: 
-    1. [Deploy](#deploy-linux-debian) 'Sheepsmeadow' for Linux-Debian
+    1. [Deploy](#deploy-sheepsmeadow) 'Sheepsmeadow' for Linux-Debian
     2. Install the `.deb` file
     3. Add `Sheepsmeadow` to `$PATH`
     ```
@@ -39,7 +52,7 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
     Sheepsmeadow
     ```
 - **MacOS**: 
-    1. [Deploy](#deploy-macos) 'Sheepsmeadow' for MacOS
+    1. [Deploy](#deploy-sheepsmeadow) 'Sheepsmeadow' for MacOS
     2. Add `Sheepsmeadow` to `$PATH`
     ```
     export PATH=/opt/sheepsmeadow/bin:$PATH
@@ -65,8 +78,23 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 ## Prerequisites
 - **Windows**: You need to install the following software:
     - `WiX Toolset v3.14`. You can download it here: [WiX](https://wixtoolset.org/docs/wix3/). Then start the ".exe". This will install `WiX` on your machine. After installation, add `WiX` to your `PATH`-Variables.
+        - check the installation
+        ```bash
+        candle --version
+        ```
+        ```bash
+        light --version
+        ```
     - `7zip`. You can download it here: [7zip](https://7-zip.org/download.html). Then start the ".exe". This will install `7zip` on your machine. After installation, add `7zip` to your `PATH`-Variables.
+        - check the installation
+        ```bash
+        7z
+        ```
     - `make`. You can download it here: [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
+        - check the installation
+        ```bash
+        make --version
+        ```
 - **Linux-Debian**: 
     - `make`
 - **MacOS**: 
