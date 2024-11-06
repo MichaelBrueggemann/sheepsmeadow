@@ -49,6 +49,7 @@ else ifeq ($(DETECTED_OS),Darwin)
     RM 					:= rm -r
     CREATE_BINDDIR		:= mkdir -p $(BIN_DIR)
     CREATE_BUILDDIR		:= mkdir -p $(BUILD_DIR)
+    CREATE_DEPLOYMENTDIR:= mkdir -p $(DEPLOYMENT_DIR)
     CP 					:= cp
     CP_DIR 				:= cp -r
     CLASSPATH_SEP 		:= :
