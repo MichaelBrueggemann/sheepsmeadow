@@ -64,7 +64,7 @@ all: compile-source run
 
 # Compile Java classes
 compile-source:
-	$(CREATE_BUILDDIR)
+	$(CREATE_BINDDIR)
 # compile sources
 	javac -d $(BIN_DIR) \
 	-sourcepath $(SRC_DIR) \
@@ -145,8 +145,8 @@ $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
 # Clean build artifacts
 clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) 
 	$(RM) \
-	$(BIN_DIR)$(PATH_SEP)* \
-	$(BUILD_DIR)$(PATH_SEP)* \
-	$(DEPLOYMENT_DIR)$(PATH_SEP)* \
+	$(BIN_DIR) \
+	$(BUILD_DIR) \
+	$(DEPLOYMENT_DIR)
 
 .PHONY: all compile-source run compile-tests test deploy-windows deploy-linux-deb deploy-macOS install-linux-deb clean
