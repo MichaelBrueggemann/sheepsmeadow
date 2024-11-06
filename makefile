@@ -102,13 +102,13 @@ $(JAR_FILE): $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) compile-source unzip-depe
 	-C $(BIN_DIR) . \
 
 deploy-windows: $(JAR_FILE) 
-	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)windows
+	$(CREATE_DEPLOYMENTDIR)
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
 	--icon $(IMAGES_DIR)/sheepsmeadow32x32.ico \
 	--name Sheepsmeadow \
 	--input . \
-	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
+	--main-jar $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
 	--main-class $(MAIN_CLASS) \
 	--type $(JPACKAGE_TYPE) \
 	--dest $(DEPLOYMENT_DIR)$(PATH_SEP)windows \
