@@ -29,7 +29,7 @@ ifeq ($(DETECTED_OS),Windows)
     CLASSPATH_SEP 		:= ;
     PATH_SEP 			:= \\
     UNZIP_TOOL			:= 7z
-    UNZIP_JAR_LOOP      := cmd /c "FOR %%f IN ($(LIB_DIR)$(PATH_SEP)*.jar) DO $(UNZIP_TOOL) x -o$./(BUILD_DIR) ./%%f -y"
+    UNZIP_JAR_LOOP      := cmd /c "FOR %%f IN ($(LIB_DIR)$(PATH_SEP)*.jar) DO $(UNZIP_TOOL) x -o./$(BUILD_DIR) ./%%f -y"
     JPACKAGE_TYPE	 	:= exe
 else ifeq ($(DETECTED_OS),Linux)
     RM 					:= rm -r
