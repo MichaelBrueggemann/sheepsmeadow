@@ -216,3 +216,7 @@ Fortunately, pixelart had an option to automatically upscale those images. This 
 ## 05.11.2024 
 - I started add options to the `makefile` to download a system-specific version of the JRE instance and add this to the right executable format for the OS. 
 - To test this, I have set up a Virtual Machine for MacOS.
+
+## 06.11.2024
+- After pulling an "all-nighter" and doing some additional research, I figured out how to use `jpackage` to also create `.exe` files. This has the advantage, that `jpackage` automatically packs an JRE with the executable (for every OS). This makes the deployment significantly slimmer.
+- This makes the changes from 05.11.2024 useless
