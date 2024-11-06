@@ -9,6 +9,7 @@ Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (
 - you need to install `make` on your machine 
     - **Windows**: Download [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
     - **Linux**: Install via your favorite package manager
+    - **MacOS**: Install via your favorite package manager
 - you need at least Java JDK 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
 - you need to "clone" this Repository
 ```bash
@@ -38,7 +39,7 @@ git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
     Sheepsmeadow
     ```
 - **MacOS**: 
-    1. [Deploy](#deploy-macOS) 'Sheepsmeadow' for MacOS
+    1. [Deploy](#deploy-macos) 'Sheepsmeadow' for MacOS
     2. Add `Sheepsmeadow` to `$PATH`
     ```
     export PATH=/opt/sheepsmeadow/bin:$PATH
