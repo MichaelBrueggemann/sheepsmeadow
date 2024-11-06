@@ -5,24 +5,23 @@
 
 Purpose of this simulation is to give an introduction to "Multi-Agent-Systems" (MAS) for undergrad Students making their first steps in MAS. They can tweak the model parameters and observe the changes of the simulation state in each time steps via a GUI. Also some simple "live statistics" will be provided.
 
-# How to start 'Sheepsmeadow'?
-
-## Prerequisites
+# Prerequisites
 - you need to install `make` on your machine 
     - **Windows**: Download [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
     - **Linux**: Install via your favorite package manager
-- you need at least Java 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
+- you need at least Java JDK 21 or newer. Visit the [Java Website](https://www.oracle.com/java/technologies/downloads/) to download the JDK.
 - you need to "clone" this Repository
 ```bash
 git clone https://github.com/MichaelBrueggemann/sheepsmeadow.git
 ```
+# How to start 'Sheepsmeadow'?
 
-### Terminal based
+## Terminal based
 1. Change to this projects root directory `sheepsmeadow/`
 2. Enter `make run` in the console
     - this will open the GUI to start a simulation
 
-### Executable based
+## Executable based
 - **Windows**:
     1. [Deploy](#deploy-windows) 'Sheepsmeadow' for Windows
     2. Double-click the ".exe" in `deployments/windows`. This will install the `.exe` (you will be asked to give a path to install the actual program)
@@ -64,7 +63,7 @@ To deploy **Sheepsmeadow** on different systems, please follow these steps:
 
 ## Prerequisites
 - **Windows**: You need to install the following software:
-    - `Launch4j` **Version 3.50** or higher. You can download it here: [Launch4j](https://sourceforge.net/projects/launch4j/files/launch4j-3/3.50/)
+    - `WiX Toolset v3.14`. You can download it here: [WiX](https://wixtoolset.org/docs/wix3/)
     - `7zip`. You can download it here: [7zip](https://7-zip.org/download.html)
     - `make`. You can download it here: [make](https://gnuwin32.sourceforge.net/downlinks/make.php). Then start the ".exe". This will install `make` on your machine. After installation, add `make` to your `PATH`-Variables.
 - **Linux-Debian**: 
