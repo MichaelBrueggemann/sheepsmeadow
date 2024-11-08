@@ -154,10 +154,10 @@ deploy-windows: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
 deploy-linux-deb: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
-	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)linux-deb
+	$(CREATE_DEPLOYMENTDIR)
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
-	--icon "images$(PATH_SEP)sheepsmeadow32x32.ico" \
+	--icon "images$(PATH_SEP)sheepsmeadow32x32.png" \
 	--name Sheepsmeadow \
 	--input . \
 	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
@@ -166,7 +166,7 @@ deploy-linux-deb: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
 	--dest $(DEPLOYMENT_DIR)/linux-deb/
 
 deploy-macOS: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
-	$(CREATE_DEPLOYMENTDIR)$(PATH_SEP)macOS
+	$(CREATE_DEPLOYMENTDIR)$
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
 	--icon "images$(PATH_SEP)sheepsmeadow32x32.ico" \
