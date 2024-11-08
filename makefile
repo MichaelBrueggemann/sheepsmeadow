@@ -169,7 +169,7 @@ deploy-macOS: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
 	$(CREATE_DEPLOYMENTDIR)
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
-	--icon "images$(PATH_SEP)sheepsmeadow32x32.icns" \
+	--icon "images$(PATH_SEP)sheepsmeadow128x128.icns" \
 	--name Sheepsmeadow \
 	--input . \
 	--main-jar $(DEPLOYMENT_DIR)/jar/$(JAR_FILE) \
