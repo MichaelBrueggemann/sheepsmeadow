@@ -47,7 +47,8 @@ else ifeq ($(DETECTED_OS),Linux)
     CREATE_DEPLOYMENTDIR		:= mkdir -p $(DEPLOYMENT_DIR)
     LIST_SRC_FILES				:= find $(SRC_DIR) -name "*.java" ! -name "Localtest.java"
     LIST_DEPENDENCY_FILES		:= find $(LIB_DIR) -name "*.jar"
-    DEPENDENCIES				:= $(shell $(LIST_DEPENDENCY_FILES))
+    LIBS						:= $(shell $(LIST_DEPENDENCY_FILES))
+    DEPENDENCIES				:= $(basename $(subst $(LIB_DIR), $(BUILD_DIR), $(LIBS)))
     SOURCES 					:= $(shell $(LIST_SRC_FILES))
     CLASSES 					:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(BIN_DIR),$(SOURCES)))
     CP 							:= cp
@@ -117,14 +118,14 @@ test: compile-tests
 	org.junit.runner.JUnitCore \
 	$$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
-
-$(LIB_DIR)$(PATH_SEP)%.jar:
-	$(UNZIP_TOOL) -o -d $(BUILD_DIR) $@ > /dev/null 2>&1;
+# unpacke dependencies
+$(BUILD_DIR)$(PATH_SEP)%: | $(BUILD_DIR)
+	$(UNZIP_TOOL) -o -d $@ $(subst $(BUILD_DIR),$(LIB_DIR),$@).jar > /dev/null 2>&1;
 
 # Unzip all project dependencies
-unzip-dependencies:
-	$(CREATE_BUILDDIR)
-	$(UNZIP_JAR_LOOP)
+unzip-dependencies: $(DEPENDENCIES)
+# $(CREATE_BUILDDIR)
+# $(UNZIP_JAR_LOOP)
 
 # Create the JAR file with dependencies
 $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): compile unzip-dependencies | $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) 
