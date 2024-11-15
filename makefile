@@ -113,12 +113,11 @@ test: compile-tests
 	$$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
 # Create the JAR file with dependencies
-$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): compile $(ABOUT_PAGE_TARGET) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR) $(IMAGES_DIR)
+$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): $(CLASSES) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
 	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
 	$(MAIN_CLASS) \
 	-C $(BIN_DIR) . \
 	-C $(LIB_DIR) . \
-	$(IMAGES_DIR) \
 
 deploy-windows: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE) 
 	$(CREATE_DEPLOYMENTDIR)
