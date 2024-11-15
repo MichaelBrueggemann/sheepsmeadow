@@ -62,7 +62,7 @@ else ifeq ($(DETECTED_OS),Linux)
     ABOUT_PAGE_SOURCE			:= $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)$(ABOUT_PAGE)
     ABOUT_PAGE_TARGET			:= $(subst $(SRC_DIR), $(BIN_DIR), $(ABOUT_PAGE_SOURCE))
     IMAGES_DIR_TARGET			:= $(BIN_DIR)$(PATH_SEP)$(IMAGES_DIR)
-else ifeq ($(DETECTED_OS		),Darwin)
+else ifeq ($(DETECTED_OS),Darwin)
     PATH_SEP 					:= /
     CURRENT_DIR 				:= $(patsubst %$(PATH_SEP),%,$(dir $(MKFILE_PATH)))
     RM 							:= rm -r
