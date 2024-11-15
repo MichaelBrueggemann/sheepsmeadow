@@ -110,18 +110,18 @@ run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
 # compile a test file
 $(BIN_DIR)/%Test.class: $(TEST_DIR)/%Test.java | $(BIN_DIR) $(TEST_DIR)
 	javac -d $(BIN_DIR) \
-	-cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*" \
+	-cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	$< 
 
 compile-test: $(TEST_FILES_TARGET)
 
 # run test files
-test: compile-tests
-	@java \
+test: compile-test
+	java \
 	--enable-preview \
 	-cp "$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	org.junit.runner.JUnitCore \
-	$(patsubst %.class,%,$(filter %Test.class,$(subst $(TEST_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
+	$(patsubst %.class,%,$(filter %Test.class,$(subst $(BIN_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
 
 # Create the JAR file with dependencies
 $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): $(CLASSES) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
@@ -180,4 +180,4 @@ clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR)
 	$(BUILD_DIR) \
 	$(DEPLOYMENT_DIR)
 
-.PHONY: all compile run compile-tests test deploy-windows deploy-linux-deb deploy-macOS clean
+.PHONY: all compile run compile-test test deploy-windows deploy-linux-deb deploy-macOS clean
