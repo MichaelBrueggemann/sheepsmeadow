@@ -100,17 +100,17 @@ $(IMAGES_DIR_TARGET): $(IMAGES_DIR)
 # compiles a file like "bin\Controller\ModelWithUI.class" if the corresponding file in "src\Controller\ModelWithUI.java" exists
 $(BIN_DIR)/%.class: $(SRC_DIR)/%.java | $(BIN_DIR) $(SRC_DIR)
 	javac -d $(BIN_DIR) \
-	-cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" \
+	-cp "$(SRC_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(IMAGES_DIR)/*" \
 	$<	
 
 # Compile and run the application
 run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
-	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
+	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)$(LIB_DIR)/*" $(MAIN_CLASS)
 
 # compile a test file
 $(BIN_DIR)/%Test.class: $(TEST_DIR)/%Test.java | $(BIN_DIR) $(TEST_DIR)
 	javac -d $(BIN_DIR) \
-	-cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
+	-cp "$(SRC_DIR)$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	$< 
 
 compile-test: $(TEST_FILES_TARGET)
@@ -119,7 +119,7 @@ compile-test: $(TEST_FILES_TARGET)
 test: compile-test
 	java \
 	--enable-preview \
-	-cp "$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
+	-cp "$(BIN_DIR)$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	org.junit.runner.JUnitCore \
 	$(patsubst %.class,%,$(filter %Test.class,$(subst $(BIN_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
 
