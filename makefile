@@ -90,9 +90,19 @@ endif
 all: compile run
 
 t: 
-	@echo $(TEST_FILES_TARGET)
-	@echo
-	@echo $(CLASSES)
+	@echo \
+    $(patsubst %.class,%, \
+        $(filter %Test.class, \
+            $(subst $(BIN_DIR).,, \
+                $(if \
+                    $(findstring \, $(TEST_FILES_TARGET)), \
+                    $(subst \,.,$(TEST_FILES_TARGET)), \
+                    $(subst /,.,$(TEST_FILES_TARGET)) \
+                ) \
+            ) \
+        ) \
+    ) \
+
 
 compile: $(CLASSES)
 
@@ -128,7 +138,17 @@ test: compile-test
 	--enable-preview \
 	-cp "$(BIN_DIR)$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	org.junit.runner.JUnitCore \
-	$(patsubst %.class,%,$(filter %Test.class,$(subst $(BIN_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
+	$(patsubst %.class,%, \
+        $(filter %Test.class, \
+            $(subst $(BIN_DIR).,, \
+                $(if \
+                    $(findstring \, $(TEST_FILES_TARGET)), \
+                    $(subst \,.,$(TEST_FILES_TARGET)), \
+                    $(subst /,.,$(TEST_FILES_TARGET)) \
+                ) \
+            ) \
+        ) \
+    ) \
 
 # Create the JAR file with dependencies
 $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE): $(CLASSES) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
