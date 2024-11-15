@@ -35,8 +35,6 @@ ifeq ($(DETECTED_OS),Windows)
     CP 							:= copy
     CP_DIR 						:= xcopy /E /I /Y
     CLASSPATH_SEP 				:= ;
-    UNZIP_TOOL					:= 7z
-    UNZIP_JAR_LOOP      		:= cmd /c "FOR %%f IN ($(LIB_DIR)$(PATH_SEP)*.jar) DO $(UNZIP_TOOL) x -o./$(BUILD_DIR) ./%%f -y"
     JPACKAGE_TYPE	 			:= exe
 else ifeq ($(DETECTED_OS),Linux)
     PATH_SEP 					:= /
@@ -51,10 +49,6 @@ else ifeq ($(DETECTED_OS),Linux)
     CP 							:= cp
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
-    UNZIP_TOOL					:= unzip
-    UNZIP_JAR_LOOP 				:= for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
-        $(UNZIP_TOOL) -o		 -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
-    done
     JPACKAGE_TYPE	 			:= deb
 else ifeq ($(DETECTED_OS		),Darwin)
     PATH_SEP 					:= /
@@ -69,10 +63,6 @@ else ifeq ($(DETECTED_OS		),Darwin)
     CP 							:= cp
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
-    UNZIP_TOOL					:= unzip
-    UNZIP_JAR_LOOP 				:= for jar in $(LIB_DIR)$(PATH_SEP)*.jar; do \
-        $(UNZIP_TOOL) -o -d $(BUILD_DIR) $$jar > /dev/null 2>&1; \
-    done
     JPACKAGE_TYPE				:= dmg
 endif
 
