@@ -53,7 +53,7 @@ else ifeq ($(DETECTED_OS),Linux)
     CLASSES 					:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(BIN_DIR),$(SOURCES)))
     LIST_TEST_FILES				:= find $(TEST_DIR) -name "*.java"
     TEST_FILES					:= $(shell $(LIST_TEST_FILES))
-    TEST_FILES_TARGET			:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(TEST_DIR),$(TEST_FILES)))
+    TEST_FILES_TARGET			:= $(patsubst %.java,%.class, $(subst $(TEST_DIR),$(BIN_DIR),$(TEST_FILES)))
     CP 							:= cp
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
@@ -108,15 +108,16 @@ run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
 	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
 # compile a test file
-$(TEST_DIR)/%.class: $(TEST_DIR)/%.java
-	javac \
-	-d $(BIN_DIR) \
-	-cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
+$(BIN_DIR)/%Test.class: $(TEST_DIR)/%Test.java | $(BIN_DIR) $(TEST_DIR)
+	javac -d $(BIN_DIR) \
+	-cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*" \
 	$< 
 
+compile-test: $(TEST_FILES_TARGET)
+
 # run test files
-test: $(TEST_FILES_TARGET)
-	java \
+test: compile-tests
+	@java \
 	--enable-preview \
 	-cp "$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	org.junit.runner.JUnitCore \
