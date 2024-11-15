@@ -76,7 +76,7 @@ else ifeq ($(DETECTED_OS		),Darwin)
     IMAGES_DIR_TARGET			:= $(BIN_DIR)$(PATH_SEP)$(IMAGES_DIR)
 endif
 
-all: compile-source run
+all: compile run
 
 t:
 	@echo $(ABOUT_PAGE_TARGET)
