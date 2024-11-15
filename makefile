@@ -35,6 +35,9 @@ ifeq ($(DETECTED_OS),Windows)
     LIST_SRC_FILES				:= dir /B /S $(SRC_DIR)$(PATH_SEP)*.java | findstr /V /I "Localtest.java"
     SOURCES 					:= $(shell $(LIST_SRC_FILES))
     CLASSES 					:= $(patsubst %.java,%.class,$(subst $(CURRENT_DIR)$(SRC_DIR),$(BIN_DIR),$(SOURCES)))
+    LIST_TEST_FILES				:= dir /B /S $(TEST_DIR)$(PATH_SEP)*.java
+    TEST_FILES					:= $(shell $(LIST_TEST_FILES))
+    TEST_FILES_TARGET			:= $(patsubst %.java,%.class, $(subst $(CURRENT_DIR)$(TEST_DIR),$(BIN_DIR),$(TEST_FILES)))
     CP 							:= copy
     CP_DIR 						:= xcopy /E /I /Y
     CLASSPATH_SEP 				:= ;
@@ -72,6 +75,9 @@ else ifeq ($(DETECTED_OS),Darwin)
     LIST_SRC_FILES				:= find $(SRC_DIR) -name "*.java" ! -name "Localtest.java"
     SOURCES 					:= $(shell $(LIST_SRC_FILES))
     CLASSES 					:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(BIN_DIR),$(SOURCES)))
+    LIST_TEST_FILES				:= find $(TEST_DIR) -name "*.java"
+    TEST_FILES					:= $(shell $(LIST_TEST_FILES))
+    TEST_FILES_TARGET			:= $(patsubst %.java,%.class, $(subst $(TEST_DIR),$(BIN_DIR),$(TEST_FILES)))
     CP 							:= cp
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
