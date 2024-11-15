@@ -105,7 +105,7 @@ $(IMAGES_DIR_TARGET): $(IMAGES_DIR)
 	$(CP_DIR) $< $@
 
 # compiles a file like "bin\Controller\ModelWithUI.class" if the corresponding file in "src\Controller\ModelWithUI.java" exists
-$(BIN_DIR)/%.class: $(SRC_DIR)/%.java | $(BIN_DIR) $(SRC_DIR)
+$(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR)
 	javac -d $(BIN_DIR) \
 	-cp "$(SRC_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(IMAGES_DIR)/*" \
 	$<	
@@ -115,7 +115,7 @@ run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
 	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)$(LIB_DIR)/*" $(MAIN_CLASS)
 
 # compile a test file
-$(BIN_DIR)/%.class: $(TEST_DIR)/%.java | $(BIN_DIR) $(TEST_DIR)
+$(BIN_DIR)$(PATH_SEP)%.class: $(TEST_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(TEST_DIR)
 	javac -d $(BIN_DIR) \
 	-cp "$(SRC_DIR)$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	$< 
@@ -131,13 +131,13 @@ test: compile-test
 	$(patsubst %.class,%,$(filter %Test.class,$(subst $(BIN_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
 
 # Create the JAR file with dependencies
-$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): $(CLASSES) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
+$(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE): $(CLASSES) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
 	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
 	$(MAIN_CLASS) \
 	-C $(BIN_DIR) . \
 	-C $(LIB_DIR) . \
 
-deploy-windows: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE) 
+deploy-windows: $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) 
 	$(CREATE_DEPLOYMENTDIR)
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
@@ -152,7 +152,7 @@ deploy-windows: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
 	--win-shortcut
 
 # Deploy for Linux (.deb) and macOS (.dmg or .exe for Windows)
-deploy-linux-deb: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
+deploy-linux-deb: $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE)
 	$(CREATE_DEPLOYMENTDIR)
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
@@ -164,7 +164,7 @@ deploy-linux-deb: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
 	--type $(JPACKAGE_TYPE) \
 	--dest $(DEPLOYMENT_DIR)/linux-deb/
 
-deploy-macOS: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
+deploy-macOS: $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE)
 	$(CREATE_DEPLOYMENTDIR)
 	jpackage --app-version $(VERSION) \
 	--description "Educational simulation program, to explore the world of agent-based modeling" \
