@@ -19,6 +19,7 @@ LIB_DIR 				:= libs
 DEPLOYMENT_DIR 			:= deployments
 MAIN_CLASS 				:= Controller.ModelWithUI
 JAR_FILE 				:= sheepsmeadow.jar
+ABOUT_PAGE				:= index.html
 VERSION					:= 0.0.0
 
 # Define OS based commands
@@ -36,6 +37,9 @@ ifeq ($(DETECTED_OS),Windows)
     CP_DIR 						:= xcopy /E /I /Y
     CLASSPATH_SEP 				:= ;
     JPACKAGE_TYPE	 			:= exe
+    ABOUT_PAGE_SOURCE			:= $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)$(ABOUT_PAGE)
+    ABOUT_PAGE_TARGET			:= $(subst $(SRC_DIR), $(BIN_DIR), $(ABOUT_PAGE_SOURCE))
+    IMAGES_DIR_TARGET			:= $(BIN_DIR)$(PATH_SEP)$(IMAGES_DIR)
 else ifeq ($(DETECTED_OS),Linux)
     PATH_SEP 					:= /
     CURRENT_DIR 				:= $(patsubst %$(PATH_SEP),%,$(dir $(MKFILE_PATH)))
@@ -50,6 +54,9 @@ else ifeq ($(DETECTED_OS),Linux)
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
     JPACKAGE_TYPE	 			:= deb
+    ABOUT_PAGE_SOURCE			:= $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)$(ABOUT_PAGE)
+    ABOUT_PAGE_TARGET			:= $(subst $(SRC_DIR), $(BIN_DIR), $(ABOUT_PAGE_SOURCE))
+    IMAGES_DIR_TARGET			:= $(BIN_DIR)$(PATH_SEP)$(IMAGES_DIR)
 else ifeq ($(DETECTED_OS		),Darwin)
     PATH_SEP 					:= /
     CURRENT_DIR 				:= $(patsubst %$(PATH_SEP),%,$(dir $(MKFILE_PATH)))
@@ -64,23 +71,25 @@ else ifeq ($(DETECTED_OS		),Darwin)
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
     JPACKAGE_TYPE				:= dmg
+    ABOUT_PAGE_SOURCE			:= $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)$(ABOUT_PAGE)
+    ABOUT_PAGE_TARGET			:= $(subst $(SRC_DIR), $(BIN_DIR), $(ABOUT_PAGE_SOURCE))
+    IMAGES_DIR_TARGET			:= $(BIN_DIR)$(PATH_SEP)$(IMAGES_DIR)
 endif
 
 all: compile-source run
 
 t:
-	@echo $(LIBS)
+	@echo $(ABOUT_PAGE_TARGET)
 
 compile: $(CLASSES)
 
-# copy "about page"
-$(BIN_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html: $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html | $(BIN_DIR) $(SRC_DIR)
-	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BIN_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html
+# copy "about page" for the app
+$(ABOUT_PAGE_TARGET): $(ABOUT_PAGE_SOURCE) | $(BIN_DIR) $(SRC_DIR)
+	$(CP) $< $@
 
-# copy images
-copy-images:
-	$(CP_DIR) .$(PATH_SEP)images $(BIN_DIR)$(PATH_SEP)images
-
+# copy images for the app
+$(IMAGES_DIR_TARGET): $(IMAGES_DIR)
+	$(CP_DIR) $< $@
 
 # compiles a file like "bin\Controller\ModelWithUI.class" if the corresponding file in "src\Controller\ModelWithUI.java" exists
 $(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR)
@@ -89,7 +98,7 @@ $(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR
 	$<	
 
 # Compile and run the application
-run: compile copy-html copy-images
+run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
 	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
 compile-tests:
@@ -104,7 +113,7 @@ test: compile-tests
 	$$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
 # Create the JAR file with dependencies
-$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): compile $(BIN_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
+$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): compile $(ABOUT_PAGE_TARGET) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR) $(IMAGES_DIR)
 	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
 	$(MAIN_CLASS) \
 	-C $(BIN_DIR) . \
@@ -151,7 +160,7 @@ deploy-macOS: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE)
 	--dest $(DEPLOYMENT_DIR)/macOS/
 
 # ensure that those directories exist
-$(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR):
+$(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR) $(JAR_DIR) $(IMAGES_DIR):
 	mkdir $@
 
 # Clean build artifacts
