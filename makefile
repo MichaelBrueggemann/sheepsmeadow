@@ -46,9 +46,6 @@ else ifeq ($(DETECTED_OS),Linux)
     CREATE_BUILDDIR				:= mkdir -p $(BUILD_DIR)
     CREATE_DEPLOYMENTDIR		:= mkdir -p $(DEPLOYMENT_DIR)
     LIST_SRC_FILES				:= find $(SRC_DIR) -name "*.java" ! -name "Localtest.java"
-    LIST_DEPENDENCY_FILES		:= find $(LIB_DIR) -name "*.jar"
-    LIBS						:= $(shell $(LIST_DEPENDENCY_FILES))
-    DEPENDENCIES				:= $(basename $(subst $(LIB_DIR), $(BUILD_DIR), $(LIBS)))
     SOURCES 					:= $(shell $(LIST_SRC_FILES))
     CLASSES 					:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(BIN_DIR),$(SOURCES)))
     CP 							:= cp
@@ -82,12 +79,12 @@ endif
 all: compile-source run
 
 t:
-	@echo $(DEPENDENCIES)
+	@echo $(LIBS)
 
 compile: $(CLASSES)
 
 # copy "about page"
-copy-html: | $(BIN_DIR) $(SRC_DIR)
+$(BIN_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html: $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html | $(BIN_DIR) $(SRC_DIR)
 	$(CP) $(SRC_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html $(BIN_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html
 
 # copy images
@@ -100,7 +97,6 @@ $(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR
 	javac -d $(BIN_DIR) \
 	-cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" \
 	$<	
-
 
 # Compile and run the application
 run: compile copy-html copy-images
@@ -117,22 +113,13 @@ test: compile-tests
 	org.junit.runner.JUnitCore \
 	$$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
 
-# unpacke dependencies
-$(BUILD_DIR)$(PATH_SEP)%: | $(BUILD_DIR)
-	$(UNZIP_TOOL) -o -d $@ $(subst $(BUILD_DIR),$(LIB_DIR),$@).jar > /dev/null 2>&1;
-
-#TODO: SCHAUEN WARUM DIE JAR TROTZDEM IMMER NEU COMPILIERT WIRD
-# Unzip all project dependencies
-unzip-dependencies: $(DEPENDENCIES)
-# $(CREATE_BUILDDIR)
-# $(UNZIP_JAR_LOOP)
-
 # Create the JAR file with dependencies
-$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): compile unzip-dependencies | $(DEPLOYMENT_DIR) $(BUILD_DIR) $(BIN_DIR) 
+$(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): compile $(BIN_DIR)$(PATH_SEP)Controller$(PATH_SEP)index.html | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
 	jar cfe $(DEPLOYMENT_DIR)$(PATH_SEP)$(JAR_DIR)$(PATH_SEP)$(JAR_FILE) \
 	$(MAIN_CLASS) \
-	-C $(BUILD_DIR) . \
 	-C $(BIN_DIR) . \
+	-C $(LIB_DIR) . \
+	$(IMAGES_DIR) \
 
 deploy-windows: $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE) 
 	$(CREATE_DEPLOYMENTDIR)
