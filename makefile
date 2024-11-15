@@ -171,4 +171,4 @@ clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR)
 	$(BUILD_DIR) \
 	$(DEPLOYMENT_DIR)
 
-.PHONY: all compile-source run compile-tests test deploy-windows deploy-linux-deb deploy-macOS install-linux-deb clean
+.PHONY: all compile run compile-tests test deploy-windows deploy-linux-deb deploy-macOS copy-images clean
