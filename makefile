@@ -31,7 +31,7 @@ ifeq ($(DETECTED_OS),Windows)
     CREATE_BINDDIR				:= if not exist $(subst /,\,$(BIN_DIR)) mkdir $(subst /,\,$(BIN_DIR))
     CREATE_BUILDDIR				:= if not exist $(subst /,\,$(BUILD_DIR)) mkdir $(subst /,\,$(BUILD_DIR))
     CREATE_DEPLOYMENTDIR		:= if not exist $(subst /,\,$(DEPLOYMENT_DIR)) mkdir $(subst /,\,$(DEPLOYMENT_DIR))
-    LIST_SRC_FILES				:= dir /B /S $(SRC_DIR)$(PATH_SEP)*.java
+    LIST_SRC_FILES				:= dir /B /S $(SRC_DIR)$(PATH_SEP)*.java | findstr /V /I "Localtest.java"
     SOURCES 					:= $(shell $(LIST_SRC_FILES))
     CLASSES 					:= $(patsubst %.java,%.class,$(subst $(CURRENT_DIR)$(SRC_DIR),$(BIN_DIR),$(SOURCES)))
     CP 							:= copy
@@ -83,9 +83,9 @@ endif
 all: compile run
 
 t: 
-	@echo $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
+	@echo $(TEST_FILES_TARGET)
 	@echo
-	@echo $(patsubst %.class,%,$(filter %Test.class,$(subst $(TEST_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
+	@echo $(CLASSES)
 
 compile: $(CLASSES)
 
