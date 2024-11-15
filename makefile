@@ -97,7 +97,6 @@ copy-images:
 
 # compiles a file like "bin\Controller\ModelWithUI.class" if the corresponding file in "src\Controller\ModelWithUI.java" exists
 $(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR)
-	$(CREATE_BINDDIR)
 	javac -d $(BIN_DIR) \
 	-cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" \
 	$<	
@@ -122,6 +121,7 @@ test: compile-tests
 $(BUILD_DIR)$(PATH_SEP)%: | $(BUILD_DIR)
 	$(UNZIP_TOOL) -o -d $@ $(subst $(BUILD_DIR),$(LIB_DIR),$@).jar > /dev/null 2>&1;
 
+#TODO: SCHAUEN WARUM DIE JAR TROTZDEM IMMER NEU COMPILIERT WIRD
 # Unzip all project dependencies
 unzip-dependencies: $(DEPENDENCIES)
 # $(CREATE_BUILDDIR)
