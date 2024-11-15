@@ -115,12 +115,12 @@ run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
 	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)$(LIB_DIR)/*" $(MAIN_CLASS)
 
 # compile a test file
-$(BIN_DIR)/%Test.class: $(TEST_DIR)/%Test.java | $(BIN_DIR) $(TEST_DIR)
+$(BIN_DIR)/%.class: $(TEST_DIR)/%.java | $(BIN_DIR) $(TEST_DIR)
 	javac -d $(BIN_DIR) \
 	-cp "$(SRC_DIR)$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)$(LIB_DIR)/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	$< 
 
-compile-test: $(TEST_FILES_TARGET)
+compile-test: compile $(TEST_FILES_TARGET)
 
 # run test files
 test: compile-test
