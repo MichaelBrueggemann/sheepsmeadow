@@ -14,6 +14,7 @@ SRC_DIR					:= src
 BIN_DIR 				:= bin
 BUILD_DIR 				:= build
 IMAGES_DIR				:= images
+TEST_DIR				:= tests
 JAR_DIR					:= jar
 LIB_DIR 				:= libs
 DEPLOYMENT_DIR 			:= deployments
@@ -50,6 +51,9 @@ else ifeq ($(DETECTED_OS),Linux)
     LIST_SRC_FILES				:= find $(SRC_DIR) -name "*.java" ! -name "Localtest.java"
     SOURCES 					:= $(shell $(LIST_SRC_FILES))
     CLASSES 					:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(BIN_DIR),$(SOURCES)))
+    LIST_TEST_FILES				:= find $(TEST_DIR) -name "*.java"
+    TEST_FILES					:= $(shell $(LIST_TEST_FILES))
+    TEST_FILES_TARGET			:= $(patsubst %.java,%.class, $(subst $(SRC_DIR),$(TEST_DIR),$(TEST_FILES)))
     CP 							:= cp
     CP_DIR 						:= cp -r
     CLASSPATH_SEP 				:= :
@@ -78,8 +82,10 @@ endif
 
 all: compile run
 
-t:
-	@echo $(ABOUT_PAGE_TARGET)
+t: 
+	@echo $$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
+	@echo
+	@echo $(patsubst %.class,%,$(filter %Test.class,$(subst $(TEST_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
 
 compile: $(CLASSES)
 
@@ -92,7 +98,7 @@ $(IMAGES_DIR_TARGET): $(IMAGES_DIR)
 	$(CP_DIR) $< $@
 
 # compiles a file like "bin\Controller\ModelWithUI.class" if the corresponding file in "src\Controller\ModelWithUI.java" exists
-$(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR)
+$(BIN_DIR)/%.class: $(SRC_DIR)/%.java | $(BIN_DIR) $(SRC_DIR)
 	javac -d $(BIN_DIR) \
 	-cp "src$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)images/*" \
 	$<	
@@ -101,16 +107,20 @@ $(BIN_DIR)$(PATH_SEP)%.class: $(SRC_DIR)$(PATH_SEP)%.java | $(BIN_DIR) $(SRC_DIR
 run: compile $(ABOUT_PAGE_TARGET) $(IMAGES_DIR_TARGET)
 	java -cp "$(BIN_DIR)$(CLASSPATH_SEP).$(CLASSPATH_SEP)libs/*" $(MAIN_CLASS)
 
-compile-tests:
-	find tests \
-	-name '*.java' \
-	-print0 | xargs -0 javac -cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*" -d $(BIN_DIR)
+# compile a test file
+$(TEST_DIR)/%.class: $(TEST_DIR)/%.java
+	javac \
+	-d $(BIN_DIR) \
+	-cp "src$(CLASSPATH_SEP)$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
+	$< 
 
-test: compile-tests
-	java --enable-preview \
-	-cp $(BIN_DIR)$(CLASSPATH_SEP)libs/* \
+# run test files
+test: $(TEST_FILES_TARGET)
+	java \
+	--enable-preview \
+	-cp "$(BIN_DIR)$(CLASSPATH_SEP)libs/*$(CLASSPATH_SEP)$(TEST_DIR)" \
 	org.junit.runner.JUnitCore \
-	$$(find bin -name "*Test.class" -type f | sed 's@^bin/\(.*\)\.class$$@\1@' | sed 's@/@.@g')
+	$(patsubst %.class,%,$(filter %Test.class,$(subst $(TEST_DIR).,,$(subst $(PATH_SEP),.,$(TEST_FILES_TARGET)))))
 
 # Create the JAR file with dependencies
 $(DEPLOYMENT_DIR)/$(JAR_DIR)/$(JAR_FILE): $(CLASSES) | $(DEPLOYMENT_DIR) $(BIN_DIR) $(LIB_DIR)
@@ -169,4 +179,4 @@ clean: $(BIN_DIR) $(BUILD_DIR) $(DEPLOYMENT_DIR)
 	$(BUILD_DIR) \
 	$(DEPLOYMENT_DIR)
 
-.PHONY: all compile run compile-tests test deploy-windows deploy-linux-deb deploy-macOS copy-images clean
+.PHONY: all compile run compile-tests test deploy-windows deploy-linux-deb deploy-macOS clean
